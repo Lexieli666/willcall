@@ -60,7 +60,15 @@ public class AdmissionTokenService {
               + " Set willcall.waitingroom.signing-key before deploying this anywhere real.");
     }
     this.algorithm = Algorithm.HMAC256(key);
-    this.verifier = JWT.require(algorithm).withIssuer(ISSUER).build();
+    // build(clock), not build(). The library's default verifier reads the system clock for the
+    // expiry check, so this class took a Clock, used it to stamp `exp`, and then ignored it when
+    // deciding whether `exp` had passed. In production both clocks are the same one and nothing is
+    // wrong; in a test with a fixed clock the token is issued in the past and immediately refused,
+    // so three tests here passed only when the suite happened to run within ten minutes of the
+    // fixed instant. They were green this morning and red this evening for no reason anybody
+    // changed. A seam that is honoured for half of an operation is worse than no seam.
+    this.verifier =
+        ((JWTVerifier.BaseVerification) JWT.require(algorithm).withIssuer(ISSUER)).build(clock);
     this.validity = validity;
     this.clock = clock;
   }
