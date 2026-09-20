@@ -166,8 +166,12 @@ services:
       nofile:
         soft: 65535
         hard: 65535
+    # 127.0.0.1, not localhost: inside the container localhost resolves to ::1 first and nginx's
+    # `listen 80` binds IPv4 only, so the probe was refused on every attempt while the proxy was
+    # serving the whole load suite. The container sat "unhealthy" for hours and nothing noticed,
+    # because nothing waits on it.
     healthcheck:
-      test: ['CMD', 'wget', '-qO-', 'http://localhost/health']
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1/health']
       interval: 5s
       timeout: 3s
       retries: 20
