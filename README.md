@@ -209,7 +209,7 @@ open http://127.0.0.1:3000     # Grafana, dashboards provisioned
 | [docs/game-day.md](docs/game-day.md) | Failure rehearsals, with predictions written first |
 | [docs/testing.md](docs/testing.md) | What is tested where — and the bugs the tests caught |
 | [docs/incidents/](docs/incidents/) | One postmortem per game-day scenario, including the one where nothing broke |
-| [docs/adr/](docs/adr/) | Twelve decisions, including the product ones |
+| [docs/adr/](docs/adr/) | Thirteen decisions, including the product ones and the one the game day forced |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | The three rules this repository is built under |
 | [PROGRESS.md](PROGRESS.md) | Current state, including everything that is blocked and why |
 
