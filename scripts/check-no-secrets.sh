@@ -24,7 +24,7 @@ fi
 # Only the project's own root entries are tracked. A local tool that writes its settings into
 # the repository root must not end up in the history, and the general rule is cheaper to
 # maintain than a list of every tool that might do it.
-ALLOWED_ROOT='^(README\.md|CONTRIBUTING\.md|PROGRESS\.md|LICENSE|Makefile|docker-compose\.yml|\.gitignore|\.github/|server/|web/|load/|infra/|docs/|scripts/)'
+ALLOWED_ROOT='^(README\.md|CHANGELOG\.md|CONTRIBUTING\.md|PROGRESS\.md|LICENSE|Makefile|docker-compose\.yml|\.gitignore|\.github/|server/|web/|load/|infra/|docs/|scripts/)'
 if git ls-files | grep -vE "$ALLOWED_ROOT" ; then
   fail "an unexpected root entry is tracked (see the list in this script)"
 fi
