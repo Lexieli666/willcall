@@ -11,7 +11,7 @@ looked round.
 
 | # | Indicator | Objective | Window | Measured from |
 |---|---|---|---|---|
-| 1 | **Availability of the reservation path** — the share of hold and checkout requests answered with something other than 5xx | 99.9% | 30 days rolling | `http_server_requests_seconds_count` by status, on `/api/events/*/holds` and `/api/orders` |
+| 1 | **Availability of the reservation path** — the share of hold and checkout requests answered with something other than 5xx | 99.9% | 30 days rolling | the **edge** access log by status, not the application's own counters — see below |
 | 2 | **Hold latency** — time to answer a hold request | p99 ≤ 250 ms | 30 days rolling | `http_server_requests_seconds` on the hold endpoint |
 | 3 | **Checkout latency** — time to answer a confirm | p99 ≤ 2 s | 30 days rolling | `http_server_requests_seconds` on `/api/orders`, with the gateway's configured latency stated |
 | 4 | **Delta propagation** — commit to the frame reaching a browser | p99 ≤ 300 ms | 7 days rolling | the load scenario; there is no production measurement of this yet, which is stated below |
@@ -22,8 +22,18 @@ looked round.
 
 **1. 99.9% availability, not 99.99%.** The measured flash-sale behaviour sheds load as 503 when the
 connection pool saturates, and a 503 counts against this objective. Promising four nines would mean
-promising never to shed, which the capacity model says is false above roughly a thousand unpaced
-arrivals per second. Three nines is 43 minutes a month, which is about one badly-paced drop.
+promising never to shed, which the capacity model says is false above a measured 200 requests per
+second on three replicas of this size. Three nines is 43 minutes a month, which is about one
+badly-paced drop.
+
+**Measured at the edge, and that is a correction.** This indicator originally read
+`http_server_requests_seconds_count`, which is what the application counts. The game day on
+2026-09-20 produced 1,227 responses with status `502` that the application never saw, because the
+proxy generated them after ejecting every replica — so by the application's own metrics that
+outage did not happen. An availability objective measured behind the thing that was unavailable is
+not an availability objective. The edge access log now records status and timing, and this
+indicator is read from there. See
+[the postmortem](incidents/2026-09-20-connection-pool-exhaustion.md).
 
 **2. Hold p99 ≤ 250 ms** rather than the 150 ms the plan targets. The plan's figure is for a
 controlled thousand requests per second; the SLO has to survive a real drop, where the measured p99
@@ -50,6 +60,13 @@ consequence of a single occurrence is in the response section below.
 something the architecture provides — see
 [ADR 0010](adr/0010-fairness-policy.md). The objective bounds how far from arrival order admission
 may drift, and the measured rate is published per event whatever it is.
+
+The measurement counts strictly, on the timestamps, and not on a rank. Admission is batched — the
+run of record admitted 16,065 buyers at 316 distinct instants — and ranking within a batch breaks
+ties on a random identifier, which invents an ordering and then counts it as unfairness. Two people
+admitted in the same batch were not admitted before or after each other. **The batch size is
+therefore part of the objective**: order is honoured between batches and undefined within one, and
+the largest batch in the run of record was 100.
 
 ## Error budgets and what spending one means
 
@@ -82,6 +99,8 @@ teaches people to ignore alerts, which costs more than the thing it was watching
 | `WillcallOutboxBacklog` | unpublished outbox rows > 10,000 for 5 minutes | ticket | Deltas are not reaching browsers; the seat map is going stale. |
 | `WillcallQueueDegraded` | `willcall_queue_degraded_total` increases | ticket | Redis is unreachable and admission is open. Selling correctly but unpaced. |
 | `WillcallRateLimiterFailedOpen` | `willcall_ratelimit_failed_open_total` increases | ticket | The limiter is not limiting. Not urgent alone; urgent with the one above. |
+| `WillcallEdgeErrors` | edge 5xx rate > 1% for 2 minutes **while application 5xx stays flat** | **page** | The gap between the two is the proxy failing on its own. This is the alert that would have fired during the game day, and nothing else would have. |
+| `WillcallNoLiveUpstreams` | the edge logs `no live upstreams`, any occurrence | **page** | Every replica has been ejected. It happened once, for nine seconds, with all three replicas healthy. |
 
 **Deliberately not alerted on:** the 409 rate, which is the product working during a sell-out, and
 the gap-and-resync counters, which are the protocol recovering as designed. A gap count that stays
