@@ -155,7 +155,7 @@ public class ReservationService {
     List<Seat> locked = lockSeatsFor(event, request);
     if (locked.size() < request.quantity()) {
       holdsRejected.increment();
-      throw new ApiException(errorForEmptyAllocation(request, eventId));
+      throw new ApiException(errorForEmptyAllocation(request, locked.size()));
     }
 
     for (Seat seat : locked) {
@@ -256,11 +256,23 @@ public class ReservationService {
     return seats.claimContiguousInAnyRow(eventId, quantity);
   }
 
-  private ErrorCode errorForEmptyAllocation(AllocationRequest request, UUID eventId) {
+  /**
+   * Picks the error code from what the scan already returned, without asking the database again.
+   *
+   * <p>This used to run {@code select count(*) ... where status = 'AVAILABLE'} to choose between
+   * "sold out" and "that seat went". Under a flash sale the overwhelming majority of requests take
+   * this path — thirteen thousand of them in one measured run — so it was one aggregate over the
+   * seat index per refusal, at a thousand refusals a second, purely to decide between two strings.
+   * It was the largest single contributor to connection-pool pressure in the flash-sale suite.
+   *
+   * <p>The information was already in hand. {@code claimAnyAvailable} uses {@code SKIP LOCKED}, so
+   * returning nothing means nothing was free and unlocked — which is what a buyer experiences as
+   * sold out. Returning some but not enough means the rest went while we were looking.
+   */
+  private ErrorCode errorForEmptyAllocation(AllocationRequest request, int found) {
     return switch (request.mode()) {
       case EXACT -> ErrorCode.SEAT_UNAVAILABLE;
-      case BEST_AVAILABLE ->
-          seats.countAvailable(eventId) == 0 ? ErrorCode.SOLD_OUT : ErrorCode.SEAT_UNAVAILABLE;
+      case BEST_AVAILABLE -> found == 0 ? ErrorCode.SOLD_OUT : ErrorCode.SEAT_UNAVAILABLE;
       case BEST_AVAILABLE_TOGETHER -> ErrorCode.NOT_ENOUGH_CONTIGUOUS_SEATS;
     };
   }
@@ -297,13 +309,19 @@ public class ReservationService {
   // ------------------------------------------------------------------ checkout
 
   /** What prepare produced and settle needs. */
+  /**
+   * @param priceBySeat carried from prepare to settle so settlement does not price the seats a
+   *     second time. It was two extra queries inside the transaction that holds the row locks, on
+   *     every checkout, for prices that cannot change between the two steps.
+   */
   public record CheckoutDraft(
       UUID orderId,
       UUID eventId,
       UUID holdGroupId,
       List<UUID> seatIds,
       int totalCents,
-      String currency) {}
+      String currency,
+      Map<UUID, Integer> priceBySeat) {}
 
   /**
    * Reserves the order and extends the hold to cover the payment window.
@@ -364,7 +382,8 @@ public class ReservationService {
                   return fresh;
                 });
 
-    return new CheckoutDraft(orderId, event.id(), holdGroupId, seatIds, total, currency);
+    return new CheckoutDraft(
+        orderId, event.id(), holdGroupId, seatIds, total, currency, Map.copyOf(priceBySeat));
   }
 
   /**

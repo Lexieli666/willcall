@@ -1,0 +1,66 @@
+{
+  "baseUrl": "http://127.0.0.1:8080",
+  "eventId": "bbbd3c23-f0ba-480f-a014-d1224d9c6064",
+  "requestedConnections": 5000,
+  "establishedConnections": 5000,
+  "failedConnections": 0,
+  "serverConnectionsBefore": {
+    "app1": 0,
+    "app2": 0,
+    "app3": 0
+  },
+  "serverConnectionsDuring": {
+    "app1": 1666,
+    "app2": 1667,
+    "app3": 1667
+  },
+  "seatChangesDriven": 1780,
+  "holdSeconds": 90,
+  "counters": {
+    "connected": 5000,
+    "failed": 0,
+    "snapshots": 5000,
+    "deltas": 861672,
+    "changes": 15200000,
+    "gaps": 0,
+    "resyncs": 0,
+    "disconnects": 0,
+    "heartbeats": 39254
+  },
+  "serverMetrics": {
+    "willcall_bus_published_total": 7040,
+    "willcall_bus_received_total": 21120,
+    "willcall_outbox_published_total": 7040,
+    "willcall_sse_flush_duration_seconds{quantile=0.5}": 0.0011031893333333332,
+    "willcall_sse_flush_duration_seconds{quantile=0.99}": 0.0020643840000000003,
+    "willcall_sse_flush_duration_seconds": 1072.4501270710002,
+    "willcall_sse_frames_dropped_total": 0,
+    "willcall_sse_frames_sent_total": 1780293,
+    "willcall_sse_resyncs_sent_total": 0
+  },
+  "propagationMs": {
+    "count": 15200000,
+    "min": 7,
+    "p50": 113,
+    "p90": 179,
+    "p95": 195,
+    "p99": 223,
+    "max": 286,
+    "mean": 112.85132157894736
+  },
+  "errors": {},
+  "retainedHeap": {
+    "beforeBytes": 193012128,
+    "withConnectionsBytes": 598922488,
+    "afterCloseBytes": 211330544,
+    "perConnectionBytes": 77518,
+    "method": "Heap retained after an explicit collection, with the connections open, minus the same figure after they were closed, divided by the number established. This isolates what a connection costs from the garbage produced by delivering the messages. System.gc() is a request rather than a command, so it remains an estimate - but an estimate of the right quantity, unlike a resident-set delta taken during the run."
+  },
+  "memory": {
+    "applicationResidentBeforeBytes": 1482896179,
+    "applicationResidentPeakBytes": 1905682022,
+    "differenceBytes": 422785843,
+    "perConnectionBytes": 84557,
+    "method": "Sum of the resident set of every application replica, sampled every five seconds while the connections were open, minus the same figure taken before they were opened, divided by the number established. This attributes all growth during the window to the connections, which slightly overstates them: JIT compilation and heap growth from the seat-change traffic land in the same figure. It is an upper bound, and is reported as one rather than as a precise cost."
+  }
+}

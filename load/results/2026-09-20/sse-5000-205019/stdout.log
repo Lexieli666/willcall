@@ -4,3 +4,14 @@ server-side connections before: {"app1":0,"app2":0,"app3":0}
 retained heap before: 184.1 MiB
 client-side connections established: 5000, failed: 0
 server-side connections during: {"app1":1666,"app2":1667,"app3":1667}
+retained heap with 5000 connections: 571.2 MiB
+
+connections established : 5000 of 5000 requested
+seat changes driven     : 1780
+delta frames received   : 861672 (15200000 seat changes)
+gaps detected           : 0
+resyncs requested       : 0
+propagation commit→client (ms): n=15200000 p50=113 p90=179 p95=195 p99=223 max=286
+server flush p99        : 2.1 ms
+written to load/results/2026-09-20/sse-5000-205019/sse-result.json
+retained heap after close: 201.5 MiB → 75.7 KiB retained per connection

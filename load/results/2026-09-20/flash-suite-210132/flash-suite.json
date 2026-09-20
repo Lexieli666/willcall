@@ -1,0 +1,39 @@
+{
+  "runs": 1,
+  "commit": "b178904abf880478ef9ba55876df35ae3fd1471b",
+  "runsWithInvariantsHeld": 1,
+  "runsWithServerErrors": 0,
+  "totalServerErrors": 0,
+  "oversells": 0,
+  "holdP99Ms": {
+    "min": 3388.9018268,
+    "median": 3388.9018268,
+    "max": 3388.9018268
+  },
+  "seatsSold": {
+    "min": 2114,
+    "median": 2114,
+    "max": 2114
+  },
+  "runDurationMs": {
+    "min": null,
+    "median": null,
+    "max": null
+  },
+  "perRun": [
+    {
+      "run": "run-001",
+      "granted": 4947,
+      "refused": 10348,
+      "confirmed": 2085,
+      "serverErrors": 0,
+      "holdP99Ms": 3388.9018268,
+      "confirmP99Ms": 5735.590343439987,
+      "durationMs": null,
+      "sold": 2114,
+      "held": 2886,
+      "available": 0,
+      "invariantsHeld": true
+    }
+  ]
+}

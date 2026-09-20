@@ -159,6 +159,28 @@ public class EventController {
   }
 
   /**
+   * Just the counts.
+   *
+   * <p>Exists because the flash-sale watcher needs to know when the last seat goes, and polling
+   * the full seat map four times a second serialises five thousand rows into the middle of the
+   * burst it is trying to observe. The first version did exactly that, and the run it was
+   * measuring stopped selling out — the measurement was changing the result.
+   */
+  @GetMapping("/{eventId}/availability")
+  public AvailabilityResponse availability(@PathVariable UUID eventId) {
+    CatalogService.EventDetail detail = catalog.detail(eventId);
+    return new AvailabilityResponse(
+        eventId,
+        detail.event().capacity(),
+        detail.seatCounts().getOrDefault(dev.willcall.catalog.domain.SeatStatus.AVAILABLE, 0),
+        detail.seatCounts().getOrDefault(dev.willcall.catalog.domain.SeatStatus.HELD, 0),
+        detail.seatCounts().getOrDefault(dev.willcall.catalog.domain.SeatStatus.SOLD, 0));
+  }
+
+  public record AvailabilityResponse(
+      UUID eventId, int capacity, int available, int held, int sold) {}
+
+  /**
    * Turns the waiting room on or off for an event.
    *
    * <p>The rate is the measured admissions per second this event's reservation path survives.

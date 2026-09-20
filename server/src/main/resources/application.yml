@@ -6,9 +6,15 @@ spring:
     username: ${WILLCALL_DB_USER:willcall}
     password: ${WILLCALL_DB_PASSWORD:willcall}
     hikari:
-      # Sized deliberately: see docs/capacity-model.md. Pool exhaustion is a game-day
-      # scenario, so the pool is small enough that the failure mode is reachable.
-      maximum-pool-size: ${WILLCALL_DB_POOL_MAX:20}
+      # Sized deliberately: see docs/capacity-model.md. Pool exhaustion is a game-day scenario,
+      # so the pool stays small enough that the failure mode is reachable — 3 replicas x 40 is
+      # 120 connections against a PostgreSQL configured for 300, leaving room for the sweeper,
+      # the relay and a psql session.
+      #
+      # It was 20 while the flash sale was shedding a fifth of its traffic. Raising it was not
+      # the fix; removing a count(*) from the refusal path was. The size is now chosen for
+      # headroom rather than to paper over a query.
+      maximum-pool-size: ${WILLCALL_DB_POOL_MAX:40}
       minimum-idle: ${WILLCALL_DB_POOL_MIN:5}
       connection-timeout: ${WILLCALL_DB_POOL_TIMEOUT_MS:2000}
       pool-name: willcall-pool

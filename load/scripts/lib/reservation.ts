@@ -76,6 +76,27 @@ export function createEvent(options: {
   return event
 }
 
+export interface AvailabilityResponse {
+  eventId: string
+  capacity: number
+  available: number
+  held: number
+  sold: number
+}
+
+/**
+ * Just the counts.
+ *
+ * <p>Used by anything that polls during a run. Fetching the full seat map instead serialises
+ * thousands of rows on every poll, and at four polls a second that is enough load to change the
+ * result being measured — which it did, the first time.
+ */
+export function availability(eventId: string): AvailabilityResponse | null {
+  return json<AvailabilityResponse>(
+    http.get(`${BASE_URL}/api/events/${eventId}/availability`, { tags: { endpoint: 'availability' } }),
+  )
+}
+
 export function seatMap(eventId: string): SeatMapResponse | null {
   return json<SeatMapResponse>(
     http.get(`${BASE_URL}/api/events/${eventId}/seats`, { tags: { endpoint: 'seat_map' } }),

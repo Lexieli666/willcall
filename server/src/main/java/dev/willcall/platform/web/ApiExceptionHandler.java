@@ -9,7 +9,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.dao.QueryTimeoutException;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
+import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -95,8 +99,53 @@ public class ApiExceptionHandler {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problem);
   }
 
+  /**
+   * The database connection pool is exhausted. This is load shedding, not a bug.
+   *
+   * <p>It surfaced as 500 until this handler existed, nearly two thousand times in the first
+   * fifty-run flash-sale suite. A 500 tells a client nothing it can act on and, worse, cannot be
+   * distinguished from a real fault — so "the service is at capacity" and "the service is broken"
+   * looked identical on the dashboard, when they should page different people.
+   *
+   * <p>503 with {@code Retry-After} says what to do. It is 503 rather than 500 because the request
+   * never ran: there was no connection to run it on, so a retry is safe with or without an
+   * idempotency key.
+   */
+  @ExceptionHandler({
+    CannotGetJdbcConnectionException.class,
+    CannotCreateTransactionException.class,
+    QueryTimeoutException.class
+  })
+  public ResponseEntity<ProblemDetail> handleOverloaded(Exception e, HttpServletRequest request) {
+    // INFO without a stack trace: under a burst this fires thousands of times, and thousands of
+    // stack traces would bury the genuine 500 somebody needs to find.
+    log.info(
+        "shedding load on {} {}: {}",
+        request.getMethod(),
+        request.getRequestURI(),
+        e.getClass().getSimpleName());
+
+    ProblemDetail problem =
+        problem(ErrorCode.OVERLOADED, "The service is at capacity. Retry shortly.", request);
+    problem.setProperty("retryable", true);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.set(HttpHeaders.RETRY_AFTER, "1");
+    return ResponseEntity.status(ErrorCode.OVERLOADED.status()).headers(headers).body(problem);
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ProblemDetail> handleUnexpected(Exception e, HttpServletRequest request) {
+    // A committed response — an event stream, or anything part-written — cannot take a
+    // problem+json body. Attempting it produces a second, more confusing failure about a missing
+    // message converter stacked on top of the first, which is what the stream path used to do on
+    // every closed tab.
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains(MediaType.TEXT_EVENT_STREAM_VALUE)) {
+      log.debug("stream request failed after the response was committed: {}", e.toString());
+      return null;
+    }
+
     // Anything reaching here is a bug, so it is logged with the stack trace and returns a body
     // that says nothing about the internals.
     log.error("unhandled exception on {} {}", request.getMethod(), request.getRequestURI(), e);
