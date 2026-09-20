@@ -161,13 +161,14 @@ if rl:
     src = f'`{rl_dir}/k6-summary.json`'
     m = rl.get('metrics', {})
     limited = m.get('willcall_rate_limited', {}).get('count')
-    retry_after = m.get('willcall_retry_after_present', {}).get('rate')
+    served = m.get('willcall_rate_served', {}).get('count')
+    missing = m.get('willcall_missing_retry_after', {}).get('count')
     if limited is not None:
         row('Rate limiting under a single-client flood',
-            f"{fmt(limited)} responses were 429, Retry-After present on "
-            f"{retry_after * 100:.1f}%" if retry_after is not None else f'{fmt(limited)} responses were 429',
+            f"{fmt(limited)} of {fmt((limited or 0) + (served or 0))} requests shed as 429, "
+            f"{fmt(missing)} of them without a Retry-After",
             '429 with Retry-After on every shed request', src,
-            'met' if retry_after == 1 else 'MISSED')
+            'met' if missing == 0 and limited > 0 else 'MISSED')
 
 # ---------------------------------------------------------------- game day
 
