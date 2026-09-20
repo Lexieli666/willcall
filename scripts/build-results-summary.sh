@@ -321,6 +321,11 @@ if fe:
     if pw:
         row('End-to-end tests', f"{fmt(pw.get('total'))} run, {fmt(pw.get('failed'))} failed",
             '30–50', src, 'met' if pw.get('total', 0) >= 30 else 'below the range')
+    vitest = fe.get('vitest', {})
+    if vitest.get('total'):
+        row('Frontend unit tests',
+            f"{fmt(vitest['total'])} run, {fmt(vitest.get('failed', 0))} failed",
+            '60–100', src, 'met' if vitest['total'] >= 60 else 'below the range')
     budget = fe.get('bundleBudget', '')
     size = re.search(r'([0-9.]+) KB gzipped', budget or '')
     if size:
@@ -336,6 +341,21 @@ if jmh_dir and os.path.exists(f'{jmh_dir}/results.json'):
         'crossover is an occupancy level, not a row size — see the analysis',
         'linear wins below ~500/row, tree at 2,000+',
         f'`{jmh_dir}/crossover.md`', 'the prediction was wrong; the measurement is published')
+
+# ---------------------------------------------------------------- every test, added up
+
+# The plan's bullet says "310 tests". Adding three numbers by hand is how a combined figure drifts
+# from its parts, so it is added here from the same files the rows above print.
+backend_total = (correctness or {}).get('backendTotal') or 0
+vitest_total = ((fe or {}).get('vitest') or {}).get('total') or 0
+playwright_total = ((fe or {}).get('playwright') or {}).get('total') or 0
+if backend_total or vitest_total or playwright_total:
+    combined = backend_total + vitest_total + playwright_total
+    row('Tests, all suites combined',
+        f'{fmt(combined)} ({fmt(backend_total)} backend, {fmt(vitest_total)} frontend unit, '
+        f'{fmt(playwright_total)} end to end)',
+        '310', '`load/results/*/phase*-correctness/` and `phase*-frontend/`',
+        'met' if combined >= 310 else 'below the plan figure')
 
 # ---------------------------------------------------------------- render
 
@@ -456,8 +476,7 @@ bullets.append(
     'application shed correctly and the edge proxy turned that into nine seconds of `502`. Its '
     'fixes were verified by re-running the scenario.\n'
     f'- **Coverage:** {coverage}.\n'
-    f'- **Tests:** {tests_backend} on the backend, {tests_e2e} end to end, plus the frontend unit '
-    'suite. The combined figure is below 310 and the exact count is in the table above.\n'
+    f"- **Tests:** {measured('Tests, all suites combined')}.\n"
     '- **Not supported: "shipped to 40 real users in a public demo".** It has not happened. That '
     'also leaves [ADR 0012](../docs/adr/0012-hold-ttl.md) at `proposed` and the hold TTL an '
     'unvalidated default.\n'

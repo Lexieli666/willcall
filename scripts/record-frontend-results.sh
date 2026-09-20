@@ -23,6 +23,9 @@ fi
 if [ -f web/coverage/coverage-summary.json ]; then
   cp web/coverage/coverage-summary.json "$OUT_DIR/vitest-coverage.json"
 fi
+if [ -f web/vitest-results.json ]; then
+  cp web/vitest-results.json "$OUT_DIR/vitest-results.json"
+fi
 
 python3 - "$OUT_DIR" <<'PY'
 import glob, json, os, statistics, subprocess, sys
@@ -101,6 +104,18 @@ if os.path.exists(pw_path):
     for suite in pw.get('suites', []):
         walk(suite)
     report['playwright'] = tests
+
+# The unit-test count. The combined "N tests" figure needs all three suites, and reading two of
+# them and estimating the third is exactly the sort of number this repository does not publish.
+vitest_path = f'{out_dir}/vitest-results.json'
+if os.path.exists(vitest_path):
+    vitest = json.load(open(vitest_path))
+    report['vitest'] = {
+        'total': vitest.get('numTotalTests'),
+        'passed': vitest.get('numPassedTests'),
+        'failed': vitest.get('numFailedTests'),
+        'suites': vitest.get('numTotalTestSuites'),
+    }
 
 cov_path = f'{out_dir}/vitest-coverage.json'
 if os.path.exists(cov_path):
