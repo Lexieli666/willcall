@@ -31,59 +31,64 @@ WILLCALL_BASE_URL="$BASE_URL" SCENARIO_OUT="$OUT_DIR" \
 K6_EXIT=${PIPESTATUS[0]}
 set -e
 
-# Kendall's tau distance, normalised, computed in the database. Auditable from a psql prompt, which
-# a number computed inside a load script is not.
+# The event this run created, taken from the scenario's own output.
 #
-# The normalised rate alone is close to useless at this size: five swapped pairs among eighteen
-# thousand admissions is 0.000003%, which rounds to zero and reads like a number nobody measured.
-# Displacement is the figure a buyer would recognise - how many places they moved - so it is
-# reported alongside, and the raw inversion count is reported unrounded.
-docker exec -i willcall-postgres-1 psql -U willcall -d willcall -At -F'|' <<'SQL' > "$OUT_DIR/inversion.txt"
-with ordered as (
-  select event_id,
-         user_ref,
-         row_number() over (partition by event_id order by joined_at, user_ref) as arrival_rank,
-         row_number() over (partition by event_id order by admitted_at, id)     as admit_rank
+# Without this the SQL below measured whichever event had the most admissions in the table, which
+# after a second run was the first run's event: the published inversion rate described a run from
+# forty minutes earlier under different code, and the numbers looked entirely plausible. The script
+# fails rather than falls back, because "measured the wrong event" is indistinguishable from
+# "measured the right one" once the number is in a table.
+EVENT_ID="$(grep -oE '\(event [0-9a-f-]{36}\)' "$OUT_DIR/stdout.log" | head -1 | tr -d '()' | awk '{print $2}')"
+if [ -z "$EVENT_ID" ]; then
+  printf 'FAILED: could not find the event id in %s/stdout.log\n' "$OUT_DIR" >&2
+  exit 2
+fi
+printf 'measuring admissions for event %s\n' "$EVENT_ID"
+
+# How far admission order drifted from arrival order, computed in the database. Auditable from a
+# psql prompt, which a number computed inside a load script is not.
+#
+# Counted on the timestamps themselves, with strict inequalities, and not on row_number() ranks.
+# Admission is batched - this run admitted 16,065 buyers at 316 distinct instants, about fifty at a
+# time - so within a batch there is no order at all. Ranking forces one anyway, breaking ties on a
+# random UUID, and then counts the arbitrary result as unfairness. Two people admitted in the same
+# batch were not admitted before or after each other, and the measure should not pretend otherwise.
+#
+# The batch size is reported alongside, because it is the real answer to "how unfair can this be":
+# arrival order is honoured between batches and undefined within one.
+docker exec -i willcall-postgres-1 psql -U willcall -d willcall -At -F'|' \
+  -v event="'$EVENT_ID'" <<'SQL' > "$OUT_DIR/inversion.txt"
+with admitted as (
+  select user_ref, joined_at, admitted_at
   from admissions
+  where event_id = :event::uuid and admitted_at is not null
 ),
-pairs as (
-  select a.event_id,
-         count(*)                        as inversions,
-         count(distinct a.user_ref)      as buyers_ahead_overtaken
-  from ordered a
-  join ordered b
-    on a.event_id = b.event_id
-   and a.arrival_rank < b.arrival_rank
-   and a.admit_rank   > b.admit_rank
-  group by a.event_id
+-- Strictly out of order: joined before, admitted after. No ties, no tie-break, no invention.
+inversions as (
+  select count(*) as inversions, count(distinct a.user_ref) as buyers_overtaken
+  from admitted a
+  join admitted b
+    on a.joined_at   < b.joined_at
+   and a.admitted_at > b.admitted_at
 ),
-displacement as (
-  select event_id,
-         max(abs(admit_rank - arrival_rank))                                       as max_displacement,
-         percentile_disc(0.99) within group (order by abs(admit_rank - arrival_rank))
-                                                                                   as p99_displacement,
-         count(*) filter (where admit_rank <> arrival_rank)                        as moved_at_all
-  from ordered
-  group by event_id
+batches as (
+  select count(*) as batches, max(n) as largest_batch,
+         round(avg(n), 1) as mean_batch
+  from (select admitted_at, count(*) as n from admitted group by admitted_at) b
 ),
-totals as (
-  select event_id, count(*) as n from ordered group by event_id
-)
-select totals.event_id,
-       totals.n                                                 as admitted_count,
-       coalesce(pairs.inversions, 0)                             as inversions,
+totals as (select count(*) as n from admitted)
+select :event::uuid                                              as event_id,
+       totals.n                                                  as admitted_count,
+       inversions.inversions,
        case when totals.n < 2 then 0
-            else round(coalesce(pairs.inversions, 0)::numeric
+            else round(inversions.inversions::numeric
                        / (totals.n * (totals.n - 1) / 2) * 100, 8)
        end                                                       as inversion_rate_percent,
-       coalesce(pairs.buyers_ahead_overtaken, 0)                 as buyers_overtaken,
-       coalesce(displacement.max_displacement, 0)                as max_displacement,
-       coalesce(displacement.p99_displacement, 0)                as p99_displacement,
-       coalesce(displacement.moved_at_all, 0)                    as moved_at_all
-from totals
-left join pairs on pairs.event_id = totals.event_id
-left join displacement on displacement.event_id = totals.event_id
-order by totals.n desc;
+       inversions.buyers_overtaken,
+       batches.batches                                           as admission_batches,
+       batches.largest_batch,
+       batches.mean_batch
+from totals, inversions, batches;
 SQL
 
 python3 - "$OUT_DIR" <<'FAIRJSON'
@@ -91,7 +96,7 @@ import json, os, sys
 
 out_dir = sys.argv[1]
 fields = ['eventId', 'admittedCount', 'inversions', 'inversionRatePercent',
-          'buyersOvertaken', 'maxDisplacement', 'p99Displacement', 'movedAtAll']
+          'buyersOvertaken', 'admissionBatches', 'largestBatch', 'meanBatch']
 rows = []
 for line in open(os.path.join(out_dir, 'inversion.txt'), errors='replace'):
     parts = line.strip().split('|')
@@ -101,8 +106,9 @@ for line in open(os.path.join(out_dir, 'inversion.txt'), errors='replace'):
     row['admittedCount'] = int(row['admittedCount'])
     row['inversions'] = int(row['inversions'])
     row['inversionRatePercent'] = float(row['inversionRatePercent'])
-    for key in ('buyersOvertaken', 'maxDisplacement', 'p99Displacement', 'movedAtAll'):
+    for key in ('buyersOvertaken', 'admissionBatches', 'largestBatch'):
         row[key] = int(row[key])
+    row['meanBatch'] = float(row['meanBatch'])
     n = row['admittedCount']
     row['totalPairs'] = n * (n - 1) // 2
     rows.append(row)
@@ -119,8 +125,9 @@ if rows:
     print(f"out-of-order pairs   : {b['inversions']:,} of {b['totalPairs']:,} possible")
     print(f"FIFO inversion rate  : {b['inversionRatePercent']}%")
     print(f"buyers overtaken     : {b['buyersOvertaken']:,}")
-    print(f"admitted out of rank : {b['movedAtAll']:,}")
-    print(f"displacement p99/max : {b['p99Displacement']:,} / {b['maxDisplacement']:,} places")
+    print(f"admission batches    : {b['admissionBatches']:,} "
+          f"(mean {b['meanBatch']}, largest {b['largestBatch']:,})")
+    print('order is honoured between batches and undefined within one')
 FAIRJSON
 
 {

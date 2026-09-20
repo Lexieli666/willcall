@@ -115,6 +115,25 @@ over nothing. The fix was structural rather than another careful line: the query
 sentinel row, and the script fails if the sentinel does not come back. A checker that cannot tell
 "no violations" from "no data" is worse than no checker, because it is believed.
 
+The same failure mode turned up three more times, each in a different instrument:
+
+- A game-day scenario that injected **nothing**. It opened 130 idle sessions on PostgreSQL on the
+  reasoning that they would starve the application's pool. They do not — HikariCP's pool is client
+  side — so the scenario would have reported the system surviving a fault it never experienced.
+- A hot-path check that reported **three sequential scans that were not there**. Every plan
+  contained a `Seq Scan on events`, and every one of them belonged to a subquery the plan-capture
+  script had written and the application never runs. A check that flags correct code is a check
+  people learn to ignore.
+- A plan for the expiry sweeper taken against an **empty index**. After a load run there are no
+  active holds, so the plan showed an index scan returning nothing in 0.1 ms. Building the
+  population that matters — fifty thousand live holds of which fifty had expired — showed the same
+  query reading 50,060 buffers to find 50 rows.
+
+The pattern in all four is the same: the instrument returned a pass, and the pass meant nothing.
+The lesson that generalises is not "be careful", it is that **every check needs a test that makes
+it fail**. The invariant script is now run against a planted violation and against an unreachable
+database, and is required to exit 1 and 2 respectively.
+
 ## Measuring before claiming
 
 If a change is meant to make something faster, smaller or more reliable:

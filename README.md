@@ -81,6 +81,33 @@ measurement was wrong before the software was:
 - **The segment tree's crossover** was predicted to be a row size. It is an occupancy level: at 10%
   occupancy a linear scan wins at every size including 20,000 seats per row, and at 90% the tree
   wins everywhere. The prediction is published alongside the measurement that contradicted it.
+- **Three hot paths were reported as sequentially scanning** on the million-row dataset. They were
+  not: every one used its index, and the `Seq Scan` in each plan belonged to a subquery the
+  plan-capture script had added and the application never runs. A false positive in the one check
+  those plans exist to support is worse than no check.
+- **The paced hold run asserted a rate this hardware cannot serve.** At 1,000 requests/s it shed
+  65.7% of traffic and returned a p99 of 4.6 s. That answers "does it hold up at 1,000" and not
+  "where is the ceiling", so the single point was replaced by a sweep.
+
+---
+
+## What the game day found
+
+Four faults injected into the running stack with traffic flowing, each with its prediction written
+down first. Two of the four found something the prediction did not contain, and both times it was
+outside the application.
+
+| Scenario | Outcome |
+|---|---|
+| [Exhaust the connection pool](docs/incidents/2026-09-20-connection-pool-exhaustion.md) | The application shed 4,427 requests as `503` with `Retry-After` and returned no `500`s — exactly as designed. nginx then ejected all three healthy replicas within one second and answered `502` to 1,227 buyers. Passive health checks assume replicas fail independently; the database is what they share. |
+| [Kill a replica](docs/incidents/2026-09-20-replica-kill.md) | 8 failures in 18,001. The kill cost nothing; the **restart** cost the eight, because a container has an address before the process inside it is listening. |
+| [Restart Redis](docs/incidents/2026-09-20-redis-restart.md) | Zero failed requests. That is the claim [ADR 0001](docs/adr/0001-postgresql-owns-correctness-redis-only-accelerates.md) rests on, now checked under real traffic. |
+| [200 ms of latency](docs/incidents/2026-09-20-database-pause.md) | Could not be injected — `tc` needs `NET_ADMIN`. A database pause was substituted, recorded as a different fault, and the claim the original would have tested is marked unmeasured. |
+
+The first one's fixes were verified by re-running it three times. The falsifier is that the edge
+logs `no live upstreams` even once; it now logs none. The second re-run is kept in the postmortem
+because it is the instructive one: `lock_timeout` worked and 98 requests became `500` anyway,
+because PostgreSQL's `55P03` arrives as an exception Spring has no mapping for.
 
 ---
 
@@ -181,6 +208,7 @@ open http://127.0.0.1:3000     # Grafana, dashboards provisioned
 | [docs/slo.md](docs/slo.md) | Objectives, error budgets and alerts |
 | [docs/game-day.md](docs/game-day.md) | Failure rehearsals, with predictions written first |
 | [docs/testing.md](docs/testing.md) | What is tested where — and the bugs the tests caught |
+| [docs/incidents/](docs/incidents/) | One postmortem per game-day scenario, including the one where nothing broke |
 | [docs/adr/](docs/adr/) | Twelve decisions, including the product ones |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | The three rules this repository is built under |
 | [PROGRESS.md](PROGRESS.md) | Current state, including everything that is blocked and why |
@@ -207,6 +235,13 @@ Stated here rather than left for a reader to discover.
   flush duration; the client half is not instrumented.
 - **The load generators share a host with the service.** Percentiles include no network latency and
   do include CPU contention. Every results file repeats this.
+- **Load shedding is correct but slow.** Under sustained saturation a `503` comes back at a p99 of
+  9.5 s, because the request queues ahead of the pool before any timeout applies. Lowering
+  `lock_timeout` from 5 s to 2 s moved that figure to 9.6 s, which is how we know the wait is the
+  queue and not the timeout. The fix is a bulkhead that refuses at admission, and it is not built.
+- **The waiting room's degradation path is not exercised by the Redis game day**, because the event
+  under load has no queue configured. It has an integration test; it has not been seen failing over
+  under real traffic.
 
 ## Licence
 

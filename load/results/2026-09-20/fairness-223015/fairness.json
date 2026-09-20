@@ -1,0 +1,26 @@
+{
+  "events": [
+    {
+      "eventId": "e1cfb189-5807-4ab5-bce3-56a95655fcb7",
+      "admittedCount": 16065,
+      "inversions": 0,
+      "inversionRatePercent": 0.0,
+      "buyersOvertaken": 0,
+      "admissionBatches": 316,
+      "largestBatch": 100,
+      "meanBatch": 50.8,
+      "totalPairs": 129034080
+    }
+  ],
+  "headline": {
+    "eventId": "e1cfb189-5807-4ab5-bce3-56a95655fcb7",
+    "admittedCount": 16065,
+    "inversions": 0,
+    "inversionRatePercent": 0.0,
+    "buyersOvertaken": 0,
+    "admissionBatches": 316,
+    "largestBatch": 100,
+    "meanBatch": 50.8,
+    "totalPairs": 129034080
+  }
+}
