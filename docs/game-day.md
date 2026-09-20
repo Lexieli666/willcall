@@ -43,11 +43,17 @@ restarted replica taking traffic but not connections and nobody noticing.
 ### 2. Exhaust the PostgreSQL connection pool
 
 ```bash
-# Hold every connection open from outside the application.
-for i in $(seq 1 130); do
-  docker exec -d willcall-postgres-1 psql -U willcall -d willcall -c 'select pg_sleep(120)'
-done
+# One external session holds an exclusive lock on the seat table, so every reservation
+# transaction blocks inside the database while still holding its pool connection.
+docker exec -d willcall-postgres-1 psql -U willcall -d willcall \
+  -c 'begin; lock table seats in access exclusive mode; select pg_sleep(60); commit;'
 ```
+
+The first version of this scenario opened 130 idle `pg_sleep` sessions instead. That injects
+nothing: HikariCP's pool is client side, and 130 server sessions against a 300-connection server
+leave the application's own 120 alone. It is recorded here rather than quietly replaced, because a
+fault injection that does not inject is the kind of mistake a game day exists to find — the
+scenario would have "passed" while testing nothing.
 
 **Hypothesis.** The pool saturates, `hikaricp_connections_pending` rises, and requests answer 503
 with `Retry-After` rather than 500 — that mapping was added after the first flash-sale suite

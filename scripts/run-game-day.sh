@@ -100,17 +100,28 @@ case "$SCENARIO" in
     ;;
 
   exhaust-pool)
-    # Held from outside the application, so the pool is starved without the application being
-    # asked to misbehave. 130 sessions against 120 application connections and a 300-connection
-    # server leaves the server itself healthy: the scarcity is the pool's, which is the point.
-    for _ in $(seq 1 130); do
-      docker exec -d willcall-postgres-1 psql -U willcall -d willcall \
-        -c "select pg_sleep($FAULT_FOR)" >/dev/null 2>&1
-    done
-    printf '%s  130 sessions holding connections for %ss\n' \
+    # One external session takes ACCESS EXCLUSIVE on seats and holds it. Every reservation
+    # transaction then blocks inside the database while still holding its pool connection, so all
+    # forty fill up on each replica and the next request waits out the 2 s connection timeout.
+    #
+    # The first version of this scenario opened 130 idle `pg_sleep` sessions instead, on the
+    # reasoning that they would starve the pool. They do not: HikariCP's pool is client side, and
+    # 130 server sessions against a 300-connection server leave the application's own 120
+    # untouched. It was a fault that looked like the right one and injected nothing. The real
+    # analogue of this outage is a long-running exclusive operation - a migration, a VACUUM FULL -
+    # which is what this now does.
+    docker exec -d willcall-postgres-1 psql -U willcall -d willcall -c \
+      "begin; lock table seats in access exclusive mode; select pg_sleep($FAULT_FOR); commit;" \
+      >/dev/null 2>&1
+    printf '%s  ACCESS EXCLUSIVE on seats held for %ss\n' \
       "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" "$FAULT_FOR" | tee -a "$OUT_DIR/timeline.txt"
     sleep "$((FAULT_FOR + 5))"
-    printf '%s  sessions released\n' "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" | tee -a "$OUT_DIR/timeline.txt"
+    # Anything still holding the lock is cleared, so a slow exit cannot bleed into the recovery
+    # window and be read as a failure to recover.
+    docker exec -i willcall-postgres-1 psql -U willcall -d willcall -c \
+      "select pg_terminate_backend(pid) from pg_stat_activity
+       where query like '%access exclusive%' and pid <> pg_backend_pid();" >/dev/null 2>&1 || true
+    printf '%s  lock released\n' "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" | tee -a "$OUT_DIR/timeline.txt"
     ;;
 
   restart-redis)
