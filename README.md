@@ -29,7 +29,16 @@ It is defended at four independent levels, so a bug has to defeat all four to se
    random command sequences against an independently written reference machine.
 4. **An external check.** [`scripts/verify-invariants.sh`](scripts/verify-invariants.sh) queries the
    database directly, so it catches violations the application cannot see. It runs in CI, after
-   every load test, and at the end of every game day.
+   every load test, and at the end of every game day. The same queries also run on a timer inside
+   the service and publish `willcall_invariant_violations`, which is what the one page-level alert
+   with no error budget reads — an alert that depends on somebody remembering to run a script is a
+   checklist item wearing an alert's name.
+
+Each of those four has a test that makes it fail. The shell script is run against a planted
+violation and against an unreachable database, and must exit 1 and 2 respectively; the monitor has
+an integration test that writes a seat into two states at once past every service and requires the
+gauge to notice. Four separate instruments in this project have at some point reported a pass while
+measuring nothing, and every one would have been caught by asking it to fail once.
 
 PostgreSQL owns correctness; Redis only accelerates. Losing Redis degrades the queue and leaves
 reservations correct — proved by a test that stops Redis mid-run and then checks the invariant.
