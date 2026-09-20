@@ -1,9 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { SeatMap } from '../components/SeatMap'
 import { SeatListMode } from '../components/SeatListMode'
 import { HoldTimer } from '../components/HoldTimer'
+import { LiveAnnouncer } from '../components/LiveAnnouncer'
+import { Announcer } from '../lib/announcer'
 import { useSeatStream } from '../hooks/useSeatStream'
 import { ApiError } from '../lib/api'
 import {
@@ -38,6 +40,10 @@ export function EventPage() {
   const { eventId } = useParams<{ eventId: string }>()
   const navigate = useNavigate()
   const stream = useSeatStream(eventId)
+  // One announcer for the life of the page: recreating it would reset the ambient rate limit on
+  // every render, which is the same as having no throttle at all.
+  const announcer = useMemo(() => new Announcer(), [])
+  const panelHeadingRef = useRef<HTMLHeadingElement>(null)
 
   const [viewMode, setViewMode] = useState<ViewMode>('map')
   const [selected, setSelected] = useState<ReadonlySet<string>>(new Set())
@@ -101,8 +107,18 @@ export function EventPage() {
       .map((id) => store.rows.flatMap((row) => row.seats).find((seat) => seat.id === id)?.label ?? id)
       .join(', ')
     setSelected((current) => new Set([...current].filter((id) => !lost.includes(id))))
-    setMessage({ tone: 'error', text: `Someone else took ${labels}. Those seats are no longer selected.` })
-  }, [stream.revision, stream.store, selected, hold])
+    const text = `Someone else took ${labels}. Those seats are no longer selected.`
+    setMessage({ tone: 'error', text })
+    // Critical: this is the buyer's own selection changing under them, not the room moving.
+    announcer.critical(text)
+  }, [stream.revision, stream.store, selected, hold, announcer])
+
+  // The room, summarised at a pace a person can absorb. Individual seat changes are never
+  // announced: during a sell-out there are dozens a second, and reading them all would drown out
+  // everything that matters.
+  useEffect(() => {
+    if (stream.counts) announcer.ambient(stream.counts.available)
+  }, [stream.counts, announcer])
 
   const selectedSeats = useMemo(() => {
     if (!stream.store) return []
@@ -133,6 +149,15 @@ export function EventPage() {
     },
     [hold, maxSeats],
   )
+
+  /** Announced and focused together, because both hold paths change the same part of the page. */
+  const announceHeld = (seatCount: number, secondsRemaining: number): void => {
+    announcer.critical(
+      `${seatCount} seat${seatCount === 1 ? '' : 's'} held. ` +
+        `You have ${secondsRemaining} seconds to complete your purchase.`,
+    )
+    panelHeadingRef.current?.focus()
+  }
 
   const describeError = (cause: unknown): string => {
     if (!(cause instanceof ApiError)) return cause instanceof Error ? cause.message : 'Something went wrong.'
@@ -166,7 +191,11 @@ export function EventPage() {
     try {
       const response = await createHold(eventId, { seatIds: [...selected] }, holdKey)
       setHold(response)
-      setMessage({ tone: 'success', text: `${response.seatIds.length} seat(s) held. Complete checkout before the timer runs out.` })
+      setMessage({
+        tone: 'success',
+        text: `${response.seatIds.length} seat(s) held. Complete checkout before the timer runs out.`,
+      })
+      announceHeld(response.seatIds.length, response.secondsRemaining)
       void refetchBuyerState()
     } catch (cause) {
       setMessage({ tone: 'error', text: describeError(cause) })
@@ -187,6 +216,7 @@ export function EventPage() {
       setHold(response)
       setSelected(new Set(response.seatIds))
       setMessage({ tone: 'success', text: `${response.seatIds.length} seat(s) held.` })
+      announceHeld(response.seatIds.length, response.secondsRemaining)
       void refetchBuyerState()
     } catch (cause) {
       setMessage({ tone: 'error', text: describeError(cause) })
@@ -204,7 +234,10 @@ export function EventPage() {
       setHold(null)
       setSelected(new Set())
       setHoldKey(newIdempotencyKey())
-      setMessage({ tone: 'info', text: 'Your hold was released and the seats are back on sale.' })
+      const text = 'Your hold was released and the seats are back on sale.'
+      setMessage({ tone: 'info', text })
+      announcer.polite(text)
+      panelHeadingRef.current?.focus()
       void refetchBuyerState()
     } catch (cause) {
       setMessage({ tone: 'error', text: describeError(cause) })
@@ -221,7 +254,9 @@ export function EventPage() {
       const order = await confirmOrder(hold.holdId, confirmKey)
       void navigate(`/orders/${order.orderId}`)
     } catch (cause) {
-      setMessage({ tone: 'error', text: describeError(cause) })
+      const text = describeError(cause)
+      setMessage({ tone: 'error', text })
+      announcer.critical(text)
       if (cause instanceof ApiError && cause.code === 'payment_timeout') {
         // Deliberately keep the same key: the charge may have landed, and only a retry carrying
         // this key can complete the order rather than creating a second one.
@@ -242,19 +277,23 @@ export function EventPage() {
     setSelected(new Set())
     setHoldKey(newIdempotencyKey())
     setConfirmKey(newIdempotencyKey())
-    setMessage({
-      tone: 'error',
-      text: 'Your hold expired and the seats went back on sale. Choose again if they are still free.',
-    })
+    const text =
+      'Your hold expired and the seats went back on sale. Choose again if they are still free.'
+    setMessage({ tone: 'error', text })
+    // Assertive: somebody filling in a payment form needs to know the form is now pointless, and
+    // needs to know before they finish typing a card number.
+    announcer.critical(text)
+    panelHeadingRef.current?.focus()
     // Refresh the buyer state as well, so the cached copy that still contains this hold cannot
     // be adopted again on the next render.
     void refetchBuyerState()
-  }, [refetchBuyerState])
+  }, [refetchBuyerState, announcer])
 
   if (!eventId) return <p role="alert">No event was requested.</p>
 
   return (
     <>
+      <LiveAnnouncer announcer={announcer} />
       <h1>{event?.name ?? 'Loading…'}</h1>
 
       <div className="wc-eventbar">
@@ -339,7 +378,15 @@ export function EventPage() {
         </div>
 
         <aside className="wc-eventlayout__panel" aria-label="Your selection">
-          <h2>Your selection</h2>
+          {/*
+            tabIndex -1 makes this heading programmatically focusable without adding a tab stop.
+            Focus moves here after every state change that replaces the panel's contents, so a
+            keyboard or screen-reader user lands on what changed rather than being left on a button
+            that no longer exists.
+          */}
+          <h2 ref={panelHeadingRef} tabIndex={-1}>
+            Your selection
+          </h2>
 
           {!hold && (
             <>

@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2023",
-    "lib": ["ES2023"],
+    // DOM as well as ES2023: Playwright specs legitimately contain code that runs in the browser,
+    // inside page.evaluate. Without the DOM lib every `document` reference in a spec fails to
+    // typecheck, and the usual workaround - casting to any - would remove the checking that makes
+    // the assertions worth writing.
+    "lib": ["ES2023", "DOM"],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
