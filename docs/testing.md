@@ -70,3 +70,18 @@ already does.
   tracked as a checklist in `docs/accessibility.md` and are explicitly not claimed until done.
 - **Real-user behaviour under a real drop.** Synthetic load generators are patient and
   identical; people are neither.
+
+## Bugs these tests found before a human did
+
+Listed because a test suite's value is what it caught, not how many assertions it contains.
+
+| Found by | The bug |
+|---|---|
+| `ReservationCoreIntegrationTest` (declined payment) | Settlement threw an `ApiException` out of a `@Transactional` method to signal a decline. The throw rolled the transaction back, undoing the seat release it had just performed. Two seats never came back on sale. Settlement now returns an outcome and the caller translates it after the transaction commits. |
+| `ReservationCoreIntegrationTest` (outbox write) | `checkout()` called `prepareCheckout()` and `settleCheckout()` on `this`. Spring's `@Transactional` works through a proxy, so both ran with no transaction: the `SELECT ... FOR UPDATE` released its locks immediately. It surfaced only because the outbox write demands an ambient transaction. The orchestration moved to its own bean. |
+| `ReservationCoreIntegrationTest` (succeed-after-timeout) | Each checkout attempt minted a new order id, which defeated the gateway's own idempotency and charged twice for the one case idempotency exists to cover. Checkout now reuses the pending order for the hold group. |
+| `ReservationModelPropertyTest` | `UUID.compareTo` compares the most significant bits as a *signed* long; PostgreSQL compares uuids as sixteen unsigned bytes. The service picked the seat the database considered lowest, the model expected the one Java did. `SeatOrdering` is now the single comparator, and `SeatOrderingTest` pins it with the exact pair that exposes the difference. |
+| `IdempotencyIntegrationTest` | Storing and replaying failures looked correct and stranded any buyer whose charge succeeded behind a gateway timeout: the retry replayed the stored 504 instead of reaching the gateway and finding the charge. Failures now release the key. |
+| `ReservationApiIntegrationTest` | Any unknown URL returned 500 with an error-level stack trace, because the catch-all handler also caught `NoResourceFoundException`. During a load test that noise would have hidden a real 500. |
+| Running `verify-invariants.sh` by hand | The script defined a shell function called `psql` and then asked `command -v psql` whether a client existed. `command -v` finds functions, so the answer was always yes, the binary was missing, every query failed, every check saw empty output, and the script printed "all invariant checks passed". It now resolves the client with `type -P`, probes connectivity, checks the tables exist, and fails if fewer than seven checks ran. |
+| `docker compose` smoke check | An nginx prefix location ending in a slash makes nginx 301 a request for the same path without it — so every `POST /api/events` was redirected to `/api/events/`, and the redirect dropped the port. The stream location is now a regex. |

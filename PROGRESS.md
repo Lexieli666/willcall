@@ -145,6 +145,71 @@ Raw k6 output: `load/results/2026-09-20/smoke-*/`.
 
 ---
 
+### Phase 1 — reservation core
+
+**Status:** complete
+
+- [x] Migrations for venues, events, sections, rows, seats (with version), holds, hold groups,
+      orders, order lines, idempotency records and an outbox
+- [x] APIs: create event, seat map, hold exact seats, hold best available, hold N together,
+      confirm, cancel, buyer state, admin invariant check
+- [x] Atomic allocation: `SELECT ... FOR UPDATE` on the seat rows, ordered by PostgreSQL, with no
+      unprotected read-then-write anywhere in the core
+- [x] Partial unique index `holds(seat_id) where status = 'ACTIVE'` as the database-level
+      guarantee of single allocation
+- [x] Idempotency with request fingerprinting; 422 on a mismatch, 409 + `Retry-After` on a
+      concurrent duplicate, release-on-failure so a charge behind a timeout can be completed
+- [x] Expiry via a `SKIP LOCKED` sweeper on every replica, no leader election
+- [x] Confirm-vs-expire and cancel-vs-confirm resolved by one lock order
+      ([ADR 0005](docs/adr/0005-one-lock-order-holds-then-seats.md))
+- [x] Fake payment gateway with succeed / decline / timeout / succeed-after-timeout
+- [x] `verify-invariants` as a script, a CI job and an in-process admin endpoint
+
+#### Phase 1 VERIFY results
+
+Raw file: `load/results/2026-09-20/phase1-correctness/` (`test-results.json` plus `run-context.md`).
+Every figure below was parsed from Gradle and JaCoCo output by `scripts/record-test-results.sh`.
+
+| Check | Result |
+|---|---|
+| `./gradlew test` | 14 tests, 0 failed |
+| `./gradlew integrationTest` | 55 tests, 0 failed |
+| Backend total | **69 tests, 0 failed** |
+| Concurrency: 10,000 simultaneous holds at 500 seats | **50/50 runs**: exactly 500 granted, exactly 9,500 clean 409s, **0 unexpected failures, 0 oversells** every run |
+| Concurrency wall clock per run | 555 ms min, 593 ms median, 957 ms max |
+| Model-based property test | 10,000 random command sequences in long mode (1,000 in CI), service versus an independent reference state machine, 0 disagreements |
+| Duplicate idempotency key replayed 100 times | 1 hold, 1 order; 100 simultaneous replays also produce 1 |
+| Hold expiry | releases capacity exactly once; a second sweep claims nothing |
+| Chaos: 30% duplicated requests, random declines and timeouts, abandoned checkouts, sweeper running throughout | invariants hold; no seat on two order lines |
+| `scripts/verify-invariants.sh` against the live stack | 7/7 checks pass |
+| Backend line coverage | **82.47%** (1,195 / 1,449 lines), floor 80% |
+
+Method coverage 84.31%, class coverage 95.18%, branch coverage 59.59%. Branch coverage is the
+weak one and is stated rather than omitted: the untested branches are mostly defensive
+`IllegalStateException` paths that only fire if a lock was skipped.
+
+#### Things that went wrong in Phase 1, and what they cost
+
+Each of these was found by a test, not by reading the code. They are listed in
+`docs/testing.md` with the test that found them.
+
+1. **A decline released the seats and then un-released them.** Settlement signalled the decline by
+   throwing out of a `@Transactional` method, which rolled back the release it had just performed.
+2. **Checkout ran with no transaction at all.** `checkout()` called `prepareCheckout()` on `this`;
+   Spring's `@Transactional` works through a proxy, so the `SELECT ... FOR UPDATE` ran in
+   autocommit and dropped its locks immediately. It surfaced only because the outbox write demands
+   an ambient transaction.
+3. **A retry after a gateway timeout charged twice**, because each attempt minted a new order id
+   and so defeated the gateway's own idempotency.
+4. **Java and PostgreSQL disagreed about UUID order.** `UUID.compareTo` reads the most significant
+   bits as a signed long; PostgreSQL compares sixteen unsigned bytes. Found by the model-based
+   test on its first run.
+5. **The invariant script passed when it could not reach the database.** It defined a shell
+   function named `psql` and then asked `command -v psql` whether a client existed.
+6. **Every unknown URL returned 500** with an error-level stack trace.
+
+---
+
 ## What is next
 
-Phase 1: the reservation core.
+Phase 2: the allocation algorithm, the seat map, and the delta protocol.
