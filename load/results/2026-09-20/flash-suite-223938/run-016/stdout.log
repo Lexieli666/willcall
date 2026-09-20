@@ -156,3 +156,38 @@ watcher   [  84% ] 1 VUs            33.6s/40s
 running (0m34.9s), 00001/02487 VUs, 19379 complete and 0 interrupted iterations
 flash   ✓ [ 100% ] 00000/02486 VUs  30s  0005.00 iters/s
 watcher   [  87% ] 1 VUs            34.6s/40s
+
+running (0m35.9s), 00001/02487 VUs, 19380 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02486 VUs  30s  0005.00 iters/s
+watcher   [  89% ] 1 VUs            35.6s/40s
+
+running (0m36.9s), 00001/02487 VUs, 19381 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02486 VUs  30s  0005.00 iters/s
+watcher   [  92% ] 1 VUs            36.6s/40s
+
+running (0m37.9s), 00001/02487 VUs, 19382 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02486 VUs  30s  0005.00 iters/s
+watcher   [  94% ] 1 VUs            37.6s/40s
+
+running (0m38.9s), 00001/02487 VUs, 19383 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02486 VUs  30s  0005.00 iters/s
+watcher   [  97% ] 1 VUs            38.6s/40s
+
+running (0m39.9s), 00001/02487 VUs, 19384 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02486 VUs  30s  0005.00 iters/s
+watcher   [  99% ] 1 VUs            39.6s/40s
+
+running (0m40.9s), 00001/02487 VUs, 19385 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02486 VUs  30s  0005.00 iters/s
+watcher ↓ [ 100% ] 1 VUs            40s 
+time="2026-09-20T15:50:54-07:00" level=info msg="invariants after the flash sale: PASS" source=console
+time="2026-09-20T15:50:54-07:00" level=info msg="final tally for event cf836213-adaf-4a9e-8893-146eea48e1ca (capacity 5000): 3225 sold, 0 held, 1775 available" source=console
+
+thresholds: PASS willcall_invariants_held: rate==1
+            PASS willcall_flash_server_errors: count==0
+            PASS willcall_flash_hold_duration: p(99)<5000
+            PASS willcall_flash_errors: rate<0.001
+
+running (0m41.1s), 00000/02487 VUs, 19386 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02486 VUs  30s  0005.00 iters/s
+watcher ✓ [ 100% ] 1 VUs            40s 

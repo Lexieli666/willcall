@@ -8,6 +8,12 @@ GRADLE       := ./gradlew
 SERVER_DIR   := server
 WEB_DIR      := web
 COMPOSE      := docker compose
+
+# Gradle 8.14 refuses to run on a Java newer than 24 and this host defaults to 25, so every
+# gradlew invocation resolves a supported one first. `:=` so the probe runs once per make, not
+# once per recipe line.
+JAVA_HOME := $(shell ./scripts/java-home.sh)
+export JAVA_HOME
 GIT_COMMIT   := $(shell git rev-parse --short HEAD 2>/dev/null || echo unknown)
 EDGE_PORT    ?= 8080
 BASE_URL     ?= http://127.0.0.1:$(EDGE_PORT)

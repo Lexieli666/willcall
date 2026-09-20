@@ -164,12 +164,19 @@ fraud detection beyond rate limits; native mobile; Kafka; Kubernetes; microservi
 
 ## Running it
 
-Requirements: Docker with Compose v2, JDK 21, Node 20.
+Requirements: Docker with Compose v2, a JDK between 17 and 24 (21 is what it is built and tested
+against), Node 20.
 
 ```bash
 make up                       # three replicas behind the local edge proxy
 open http://127.0.0.1:8080
+make verify                   # every check this repository claims, one pass/fail line each
 ```
+
+The `make` targets resolve a suitable `JAVA_HOME` themselves via `scripts/java-home.sh`, so a
+machine whose default `java` is newer than Gradle supports still builds. Running `./gradlew`
+directly on such a machine fails with a bare version number and no explanation, which is worth
+knowing before losing twenty minutes to it.
 
 | Command | What it does |
 |---|---|
@@ -185,6 +192,11 @@ open http://127.0.0.1:8080
 | `make bench` | JMH: segment tree against linear scan |
 | `make load-smoke` / `make load-flash` / `make load-sse` | k6 and the SSE generator |
 | `make seed` | The million-row dataset and its query plans |
+| `make capacity-sweep` | Find the sustainable hold rate by measuring several of them |
+| `make diagnose` | Run the rate that breaks while sampling what the replicas say about themselves |
+| `make game-day SCENARIO=exhaust-pool` | One failure rehearsal against the running stack |
+| `make dashboards` | Grafana screenshots, with an assertion that the panels have data |
+| `make verify` | All of the above that are checks, with a pass/fail line each |
 
 `make help` lists everything. Observability is a separate profile so it does not compete with a
 load run for CPU:

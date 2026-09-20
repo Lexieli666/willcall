@@ -10,6 +10,14 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
 BASE_URL="${WILLCALL_BASE_URL:-http://127.0.0.1:8080}"
+
+# Gradle 8.14 will not run on a Java newer than 24, and this host's default is 25. Resolving it
+# here rather than asking the reader to export it means `make verify` works from a clean clone,
+# which is the whole claim this script exists to support.
+JAVA_HOME="$(./scripts/java-home.sh)"
+export JAVA_HOME
+printf 'using JAVA_HOME=%s\n' "$JAVA_HOME"
+
 PASSED=0
 FAILED=0
 RESULTS=()

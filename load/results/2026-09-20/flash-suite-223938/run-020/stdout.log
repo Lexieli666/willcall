@@ -1,0 +1,45 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: load/scripts/flash.ts
+        output: -
+
+     scenarios: (100.00%) 2 scenarios, 12001 max VUs, 1m10s max duration (incl. graceful stop):
+              * flash: Up to 1000.00 iterations/s for 30s over 2 stages (maxVUs: 2000-12000, gracefulStop: 30s)
+              * watcher: 1 looping VUs for 40s (exec: watchInventory, gracefulStop: 30s)
+
+time="2026-09-20T15:53:02-07:00" level=info msg="flash sale: 10000 buyers arriving in 10s for 5000 seats (event 172d920f-3d5a-4937-8a70-89fd6aa1da04)" source=console
+
+running (0m00.9s), 00496/02001 VUs, 108 complete and 0 interrupted iterations
+flash     [   2% ] 00495/02000 VUs  00.6s/30s  1000.00 iters/s
+watcher   [   2% ] 1 VUs            00.6s/40s 
+
+running (0m01.9s), 01244/02001 VUs, 362 complete and 0 interrupted iterations
+flash     [   5% ] 01243/02000 VUs  01.6s/30s  1000.00 iters/s
+watcher   [   4% ] 1 VUs            01.6s/40s 
+
+running (0m02.9s), 01987/02001 VUs, 621 complete and 0 interrupted iterations
+flash     [   9% ] 01986/02000 VUs  02.6s/30s  1000.00 iters/s
+watcher   [   7% ] 1 VUs            02.6s/40s 
+
+running (0m03.9s), 02206/02206 VUs, 1126 complete and 0 interrupted iterations
+flash     [  12% ] 02205/02205 VUs  03.6s/30s  1000.00 iters/s
+watcher   [   9% ] 1 VUs            03.6s/40s 
+
+running (0m04.9s), 02303/02309 VUs, 1889 complete and 0 interrupted iterations
+flash     [  15% ] 02302/02308 VUs  04.6s/30s  1000.00 iters/s
+watcher   [  12% ] 1 VUs            04.6s/40s 
+
+running (0m05.9s), 02401/02414 VUs, 2657 complete and 0 interrupted iterations
+flash     [  19% ] 02400/02413 VUs  05.6s/30s  1000.00 iters/s
+watcher   [  14% ] 1 VUs            05.6s/40s 
+
+running (0m06.9s), 02480/02498 VUs, 3473 complete and 0 interrupted iterations
+flash     [  22% ] 02479/02497 VUs  06.6s/30s  1000.00 iters/s
+watcher   [  17% ] 1 VUs            06.6s/40s 
