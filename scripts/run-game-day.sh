@@ -178,9 +178,17 @@ import collections, json, os, re, sys
 
 out_dir, scenario, k6_exit, invariant_exit, fault_start = sys.argv[1:6]
 
-# Status-code counts over the run, from the sampled counters: the difference between the first and
-# last sample of each series is what the run actually produced.
-first, last = {}, {}
+# Status-code counts over the run, summed from the sampled counters.
+#
+# Last-minus-first is wrong the moment a replica restarts: its counters go back to zero, and the
+# kill-replica scenario reported -93,580 responses with status 201 - a number that is not merely
+# inaccurate but impossible, and that no amount of reading the chart would have explained. This
+# walks the samples in order and adds each positive step, treating a step backwards as a restart
+# and counting the new value from zero, which is what Prometheus' own increase() does. The resets
+# are counted too, because "the replica restarted twice" is itself a finding.
+previous = {}
+totals = collections.Counter()
+resets = collections.Counter()
 for line in open(os.path.join(out_dir, 'metrics.txt'), errors='replace'):
     parts = line.split(' ', 2)
     if len(parts) < 3:
@@ -195,17 +203,25 @@ for line in open(os.path.join(out_dir, 'metrics.txt'), errors='replace'):
     except ValueError:
         continue
     key = (replica, name)
-    first.setdefault(key, value)
-    last[key] = value
+    if key not in previous:
+        # The first sample is the baseline: work done before the run started is not this run's.
+        previous[key] = value
+        continue
+    if value >= previous[key]:
+        totals[key] += value - previous[key]
+    else:
+        totals[key] += value
+        resets[replica] += 1
+    previous[key] = value
 
 by_status = collections.Counter()
-for (replica, name), value in last.items():
+for (replica, name), value in totals.items():
     if not name.startswith('http_server_requests_seconds_count'):
         continue
     status = re.search(r'status="(\d+)"', name)
     if not status:
         continue
-    by_status[status.group(1)] += value - first.get((replica, name), 0.0)
+    by_status[status.group(1)] += value
 
 summary = {}
 summary_path = os.path.join(out_dir, 'summary.json')
@@ -225,12 +241,16 @@ report = {
     'k6ExitCode': int(k6_exit),
     'invariantsHeld': int(invariant_exit) == 0,
     'responsesByStatus': {k: round(v) for k, v in sorted(by_status.items())},
+    # A counter that went backwards means that replica restarted mid-run. Zero here during
+    # kill-replica would mean the fault did not land.
+    'counterResetsByReplica': dict(sorted(resets.items())),
     'load': summary,
 }
 json.dump(report, open(os.path.join(out_dir, 'gameday.json'), 'w'), indent=2)
 
 print('')
 print(f"responses by status : {report['responsesByStatus']}")
+print(f"counter resets      : {report['counterResetsByReplica'] or 'none'}")
 print(f"invariants held     : {report['invariantsHeld']}")
 if summary.get('holdP99Ms'):
     print(f"hold p99 / max (ms) : {summary['holdP99Ms']:.0f} / {summary['holdMaxMs']:.0f}")

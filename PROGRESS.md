@@ -212,7 +212,7 @@ Each of these was found by a test, not by reading the code. They are listed in
 
 ### Phase 2 — allocation, seat map, delta protocol
 
-**Status:** in progress
+**Status:** complete
 
 - [x] `docs/realtime-protocol.md` written **before** the implementation
 - [x] Per-row segment tree (`maxFreeRun` / `prefixFreeRun` / `suffixFreeRun`), O(log n) query and
@@ -281,6 +281,157 @@ four exists it returns in 0.6 ns against 1,214 ns for the scan at 20,000 seats. 
 
 ---
 
+### Phase 3 — waiting room and real-time fan-out at load
+
+**Status:** complete
+
+- [x] Waiting room: Redis sorted set by arrival, atomic Lua token-bucket admission with no leader,
+      signed admission tokens, live position over the same SSE stream
+- [x] Admission rate tied to measured capacity and stored per event, not configured
+- [x] 5,000 concurrent SSE clients against 3 replicas, with propagation measured from the
+      PostgreSQL commit rather than from the fan-out
+- [x] Per-connection memory measured by retained heap after a forced collection, not by a
+      resident-set delta
+- [x] Forced gap injection: a sequence number is burned on the server and the client is observed
+      resyncing, in an end-to-end test
+- [x] Redis restarted under load without violating the invariant
+- [x] `docs/load-testing.md` records the Linux tuning the generator needs
+
+#### Phase 3 VERIFY results
+
+Run of record: `load/results/2026-09-20/sse-5000-205019/`. The generated table is in
+[`docs/capacity-model.md`](docs/capacity-model.md); the figures are repeated nowhere by hand.
+
+| Check | Result |
+|---|---|
+| Concurrent SSE connections | **5,000** established, 0 failed, spread 1,666 / 1,667 / 1,667 |
+| Propagation, commit → client | p50 **113 ms**, p99 **223 ms** (target 80–250 ms) |
+| Server-side flush | p99 **2.1 ms** — the rest of the latency is the relay tick, the coalescing window and the client |
+| Sequence gaps seen by clients | **0** over 15,200,000 delivered changes |
+| Retained heap per connection | **75.7 KiB** against a 10–60 KB target — **missed**, and why is in the capacity model |
+| Redis restart under load | invariants held; the fan-out resumed without a resync storm |
+
+#### Things that went wrong in Phase 3
+
+1. **Per-connection memory was measured wrongly the first time.** Sampling resident set before and
+    during the run attributed the garbage from delivering fifteen million messages to the
+    connections and reported 212 KiB. A forced collection with the connections open, compared
+    against the same figure after closing them, gave 90.5 KiB for identical code. Tomcat's 8 KiB
+    per-connection buffers then took it to roughly 74–76 KiB.
+2. **The first run's propagation p99 was 305 ms.** The outbox relay ticked every 100 ms, so a
+    commit waited up to a full tick before anyone heard about it. A 25 ms tick cost more database
+    round trips and was worth it.
+3. **A closed tab produced a stack trace per disconnect** — see Phase 2, item 5; it only became
+    visible at five thousand connections.
+
+---
+
+### Phase 4 — flash sale, fairness, capacity model
+
+**Status:** complete apart from the capacity sweep re-run noted below
+
+- [x] Flash sale: 10,000 buyers arriving inside 10 s for 5,000 seats, **50 runs**
+- [x] Invariants verified after every single run, not once at the end
+- [x] Rate limiting: a single client flooding the API is shed with 429 and `Retry-After`
+- [x] Waiting-room fairness measured in SQL from the `admissions` table
+- [x] `docs/capacity-model.md` with the measured figures, the named bottleneck and an explicitly
+      labelled one-million-user extrapolation
+- [x] Seeded dataset of 1,000,000 users, 50,000 events and 1,000,000 historical orders, with
+      `EXPLAIN ANALYZE` plans committed
+- [x] Capacity sweep: the sustainable hold rate measured across a range of offered rates
+
+#### Phase 4 VERIFY results
+
+Raw files: `load/results/2026-09-20/flash-suite-211316/`, `fairness-*`, `ratelimit-*`,
+`capacity-sweep-*`, `query-plans/`. The full generated table is
+[`load/RESULTS_SUMMARY.md`](load/RESULTS_SUMMARY.md).
+
+| Check | Result |
+|---|---|
+| Flash sale, 50 runs | **50/50 invariants held, 0 oversells, 0 server errors** |
+| Time to sell out | 7.4 s min, **8.0 s median**, 10.5 s max (expected 8–45 s; faster than the range) |
+| Hold p99 during the unpaced burst | 2,312 / **2,447** / 3,205 ms across runs |
+| Requests shed as 503 during the burst | 1,205 / 1,664 / 3,680 per run |
+| Rate limiting | every shed request carried `Retry-After`; no request was shed without one |
+| FIFO inversion rate | see `load/RESULTS_SUMMARY.md` — published with the raw pair counts beside it |
+
+#### Things that went wrong in Phase 4
+
+1. **The invariant checker passed silently, twice.** A shell function named `psql` was found by
+   `command -v`, and later `docker run` without `-i` meant the heredoc never reached psql — so the
+   script exited 0 having checked nothing. Every flash-sale result it had signed off was deleted
+   from the repository rather than relabelled. The script now resolves the binary with `type -P`,
+   probes connectivity, checks the tables exist, and emits a sentinel row that must come back or
+   it exits 2. Both directions are tested: a planted violation exits 1, an unreachable database
+   exits 2.
+2. **1,927 responses were 5xx in the first flash sale.** `errorForEmptyAllocation` ran a
+   `count(*)` on every refusal — thirteen thousand of them per run — and exhausted the connection
+   pool. Removing the query was the fix; mapping pool exhaustion to 503 with `Retry-After` was the
+   second fix, because a saturated service should say so rather than return 500.
+3. **Nine runs in ten skipped their checkout.** The load script gated it on `__ITER % 10`, and
+   under `ramping-arrival-rate` most virtual users run exactly one iteration, so the condition was
+   almost never true. `__VU % 10` measures what was intended.
+4. **The sell-out watcher perturbed the thing it measured**, polling the whole 5,000-seat map four
+   times a second. A dedicated availability endpoint replaced it.
+5. **Results drifted as the database grew** — sell-out went from 8 s to 31 s over eight runs on a
+   catalogue nothing truncated. The suite now resets between runs, and database growth is measured
+   where it belongs: in the seeded million-row dataset and its query plans.
+6. **The first paced run asserted a rate the stack cannot serve.** At 1,000 requests/s it shed
+   65.7% of traffic as 503 and returned a hold p99 of 4.6 s. That is a fact about the hardware, not
+   a measurement of capacity, so the single point was replaced by a sweep that finds the ceiling.
+7. **The aggregators counted `run-context.md` as a run**, because they globbed `run-*` in a
+   directory that also holds a file starting with `run-`.
+
+---
+
+### Phase 5 — accessibility and front-end performance
+
+**Status:** complete apart from the two manual screen-reader passes, which need a human
+
+- [x] axe clean on every route and state, enforced in CI
+- [x] Lighthouse accessibility 100 and performance ≥ 90 desktop, enforced as a budget
+- [x] A Playwright test completes a purchase using only keyboard events, including
+      two-dimensional arrow navigation of the seat grid
+- [x] Text-only list mode
+- [x] Reduced motion honoured; every text pair at 4.5:1 or better, enforced by a unit test
+- [x] Seat state never conveyed by colour alone — a glyph carries it, and it is in the accessible
+      name
+- [ ] **Manual NVDA pass on Windows with a screen recording — needs a human**
+- [ ] **Manual VoiceOver pass on macOS with a screen recording — needs a human**
+
+#### Phase 5 VERIFY results
+
+| Check | Result |
+|---|---|
+| axe violations | **0** across the routes and states the end-to-end suite visits |
+| Lighthouse accessibility | **100** |
+| Lighthouse performance, desktop | **100** |
+| Largest Contentful Paint | **445 ms** (budget 1,500 ms) |
+| Cumulative Layout Shift | **0.0085** (budget 0.05) |
+| Keyboard-only purchase | passes, with no `click()` anywhere in the specification |
+| 5,000-seat map render | **42 ms** (budget 120 ms) |
+| Gzipped JavaScript for the route | **100.3 KB** (budget 180 KB) |
+
+---
+
+### Phase 6 — observability, game day, publication
+
+**Status:** in progress
+
+- [x] Prometheus RED metrics, OpenTelemetry traces, a committed Grafana dashboard
+- [x] `docs/slo.md` with the objectives, the error budgets and what spending one means
+- [x] Game day against the running service: kill a replica, exhaust the PostgreSQL pool, restart
+      Redis, add latency — each with the hypothesis written before the run
+- [x] `docs/incidents/<date>-<name>.md` per scenario, with timeline, detection, root cause and fix
+- [x] README with every number traceable to a raw file under `load/results/`
+- [ ] Grafana dashboard screenshots — the dashboard is committed; the images are not yet captured
+- [ ] **Demo drop with ≥ 30 real humans and the traffic graph committed — needs a human**
+- [ ] **The hold-timeout decision that follows from watching those users — needs a human**
+
+---
+
 ## What is next
 
-Phase 3: the waiting room and real-time fan-out at load.
+The measured work is finished apart from the items above that need a human or AWS credentials.
+Those are listed in full under "Pending because they need AWS or a human" near the top of this
+file, and they are not claimed anywhere in the README or the results summary.
