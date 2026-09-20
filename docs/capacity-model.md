@@ -184,4 +184,22 @@ test.
 - The holds scenario at a higher arrival rate: if throughput keeps rising after the pool saturates,
   the named bottleneck is wrong.
 - The game day's pool-exhaustion scenario: if exhausting the pool does not produce the predicted
-  failure shape, the reasoning about the pool is wrong.
+  failure shape, the reasoning about the pool is wrong. It was run on 2026-09-20. The application's
+  half of the prediction held exactly — 4,427 requests shed as 503, not one 500 — and the edge
+  turned that graceful shed into nine seconds of `502`, which nothing in this model had considered.
+  [The postmortem](incidents/2026-09-20-connection-pool-exhaustion.md) is the correction.
+
+## What here is not measured
+
+One claim in this document has no measurement behind it, and it is the one that matters most for
+sizing: **that added latency degrades capacity gradually, in proportion to connection-holding
+time.** The scenario that would show it — 200 ms injected between a replica and PostgreSQL — could
+not be run, because `tc` needs `NET_ADMIN` and the application containers do not have it. The
+substitute was a ten-second database pause, which demonstrates the same mechanism arriving all at
+once and says nothing about the slope. See
+[the postmortem](incidents/2026-09-20-database-pause.md).
+
+Until that run exists, "the bottleneck is connection-holding time rather than CPU" is supported by
+the shape of the concurrency result and by the pool-exhaustion scenario, and not by a latency
+sweep. The capacity sweep in `load/results/*/capacity-sweep-*/` measures where the ceiling is; it
+does not measure what moves it.

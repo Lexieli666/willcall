@@ -1,3 +1,10 @@
+-- flyway:executeInTransaction=false
+--
+-- The directive is the first line because Flyway reads script configuration before it parses the
+-- SQL. With it further down, Flyway decided the migration was transactional, then met CREATE INDEX
+-- CONCURRENTLY and refused the whole thing with "Detected both transactional and non-transactional
+-- statements within the same migration", and all three replicas crash-looped on start-up.
+--
 -- An index for the contiguous-seat query, added because the plan at scale said so.
 --
 -- The SQL fallback for "N seats together" runs a window function partitioned by row_id and ordered
@@ -20,9 +27,7 @@
 -- on seats for the length of the build, which is precisely the fault injected in the game day on
 -- 2026-09-20: it blocked every reservation transaction, filled the connection pool, and the edge
 -- ejected all three replicas. A migration that causes that outage on the way to fixing a query is
--- not a fix. Flyway 11 runs this outside a transaction on request.
--- flyway:executeInTransaction=false
-
+-- not a fix.
 create index concurrently if not exists seats_available_by_row
   on seats (event_id, row_id, seat_number)
   where status = 'AVAILABLE';
@@ -31,4 +36,7 @@ create index concurrently if not exists seats_available_by_row
 -- same columns, same order, same table. Two identical btrees cost two index writes on every seat
 -- insert and every status change and answer the same questions. Noticed while reading the plans
 -- above, which name seats_row_id_seat_number_key and never the other one.
-drop index if exists seats_by_row_position;
+--
+-- CONCURRENTLY here too: a plain DROP INDEX takes the same ACCESS EXCLUSIVE lock, briefly, and
+-- "briefly" is what the pool-exhaustion incident was about.
+drop index concurrently if exists seats_by_row_position;

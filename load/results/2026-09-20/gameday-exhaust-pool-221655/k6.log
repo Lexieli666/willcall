@@ -1,0 +1,5 @@
+time="2026-09-20T15:16:56-07:00" level=info msg="holds scenario using the caller's event 6a9a158c-3a7e-40da-91b3-ddc87d59cec3" source=console
+
+thresholds: FAIL willcall_hold_duration: p(99)<150
+            FAIL willcall_hold_errors: rate<0.001
+time="2026-09-20T15:18:56-07:00" level=error msg="thresholds on metrics 'willcall_hold_duration, willcall_hold_errors' have been crossed"
