@@ -348,12 +348,12 @@ Raw files: `load/results/2026-09-20/flash-suite-211316/`, `fairness-*`, `ratelim
 
 | Check | Result |
 |---|---|
-| Flash sale, 50 runs | **50/50 invariants held, 0 oversells, 0 server errors** |
-| Time to sell out | 7.4 s min, **8.0 s median**, 10.5 s max (expected 8–45 s; faster than the range) |
-| Hold p99 during the unpaced burst | 2,312 / **2,447** / 3,205 ms across runs |
-| Requests shed as 503 during the burst | 1,205 / 1,664 / 3,680 per run |
+| Flash sale, 50 runs | see `load/RESULTS_SUMMARY.md` — the table there is generated from the raw files, and the run of record is named in it |
+| Sustainable hold rate | **200 requests/s** (67 per replica) with nothing shed and p99 under 150 ms, against a plan that assumed 1,000 — **missed by a factor of five** |
+| Peak goodput | **242 holds/s** granted at 600 offered, falling to 162 at 1,000: offering more load gets less work done |
 | Rate limiting | every shed request carried `Retry-After`; no request was shed without one |
-| FIFO inversion rate | see `load/RESULTS_SUMMARY.md` — published with the raw pair counts beside it |
+| FIFO inversion rate | **0** buyers admitted out of arrival order among 16,065, in batches of mean 50.8 |
+| Seeded dataset | 1,000,000 users, 50,008 events, 1,000,000 orders; 9 plans committed, **no hot path sequentially scans** |
 
 #### Things that went wrong in Phase 4
 
@@ -377,13 +377,26 @@ Raw files: `load/results/2026-09-20/flash-suite-211316/`, `fairness-*`, `ratelim
    catalogue nothing truncated. The suite now resets between runs, and database growth is measured
    where it belongs: in the seeded million-row dataset and its query plans.
 6. **The first paced run asserted a rate the stack cannot serve.** At 1,000 requests/s it shed
-   65.7% of traffic as 503 and returned a hold p99 of 4.6 s. That is a fact about the hardware, not
-   a measurement of capacity, so the single point was replaced by a sweep that finds the ceiling.
+   65.7% of traffic and returned a hold p99 of 4.6 s. That is a fact about the hardware, not a
+   measurement of capacity, so the single point was replaced by a sweep — which found the ceiling
+   at 200 requests/s, a fifth of what the plan assumed, and found that goodput *falls* above 600.
 7. **The aggregators counted `run-context.md` as a run**, because they globbed `run-*` in a
    directory that also holds a file starting with `run-`.
+8. **The fairness measurement described the wrong run.** The inversion SQL had no event filter, so
+   it reported whichever event had the most admissions — which after a second run was the first
+   run's, forty minutes and several commits earlier. It now takes the event id from the scenario's
+   own output and exits 2 if it cannot find it.
+9. **And measured an order that does not exist.** Admission is batched — 16,065 buyers at 316
+   distinct instants — so ranking by `admitted_at, id` broke ties on a random UUID and counted the
+   result as unfairness. Counted strictly on the timestamps, 0 buyers were admitted out of arrival
+   order, and the batch size is published beside it because that is how big "undefined" is.
+10. **Three hot paths were reported as sequentially scanning** on the million-row dataset. None
+    were: the `Seq Scan` in each plan belonged to a subquery the capture script had added and the
+    application never runs. Two real problems were behind it once the plans were honest — the
+    sweeper reading 50,060 buffers to find 50 rows, and the contiguous-seat query reading 32,241
+    to answer one question.
 
 ---
-
 ### Phase 5 — accessibility and front-end performance
 
 **Status:** complete apart from the two manual screen-reader passes, which need a human
@@ -416,17 +429,47 @@ Raw files: `load/results/2026-09-20/flash-suite-211316/`, `fairness-*`, `ratelim
 
 ### Phase 6 — observability, game day, publication
 
-**Status:** in progress
+**Status:** complete apart from the items that need a human or AWS
 
 - [x] Prometheus RED metrics, OpenTelemetry traces, a committed Grafana dashboard
 - [x] `docs/slo.md` with the objectives, the error budgets and what spending one means
 - [x] Game day against the running service: kill a replica, exhaust the PostgreSQL pool, restart
       Redis, add latency — each with the hypothesis written before the run
 - [x] `docs/incidents/<date>-<name>.md` per scenario, with timeline, detection, root cause and fix
+- [x] The pool-exhaustion fixes verified by re-running the scenario that found the problem
 - [x] README with every number traceable to a raw file under `load/results/`
-- [ ] Grafana dashboard screenshots — the dashboard is committed; the images are not yet captured
+- [ ] Grafana dashboard screenshots — the dashboard is committed; the images are not captured
 - [ ] **Demo drop with ≥ 30 real humans and the traffic graph committed — needs a human**
 - [ ] **The hold-timeout decision that follows from watching those users — needs a human**
+
+#### Phase 6 VERIFY results
+
+| Scenario | Result |
+|---|---|
+| Kill a replica | 8 failures in 18,001 (0.04%), all during the **restart**; invariants held |
+| Exhaust the pool | Application shed 4,427 as 503 with 0 × 500 — and nginx answered **502 to 1,227 buyers** after ejecting all three healthy replicas |
+| Restart Redis | **0 failures**, 17,872 holds granted, invariants held |
+| Database pause (substituted for 200 ms latency) | 1,242 shed as 503, 0 × 500, recovery 2 s after the database returned |
+| Re-run of the pool scenario, after fixes | **0 × `no live upstreams`, 0 × 500**, 5,530 shed as 503, invariants held |
+
+#### Things that went wrong in Phase 6
+
+1. **The pool-exhaustion scenario injected nothing.** It opened 130 idle sessions on PostgreSQL on
+   the reasoning that they would starve the application's pool; HikariCP's pool is client side, so
+   they starved nothing. The scenario would have reported the system surviving a fault it never
+   experienced. It now takes `ACCESS EXCLUSIVE` on the seat table.
+2. **The edge turned a graceful shed into an outage** — the finding above, and the one the spec
+   asked for a postmortem of.
+3. **The game-day summary reported −93,580 responses.** Last-minus-first of each counter is wrong
+   the moment a replica restarts, and produced a number that is not merely inaccurate but
+   impossible. Counting positive steps fixed it; counting gauge dips as restarts then reported 80
+   restarts on a replica nobody killed, so the walk is restricted to `_total` and `_count` series.
+4. **`lock_timeout` turned 98 shed requests into 500s** on the first verification run, because
+   PostgreSQL's `55P03` arrives as an `UncategorizedSQLException` that Spring has no mapping for.
+5. **The edge health check had been failing for three hours** while the proxy served the entire
+   load suite. It probed `http://localhost/health`; inside the container `localhost` resolves to
+   `::1` first and nginx's `listen 80` binds IPv4 only. Nothing caught it because nothing waits on
+   the edge being healthy — which is the more useful finding.
 
 ---
 

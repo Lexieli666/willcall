@@ -164,3 +164,26 @@ watcher   [  89% ] 1 VUs            35.6s/40s
 running (0m36.9s), 00001/02394 VUs, 19495 complete and 0 interrupted iterations
 flash   ✓ [ 100% ] 00000/02393 VUs  30s  0005.00 iters/s
 watcher   [  92% ] 1 VUs            36.6s/40s
+
+running (0m37.9s), 00001/02394 VUs, 19496 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02393 VUs  30s  0005.00 iters/s
+watcher   [  94% ] 1 VUs            37.6s/40s
+
+running (0m38.9s), 00001/02394 VUs, 19497 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02393 VUs  30s  0005.00 iters/s
+watcher   [  97% ] 1 VUs            38.6s/40s
+
+running (0m39.9s), 00001/02394 VUs, 19498 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02393 VUs  30s  0005.00 iters/s
+watcher   [  99% ] 1 VUs            39.6s/40s
+time="2026-09-20T15:44:33-07:00" level=info msg="invariants after the flash sale: PASS" source=console
+time="2026-09-20T15:44:33-07:00" level=info msg="final tally for event 611615ed-e43d-4684-971d-4e9034632e82 (capacity 5000): 3343 sold, 0 held, 1657 available" source=console
+
+thresholds: PASS willcall_flash_errors: rate<0.001
+            PASS willcall_flash_hold_duration: p(99)<5000
+            PASS willcall_flash_server_errors: count==0
+            PASS willcall_invariants_held: rate==1
+
+running (0m40.7s), 00000/02394 VUs, 19499 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02393 VUs  30s  0005.00 iters/s
+watcher ✓ [ 100% ] 1 VUs            40s 
