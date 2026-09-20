@@ -41,8 +41,20 @@ class ModuleBoundaryArchitectureTest {
           "allocation", Set.of("allocation", "platform", "catalog"),
           "payment", Set.of("payment", "platform"),
           "reservation", Set.of("reservation", "platform", "catalog", "allocation", "payment"),
-          "realtime", Set.of("realtime", "platform", "catalog", "reservation"),
-          "waitingroom", Set.of("waitingroom", "platform", "catalog", "reservation"));
+          "realtime", Set.of("realtime", "platform", "catalog", "reservation", "allocation"),
+          "waitingroom", Set.of("waitingroom", "platform", "catalog", "reservation"),
+          // Operational and diagnostic endpoints sit at the top of the stack and may reach into
+          // anything. Nothing may reach into them.
+          "ops",
+              Set.of(
+                  "ops",
+                  "platform",
+                  "catalog",
+                  "reservation",
+                  "allocation",
+                  "payment",
+                  "realtime",
+                  "waitingroom"));
 
   private record Violation(Path file, String from, String to, String importLine) {
     @Override

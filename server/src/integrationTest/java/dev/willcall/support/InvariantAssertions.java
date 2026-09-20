@@ -2,7 +2,7 @@ package dev.willcall.support;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import dev.willcall.platform.admin.InvariantController;
+import dev.willcall.ops.InvariantController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

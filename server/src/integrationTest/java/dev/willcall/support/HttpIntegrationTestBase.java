@@ -21,10 +21,10 @@ import org.testcontainers.utility.DockerImageName;
 /**
  * Drives the service over real HTTP.
  *
- * <p>The service-layer tests prove the reservation logic is right. These prove the wire contract
- * is right, which is a different claim: status codes, {@code Retry-After}, problem+json bodies,
- * the {@code Idempotency-Replayed} header, and what happens when a client sends no identity.
- * Getting the logic right and the status codes wrong produces a client that retries a 409 forever.
+ * <p>The service-layer tests prove the reservation logic is right. These prove the wire contract is
+ * right, which is a different claim: status codes, {@code Retry-After}, problem+json bodies, the
+ * {@code Idempotency-Replayed} header, and what happens when a client sends no identity. Getting
+ * the logic right and the status codes wrong produces a client that retries a 409 forever.
  */
 @SpringBootTest(
     classes = WillcallApplication.class,
@@ -40,7 +40,9 @@ public abstract class HttpIntegrationTestBase {
           .withReuse(true);
 
   static final GenericContainer<?> REDIS =
-      new GenericContainer<>(DockerImageName.parse("redis:7-alpine")).withExposedPorts(6379).withReuse(true);
+      new GenericContainer<>(DockerImageName.parse("redis:7-alpine"))
+          .withExposedPorts(6379)
+          .withReuse(true);
 
   static {
     POSTGRES.start();
@@ -52,10 +54,14 @@ public abstract class HttpIntegrationTestBase {
     registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
     registry.add("spring.datasource.username", POSTGRES::getUsername);
     registry.add("spring.datasource.password", POSTGRES::getPassword);
-    registry.add("spring.data.redis.url", () -> "redis://" + REDIS.getHost() + ":" + REDIS.getMappedPort(6379));
+    registry.add(
+        "spring.data.redis.url",
+        () -> "redis://" + REDIS.getHost() + ":" + REDIS.getMappedPort(6379));
     registry.add("willcall.sweeper.enabled", () -> false);
     registry.add("willcall.outbox.enabled", () -> false);
     registry.add("willcall.holds.max-active-per-user", () -> 0);
+    // The stream tests need the gap-injection and drain hooks; the deployed stack never sets this.
+    registry.add("willcall.admin.test-hooks-enabled", () -> true);
     registry.add("willcall.payment.latency-ms", () -> 0);
     registry.add("willcall.payment.jitter-ms", () -> 0);
     registry.add("willcall.payment.timeout-ms", () -> 20);
@@ -85,15 +91,18 @@ public abstract class HttpIntegrationTestBase {
   }
 
   protected ResponseEntity<String> post(String path, String body, String buyer, String key) {
-    return rest.exchange(path, HttpMethod.POST, new HttpEntity<>(body, headers(buyer, key)), String.class);
+    return rest.exchange(
+        path, HttpMethod.POST, new HttpEntity<>(body, headers(buyer, key)), String.class);
   }
 
   protected ResponseEntity<String> get(String path, String buyer) {
-    return rest.exchange(path, HttpMethod.GET, new HttpEntity<>(headers(buyer, null)), String.class);
+    return rest.exchange(
+        path, HttpMethod.GET, new HttpEntity<>(headers(buyer, null)), String.class);
   }
 
   protected ResponseEntity<String> delete(String path, String buyer) {
-    return rest.exchange(path, HttpMethod.DELETE, new HttpEntity<>(headers(buyer, null)), String.class);
+    return rest.exchange(
+        path, HttpMethod.DELETE, new HttpEntity<>(headers(buyer, null)), String.class);
   }
 
   /** Reads one field out of a JSON response without pulling in a JSON path library. */

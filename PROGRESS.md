@@ -210,6 +210,27 @@ Each of these was found by a test, not by reading the code. They are listed in
 
 ---
 
+### Phase 2 — allocation, seat map, delta protocol
+
+**Status:** in progress
+
+- [x] `docs/realtime-protocol.md` written **before** the implementation
+- [x] Per-row segment tree (`maxFreeRun` / `prefixFreeRun` / `suffixFreeRun`), O(log n) query and
+      update, with a leftmost-run search
+- [x] JMH benchmark against a linear scan at 200 / 2,000 / 20,000 seats per row and 10 / 50 / 90%
+      occupancy; crossover published in `load/results/2026-09-20/jmh-contiguous-search/`
+- [x] jqwik property tests comparing the tree against brute force over 10,000 random patterns
+- [x] `ContiguousSeatIndex`: the tree used as an in-memory hint the database then verifies
+- [x] SSE hub with per-event coalescing, per-connection queues and resync-on-overflow
+- [x] Redis pub/sub fan-out across replicas, with local delivery that does not depend on Redis
+- [x] React seat map as real DOM, hold timer, checkout, confirmation, organizer dashboard,
+      text-only list mode
+- [x] End-to-end gap injection: a sequence number is genuinely burned on the server and the
+      client is observed detecting and recovering
+- [ ] Phase 2 numbers folded into the README
+
+---
+
 ## What is next
 
-Phase 2: the allocation algorithm, the seat map, and the delta protocol.
+Finish Phase 2 verification, then Phase 3 (waiting room and real-time at load).

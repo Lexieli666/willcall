@@ -34,7 +34,10 @@ import org.testcontainers.utility.DockerImageName;
     webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public abstract class IntegrationTestBase {
 
-  static final PostgreSQLContainer<?> POSTGRES =
+  /** See {@link #REDIS}. One above the compose stack's port, so the two never collide. */
+  protected static final int REDIS_HOST_PORT = 16380;
+
+  protected static final PostgreSQLContainer<?> POSTGRES =
       new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"))
           .withDatabaseName("willcall")
           .withUsername("willcall")
@@ -51,12 +54,26 @@ public abstract class IntegrationTestBase {
               "full_page_writes=off")
           .withReuse(true);
 
-  static final GenericContainer<?> REDIS =
+  /**
+   * Redis on a fixed host port.
+   *
+   * <p>Testcontainers normally maps an ephemeral host port, which is right for isolation and wrong
+   * here: {@code RedisOutageInvariantIntegrationTest} stops and restarts this container, and
+   * Docker assigns a <em>new</em> host port on restart. The application kept dialling the old one
+   * and Redis appeared never to come back, which cost a test run to diagnose. A fixed binding
+   * makes a restart transparent to the application, which is also what a restart looks like in
+   * production, where the address does not move.
+   *
+   * <p>16380 is one above the compose stack's 16379, so a local stack and a test run cannot
+   * collide.
+   */
+  protected static final GenericContainer<?> REDIS =
       new GenericContainer<>(DockerImageName.parse("redis:7-alpine"))
           .withExposedPorts(6379)
           .withReuse(true);
 
   static {
+    REDIS.setPortBindings(java.util.List.of(REDIS_HOST_PORT + ":6379"));
     // Started once for the whole JVM. Testcontainers' Ryuk reaps them when the JVM exits, and
     // withReuse keeps them alive between runs when reuse is enabled in
     // ~/.testcontainers.properties.

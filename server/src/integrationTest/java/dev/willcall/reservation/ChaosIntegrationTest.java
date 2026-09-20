@@ -268,7 +268,7 @@ class ChaosIntegrationTest extends IntegrationTestBase {
     // The shell script is the authority because it runs without the application. This asserts the
     // in-process copy has not fallen behind: the script has six checks plus the capacity check,
     // and every name below must be represented there.
-    assertThat(dev.willcall.platform.admin.InvariantController.CHECKS.keySet())
+    assertThat(dev.willcall.ops.InvariantController.CHECKS.keySet())
         .containsExactlyInAnyOrder(
             "confirmed_plus_held_within_capacity",
             "one_active_hold_per_seat",
@@ -278,8 +278,7 @@ class ChaosIntegrationTest extends IntegrationTestBase {
             "active_hold_points_at_held_seat",
             "capacity_matches_sellable_seats");
 
-    for (Map.Entry<String, String> check :
-        dev.willcall.platform.admin.InvariantController.CHECKS.entrySet()) {
+    for (Map.Entry<String, String> check : dev.willcall.ops.InvariantController.CHECKS.entrySet()) {
       List<String> rows = jdbc.queryForList(check.getValue(), String.class);
       assertThat(rows)
           .as("check %s runs and returns no rows on an empty database", check.getKey())

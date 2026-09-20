@@ -1,0 +1,5494 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 1.950721097664197,
+            "scoreError" : 0.022798962692390578,
+            "scoreConfidence" : [
+                1.9279221349718065,
+                1.9735200603565877
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1.9432165307570592,
+                "50.0" : 1.9492846403116895,
+                "90.0" : 1.9580656568390347,
+                "95.0" : 1.9580656568390347,
+                "99.0" : 1.9580656568390347,
+                "99.9" : 1.9580656568390347,
+                "99.99" : 1.9580656568390347,
+                "99.999" : 1.9580656568390347,
+                "99.9999" : 1.9580656568390347,
+                "100.0" : 1.9580656568390347
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    1.9580656568390347,
+                    1.955167995651544,
+                    1.947870664761659,
+                    1.9432165307570592,
+                    1.9492846403116895
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 1.9636541191889294,
+            "scoreError" : 0.024472226462976695,
+            "scoreConfidence" : [
+                1.9391818927259528,
+                1.988126345651906
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1.9561062437436916,
+                "50.0" : 1.9630170832695708,
+                "90.0" : 1.972686859951727,
+                "95.0" : 1.972686859951727,
+                "99.0" : 1.972686859951727,
+                "99.9" : 1.972686859951727,
+                "99.99" : 1.972686859951727,
+                "99.999" : 1.972686859951727,
+                "99.9999" : 1.972686859951727,
+                "100.0" : 1.972686859951727
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    1.9665645954267812,
+                    1.972686859951727,
+                    1.9630170832695708,
+                    1.9598958135528763,
+                    1.9561062437436916
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 1.9554405954445826,
+            "scoreError" : 0.04412470618335591,
+            "scoreConfidence" : [
+                1.9113158892612268,
+                1.9995653016279384
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1.946961739240903,
+                "50.0" : 1.9483296664282417,
+                "90.0" : 1.9722991944527728,
+                "95.0" : 1.9722991944527728,
+                "99.0" : 1.9722991944527728,
+                "99.9" : 1.9722991944527728,
+                "99.99" : 1.9722991944527728,
+                "99.999" : 1.9722991944527728,
+                "99.9999" : 1.9722991944527728,
+                "100.0" : 1.9722991944527728
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    1.9722991944527728,
+                    1.9624796925992256,
+                    1.946961739240903,
+                    1.947132684501769,
+                    1.9483296664282417
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 2.6679017061260426,
+            "scoreError" : 0.6569281665328095,
+            "scoreConfidence" : [
+                2.010973539593233,
+                3.324829872658852
+            ],
+            "scorePercentiles" : {
+                "0.0" : 2.568938682597585,
+                "50.0" : 2.598890280443032,
+                "90.0" : 2.9710194112004906,
+                "95.0" : 2.9710194112004906,
+                "99.0" : 2.9710194112004906,
+                "99.9" : 2.9710194112004906,
+                "99.99" : 2.9710194112004906,
+                "99.999" : 2.9710194112004906,
+                "99.9999" : 2.9710194112004906,
+                "100.0" : 2.9710194112004906
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    2.568938682597585,
+                    2.5796910816426313,
+                    2.598890280443032,
+                    2.6209690747464762,
+                    2.9710194112004906
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 2.686215765004305,
+            "scoreError" : 0.05870488964618916,
+            "scoreConfidence" : [
+                2.627510875358116,
+                2.7449206546504943
+            ],
+            "scorePercentiles" : {
+                "0.0" : 2.670922610164312,
+                "50.0" : 2.682966493646681,
+                "90.0" : 2.707356860261331,
+                "95.0" : 2.707356860261331,
+                "99.0" : 2.707356860261331,
+                "99.9" : 2.707356860261331,
+                "99.99" : 2.707356860261331,
+                "99.999" : 2.707356860261331,
+                "99.9999" : 2.707356860261331,
+                "100.0" : 2.707356860261331
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    2.6957547200135217,
+                    2.6740781409356793,
+                    2.670922610164312,
+                    2.707356860261331,
+                    2.682966493646681
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 2.667997619149359,
+            "scoreError" : 0.4379903389999841,
+            "scoreConfidence" : [
+                2.230007280149375,
+                3.1059879581493433
+            ],
+            "scorePercentiles" : {
+                "0.0" : 2.559797169795445,
+                "50.0" : 2.6634616883813282,
+                "90.0" : 2.832820318033304,
+                "95.0" : 2.832820318033304,
+                "99.0" : 2.832820318033304,
+                "99.9" : 2.832820318033304,
+                "99.99" : 2.832820318033304,
+                "99.999" : 2.832820318033304,
+                "99.9999" : 2.832820318033304,
+                "100.0" : 2.832820318033304
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    2.5661240537187644,
+                    2.559797169795445,
+                    2.6634616883813282,
+                    2.717784865817953,
+                    2.832820318033304
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 2.9769712564525084,
+            "scoreError" : 0.2440950568629652,
+            "scoreConfidence" : [
+                2.732876199589543,
+                3.2210663133154736
+            ],
+            "scorePercentiles" : {
+                "0.0" : 2.9005905830082828,
+                "50.0" : 2.960489442950939,
+                "90.0" : 3.065220068956458,
+                "95.0" : 3.065220068956458,
+                "99.0" : 3.065220068956458,
+                "99.9" : 3.065220068956458,
+                "99.99" : 3.065220068956458,
+                "99.999" : 3.065220068956458,
+                "99.9999" : 3.065220068956458,
+                "100.0" : 3.065220068956458
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    3.065220068956458,
+                    2.960489442950939,
+                    2.946343494360025,
+                    3.012212692986835,
+                    2.9005905830082828
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 2.870949837990056,
+            "scoreError" : 0.38870582060837033,
+            "scoreConfidence" : [
+                2.4822440173816855,
+                3.2596556585984264
+            ],
+            "scorePercentiles" : {
+                "0.0" : 2.817081711615324,
+                "50.0" : 2.832521012254205,
+                "90.0" : 3.050941271726214,
+                "95.0" : 3.050941271726214,
+                "99.0" : 3.050941271726214,
+                "99.9" : 3.050941271726214,
+                "99.99" : 3.050941271726214,
+                "99.999" : 3.050941271726214,
+                "99.9999" : 3.050941271726214,
+                "100.0" : 3.050941271726214
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    2.835453763750111,
+                    2.832521012254205,
+                    2.817081711615324,
+                    2.8187514306044252,
+                    3.050941271726214
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 2.831963175917818,
+            "scoreError" : 0.05649096475502836,
+            "scoreConfidence" : [
+                2.7754722111627896,
+                2.8884541406728466
+            ],
+            "scorePercentiles" : {
+                "0.0" : 2.8192586211626725,
+                "50.0" : 2.824706995211828,
+                "90.0" : 2.8506535424869877,
+                "95.0" : 2.8506535424869877,
+                "99.0" : 2.8506535424869877,
+                "99.9" : 2.8506535424869877,
+                "99.99" : 2.8506535424869877,
+                "99.999" : 2.8506535424869877,
+                "99.9999" : 2.8506535424869877,
+                "100.0" : 2.8506535424869877
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    2.8506535424869877,
+                    2.8204184070679506,
+                    2.824706995211828,
+                    2.844778313659652,
+                    2.8192586211626725
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 30.19672778582453,
+            "scoreError" : 0.4560010389293064,
+            "scoreConfidence" : [
+                29.740726746895227,
+                30.652728824753837
+            ],
+            "scorePercentiles" : {
+                "0.0" : 30.065884693925003,
+                "50.0" : 30.214309617199273,
+                "90.0" : 30.32718385345876,
+                "95.0" : 30.32718385345876,
+                "99.0" : 30.32718385345876,
+                "99.9" : 30.32718385345876,
+                "99.99" : 30.32718385345876,
+                "99.999" : 30.32718385345876,
+                "99.9999" : 30.32718385345876,
+                "100.0" : 30.32718385345876
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    30.065884693925003,
+                    30.08444950375525,
+                    30.214309617199273,
+                    30.291811260784378,
+                    30.32718385345876
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 30.866330640736027,
+            "scoreError" : 2.502160566943211,
+            "scoreConfidence" : [
+                28.364170073792817,
+                33.36849120767924
+            ],
+            "scorePercentiles" : {
+                "0.0" : 30.039708196607183,
+                "50.0" : 30.987065687581453,
+                "90.0" : 31.524648909758305,
+                "95.0" : 31.524648909758305,
+                "99.0" : 31.524648909758305,
+                "99.9" : 31.524648909758305,
+                "99.99" : 31.524648909758305,
+                "99.999" : 31.524648909758305,
+                "99.9999" : 31.524648909758305,
+                "100.0" : 31.524648909758305
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    30.36258293993606,
+                    30.039708196607183,
+                    30.987065687581453,
+                    31.524648909758305,
+                    31.417647469797146
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 31.25224217258143,
+            "scoreError" : 1.40057878960274,
+            "scoreConfidence" : [
+                29.85166338297869,
+                32.652820962184165
+            ],
+            "scorePercentiles" : {
+                "0.0" : 30.697409703314033,
+                "50.0" : 31.20933633159994,
+                "90.0" : 31.65124966785532,
+                "95.0" : 31.65124966785532,
+                "99.0" : 31.65124966785532,
+                "99.9" : 31.65124966785532,
+                "99.99" : 31.65124966785532,
+                "99.999" : 31.65124966785532,
+                "99.9999" : 31.65124966785532,
+                "100.0" : 31.65124966785532
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    31.4940015520823,
+                    31.20933633159994,
+                    30.697409703314033,
+                    31.20921360805555,
+                    31.65124966785532
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 27.396783714909738,
+            "scoreError" : 1.7245229637960384,
+            "scoreConfidence" : [
+                25.6722607511137,
+                29.121306678705775
+            ],
+            "scorePercentiles" : {
+                "0.0" : 26.646202730641438,
+                "50.0" : 27.56709126072493,
+                "90.0" : 27.791185024042406,
+                "95.0" : 27.791185024042406,
+                "99.0" : 27.791185024042406,
+                "99.9" : 27.791185024042406,
+                "99.99" : 27.791185024042406,
+                "99.999" : 27.791185024042406,
+                "99.9999" : 27.791185024042406,
+                "100.0" : 27.791185024042406
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    27.791185024042406,
+                    26.646202730641438,
+                    27.625893637492744,
+                    27.56709126072493,
+                    27.353545921647157
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 27.0525226494158,
+            "scoreError" : 1.905083555547808,
+            "scoreConfidence" : [
+                25.14743909386799,
+                28.957606204963607
+            ],
+            "scorePercentiles" : {
+                "0.0" : 26.454246132167462,
+                "50.0" : 26.89410067798702,
+                "90.0" : 27.72289100856146,
+                "95.0" : 27.72289100856146,
+                "99.0" : 27.72289100856146,
+                "99.9" : 27.72289100856146,
+                "99.99" : 27.72289100856146,
+                "99.999" : 27.72289100856146,
+                "99.9999" : 27.72289100856146,
+                "100.0" : 27.72289100856146
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    26.454246132167462,
+                    27.363021400099832,
+                    26.82835402826322,
+                    26.89410067798702,
+                    27.72289100856146
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 26.11511840544431,
+            "scoreError" : 0.7669959163040808,
+            "scoreConfidence" : [
+                25.34812248914023,
+                26.88211432174839
+            ],
+            "scorePercentiles" : {
+                "0.0" : 25.876534677918993,
+                "50.0" : 26.146717235648758,
+                "90.0" : 26.306041447162283,
+                "95.0" : 26.306041447162283,
+                "99.0" : 26.306041447162283,
+                "99.9" : 26.306041447162283,
+                "99.99" : 26.306041447162283,
+                "99.999" : 26.306041447162283,
+                "99.9999" : 26.306041447162283,
+                "100.0" : 26.306041447162283
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    26.302313522198858,
+                    26.146717235648758,
+                    26.306041447162283,
+                    25.876534677918993,
+                    25.943985144292665
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 44.518259182647554,
+            "scoreError" : 0.9178889631580424,
+            "scoreConfidence" : [
+                43.60037021948951,
+                45.436148145805596
+            ],
+            "scorePercentiles" : {
+                "0.0" : 44.21526420187729,
+                "50.0" : 44.50704789833126,
+                "90.0" : 44.847231027366554,
+                "95.0" : 44.847231027366554,
+                "99.0" : 44.847231027366554,
+                "99.9" : 44.847231027366554,
+                "99.99" : 44.847231027366554,
+                "99.999" : 44.847231027366554,
+                "99.9999" : 44.847231027366554,
+                "100.0" : 44.847231027366554
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    44.21526420187729,
+                    44.50704789833126,
+                    44.39463671969803,
+                    44.847231027366554,
+                    44.627116065964664
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 473.1258413728409,
+            "scoreError" : 7.670766561367706,
+            "scoreConfidence" : [
+                465.4550748114732,
+                480.7966079342086
+            ],
+            "scorePercentiles" : {
+                "0.0" : 470.1813759689194,
+                "50.0" : 473.10945214580755,
+                "90.0" : 475.7386099363111,
+                "95.0" : 475.7386099363111,
+                "99.0" : 475.7386099363111,
+                "99.9" : 475.7386099363111,
+                "99.99" : 475.7386099363111,
+                "99.999" : 475.7386099363111,
+                "99.9999" : 475.7386099363111,
+                "100.0" : 475.7386099363111
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    470.1813759689194,
+                    473.69746718008486,
+                    472.9023016330815,
+                    475.7386099363111,
+                    473.10945214580755
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 1213.511021320326,
+            "scoreError" : 165.58446742026646,
+            "scoreConfidence" : [
+                1047.9265539000596,
+                1379.0954887405926
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1187.1920959417303,
+                "50.0" : 1197.9790223276316,
+                "90.0" : 1289.9786809782322,
+                "95.0" : 1289.9786809782322,
+                "99.0" : 1289.9786809782322,
+                "99.9" : 1289.9786809782322,
+                "99.99" : 1289.9786809782322,
+                "99.999" : 1289.9786809782322,
+                "99.9999" : 1289.9786809782322,
+                "100.0" : 1289.9786809782322
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    1289.9786809782322,
+                    1193.3553221599357,
+                    1187.1920959417303,
+                    1199.049985194101,
+                    1197.9790223276316
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 3.166705444494893,
+            "scoreError" : 0.052318570861565786,
+            "scoreConfidence" : [
+                3.1143868736333276,
+                3.219024015356459
+            ],
+            "scorePercentiles" : {
+                "0.0" : 3.152261674187691,
+                "50.0" : 3.1607971870440688,
+                "90.0" : 3.182686397740202,
+                "95.0" : 3.182686397740202,
+                "99.0" : 3.182686397740202,
+                "99.9" : 3.182686397740202,
+                "99.99" : 3.182686397740202,
+                "99.999" : 3.182686397740202,
+                "99.9999" : 3.182686397740202,
+                "100.0" : 3.182686397740202
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    3.1796135895888753,
+                    3.1581683739136293,
+                    3.182686397740202,
+                    3.152261674187691,
+                    3.1607971870440688
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 3.033069958183487,
+            "scoreError" : 0.39173421799517866,
+            "scoreConfidence" : [
+                2.641335740188308,
+                3.424804176178666
+            ],
+            "scorePercentiles" : {
+                "0.0" : 2.9292519374725687,
+                "50.0" : 3.0022376716387416,
+                "90.0" : 3.198130560440268,
+                "95.0" : 3.198130560440268,
+                "99.0" : 3.198130560440268,
+                "99.9" : 3.198130560440268,
+                "99.99" : 3.198130560440268,
+                "99.999" : 3.198130560440268,
+                "99.9999" : 3.198130560440268,
+                "100.0" : 3.198130560440268
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    3.049181741414003,
+                    3.0022376716387416,
+                    2.986547879951855,
+                    3.198130560440268,
+                    2.9292519374725687
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 2.960469502857012,
+            "scoreError" : 0.12611128301064578,
+            "scoreConfidence" : [
+                2.834358219846366,
+                3.0865807858676577
+            ],
+            "scorePercentiles" : {
+                "0.0" : 2.912010756394917,
+                "50.0" : 2.96724779403087,
+                "90.0" : 2.989886450380501,
+                "95.0" : 2.989886450380501,
+                "99.0" : 2.989886450380501,
+                "99.9" : 2.989886450380501,
+                "99.99" : 2.989886450380501,
+                "99.999" : 2.989886450380501,
+                "99.9999" : 2.989886450380501,
+                "100.0" : 2.989886450380501
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    2.912010756394917,
+                    2.96724779403087,
+                    2.989886450380501,
+                    2.9884608584540575,
+                    2.944741655024714
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 3.415710788002587,
+            "scoreError" : 0.4674045799959147,
+            "scoreConfidence" : [
+                2.9483062080066724,
+                3.8831153679985015
+            ],
+            "scorePercentiles" : {
+                "0.0" : 3.295935885801985,
+                "50.0" : 3.4442199980984833,
+                "90.0" : 3.5853118630405048,
+                "95.0" : 3.5853118630405048,
+                "99.0" : 3.5853118630405048,
+                "99.9" : 3.5853118630405048,
+                "99.99" : 3.5853118630405048,
+                "99.999" : 3.5853118630405048,
+                "99.9999" : 3.5853118630405048,
+                "100.0" : 3.5853118630405048
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    3.4442199980984833,
+                    3.2992635429123607,
+                    3.5853118630405048,
+                    3.295935885801985,
+                    3.4538226501596
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 3.0946189573243066,
+            "scoreError" : 0.18586603865396048,
+            "scoreConfidence" : [
+                2.9087529186703462,
+                3.280484995978267
+            ],
+            "scorePercentiles" : {
+                "0.0" : 3.0477679995196105,
+                "50.0" : 3.0859921300825706,
+                "90.0" : 3.152007929154346,
+                "95.0" : 3.152007929154346,
+                "99.0" : 3.152007929154346,
+                "99.9" : 3.152007929154346,
+                "99.99" : 3.152007929154346,
+                "99.999" : 3.152007929154346,
+                "99.9999" : 3.152007929154346,
+                "100.0" : 3.152007929154346
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    3.0503346140405507,
+                    3.152007929154346,
+                    3.0477679995196105,
+                    3.136992113824456,
+                    3.0859921300825706
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 3.077423427888866,
+            "scoreError" : 0.19927947195986412,
+            "scoreConfidence" : [
+                2.878143955929002,
+                3.2767028998487304
+            ],
+            "scorePercentiles" : {
+                "0.0" : 3.028976019984928,
+                "50.0" : 3.071654587363334,
+                "90.0" : 3.1598543434638415,
+                "95.0" : 3.1598543434638415,
+                "99.0" : 3.1598543434638415,
+                "99.9" : 3.1598543434638415,
+                "99.99" : 3.1598543434638415,
+                "99.999" : 3.1598543434638415,
+                "99.9999" : 3.1598543434638415,
+                "100.0" : 3.1598543434638415
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    3.071654587363334,
+                    3.1598543434638415,
+                    3.028976019984928,
+                    3.039442893243294,
+                    3.087189295388934
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 4.295756696012146,
+            "scoreError" : 0.08309510879172355,
+            "scoreConfidence" : [
+                4.212661587220422,
+                4.378851804803869
+            ],
+            "scorePercentiles" : {
+                "0.0" : 4.276747685600006,
+                "50.0" : 4.292793256435483,
+                "90.0" : 4.330947701919123,
+                "95.0" : 4.330947701919123,
+                "99.0" : 4.330947701919123,
+                "99.9" : 4.330947701919123,
+                "99.99" : 4.330947701919123,
+                "99.999" : 4.330947701919123,
+                "99.9999" : 4.330947701919123,
+                "100.0" : 4.330947701919123
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    4.292793256435483,
+                    4.298280024911,
+                    4.276747685600006,
+                    4.280014811195114,
+                    4.330947701919123
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 3.585213711848786,
+            "scoreError" : 0.11151905433708752,
+            "scoreConfidence" : [
+                3.4736946575116985,
+                3.6967327661858738
+            ],
+            "scorePercentiles" : {
+                "0.0" : 3.564198045362561,
+                "50.0" : 3.5705394724458603,
+                "90.0" : 3.634185111076029,
+                "95.0" : 3.634185111076029,
+                "99.0" : 3.634185111076029,
+                "99.9" : 3.634185111076029,
+                "99.99" : 3.634185111076029,
+                "99.999" : 3.634185111076029,
+                "99.9999" : 3.634185111076029,
+                "100.0" : 3.634185111076029
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    3.634185111076029,
+                    3.5682869797073358,
+                    3.5705394724458603,
+                    3.588858950652143,
+                    3.564198045362561
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 3.5428730197711706,
+            "scoreError" : 0.3424952355679184,
+            "scoreConfidence" : [
+                3.200377784203252,
+                3.885368255339089
+            ],
+            "scorePercentiles" : {
+                "0.0" : 3.49524896712312,
+                "50.0" : 3.49956620221096,
+                "90.0" : 3.7009339244130577,
+                "95.0" : 3.7009339244130577,
+                "99.0" : 3.7009339244130577,
+                "99.9" : 3.7009339244130577,
+                "99.99" : 3.7009339244130577,
+                "99.999" : 3.7009339244130577,
+                "99.9999" : 3.7009339244130577,
+                "100.0" : 3.7009339244130577
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    3.7009339244130577,
+                    3.520814469944894,
+                    3.49956620221096,
+                    3.4978015351638208,
+                    3.49524896712312
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 27.08759916465869,
+            "scoreError" : 0.35437348462857543,
+            "scoreConfidence" : [
+                26.733225680030117,
+                27.441972649287266
+            ],
+            "scorePercentiles" : {
+                "0.0" : 26.968934938406278,
+                "50.0" : 27.091187258764656,
+                "90.0" : 27.218356442754004,
+                "95.0" : 27.218356442754004,
+                "99.0" : 27.218356442754004,
+                "99.9" : 27.218356442754004,
+                "99.99" : 27.218356442754004,
+                "99.999" : 27.218356442754004,
+                "99.9999" : 27.218356442754004,
+                "100.0" : 27.218356442754004
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    26.968934938406278,
+                    27.11555909204899,
+                    27.218356442754004,
+                    27.043958091319517,
+                    27.091187258764656
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 24.991853217632627,
+            "scoreError" : 0.2519420665723109,
+            "scoreConfidence" : [
+                24.739911151060316,
+                25.24379528420494
+            ],
+            "scorePercentiles" : {
+                "0.0" : 24.896892211285515,
+                "50.0" : 24.997099876158792,
+                "90.0" : 25.06471116050841,
+                "95.0" : 25.06471116050841,
+                "99.0" : 25.06471116050841,
+                "99.9" : 25.06471116050841,
+                "99.99" : 25.06471116050841,
+                "99.999" : 25.06471116050841,
+                "99.9999" : 25.06471116050841,
+                "100.0" : 25.06471116050841
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    25.06471116050841,
+                    24.964031497011117,
+                    24.896892211285515,
+                    25.03653134319929,
+                    24.997099876158792
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 25.39439169524957,
+            "scoreError" : 0.3753313385636628,
+            "scoreConfidence" : [
+                25.01906035668591,
+                25.769723033813232
+            ],
+            "scorePercentiles" : {
+                "0.0" : 25.27350304396359,
+                "50.0" : 25.39761387424268,
+                "90.0" : 25.503547116688225,
+                "95.0" : 25.503547116688225,
+                "99.0" : 25.503547116688225,
+                "99.9" : 25.503547116688225,
+                "99.99" : 25.503547116688225,
+                "99.999" : 25.503547116688225,
+                "99.9999" : 25.503547116688225,
+                "100.0" : 25.503547116688225
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    25.39761387424268,
+                    25.323056653077824,
+                    25.27350304396359,
+                    25.474237788275534,
+                    25.503547116688225
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 28.268896882279478,
+            "scoreError" : 0.3599883683965148,
+            "scoreConfidence" : [
+                27.908908513882963,
+                28.628885250675992
+            ],
+            "scorePercentiles" : {
+                "0.0" : 28.15489317472317,
+                "50.0" : 28.2570866981825,
+                "90.0" : 28.415274110135574,
+                "95.0" : 28.415274110135574,
+                "99.0" : 28.415274110135574,
+                "99.9" : 28.415274110135574,
+                "99.99" : 28.415274110135574,
+                "99.999" : 28.415274110135574,
+                "99.9999" : 28.415274110135574,
+                "100.0" : 28.415274110135574
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    28.415274110135574,
+                    28.15489317472317,
+                    28.26825518208142,
+                    28.24897524627474,
+                    28.2570866981825
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 25.95497921069839,
+            "scoreError" : 0.21000679663894076,
+            "scoreConfidence" : [
+                25.74497241405945,
+                26.16498600733733
+            ],
+            "scorePercentiles" : {
+                "0.0" : 25.867746900823562,
+                "50.0" : 25.956663843277724,
+                "90.0" : 26.00885162021083,
+                "95.0" : 26.00885162021083,
+                "99.0" : 26.00885162021083,
+                "99.9" : 26.00885162021083,
+                "99.99" : 26.00885162021083,
+                "99.999" : 26.00885162021083,
+                "99.9999" : 26.00885162021083,
+                "100.0" : 26.00885162021083
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    26.00885162021083,
+                    25.956663843277724,
+                    25.991809759334654,
+                    25.867746900823562,
+                    25.949823929845177
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 26.215492083883912,
+            "scoreError" : 2.048518514101332,
+            "scoreConfidence" : [
+                24.16697356978258,
+                28.264010597985244
+            ],
+            "scorePercentiles" : {
+                "0.0" : 25.745782111367365,
+                "50.0" : 25.912741668110904,
+                "90.0" : 26.82147918965121,
+                "95.0" : 26.82147918965121,
+                "99.0" : 26.82147918965121,
+                "99.9" : 26.82147918965121,
+                "99.99" : 26.82147918965121,
+                "99.999" : 26.82147918965121,
+                "99.9999" : 26.82147918965121,
+                "100.0" : 26.82147918965121
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    25.830376779419804,
+                    25.912741668110904,
+                    25.745782111367365,
+                    26.767080670870296,
+                    26.82147918965121
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 52.4639186790407,
+            "scoreError" : 2.448508954681283,
+            "scoreConfidence" : [
+                50.01540972435942,
+                54.91242763372198
+            ],
+            "scorePercentiles" : {
+                "0.0" : 51.78143747167785,
+                "50.0" : 52.49945803527986,
+                "90.0" : 53.11719153721982,
+                "95.0" : 53.11719153721982,
+                "99.0" : 53.11719153721982,
+                "99.9" : 53.11719153721982,
+                "99.99" : 53.11719153721982,
+                "99.999" : 53.11719153721982,
+                "99.9999" : 53.11719153721982,
+                "100.0" : 53.11719153721982
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    51.85929930567806,
+                    52.49945803527986,
+                    51.78143747167785,
+                    53.06220704534799,
+                    53.11719153721982
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 485.07379399840664,
+            "scoreError" : 14.607907919800759,
+            "scoreConfidence" : [
+                470.4658860786059,
+                499.6817019182074
+            ],
+            "scorePercentiles" : {
+                "0.0" : 481.21861702025285,
+                "50.0" : 485.18491897663586,
+                "90.0" : 490.5284854280845,
+                "95.0" : 490.5284854280845,
+                "99.0" : 490.5284854280845,
+                "99.9" : 490.5284854280845,
+                "99.99" : 490.5284854280845,
+                "99.999" : 490.5284854280845,
+                "99.9999" : 490.5284854280845,
+                "100.0" : 490.5284854280845
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    485.18491897663586,
+                    481.21861702025285,
+                    490.5284854280845,
+                    486.61377090080924,
+                    481.82317766625096
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.linearScanUpdateAndSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 1244.1010050824666,
+            "scoreError" : 118.48232277157307,
+            "scoreConfidence" : [
+                1125.6186823108935,
+                1362.5833278540397
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1205.29676414834,
+                "50.0" : 1242.6404694136925,
+                "90.0" : 1281.1099517749756,
+                "95.0" : 1281.1099517749756,
+                "99.0" : 1281.1099517749756,
+                "99.9" : 1281.1099517749756,
+                "99.99" : 1281.1099517749756,
+                "99.999" : 1281.1099517749756,
+                "99.9999" : 1281.1099517749756,
+                "100.0" : 1281.1099517749756
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    1266.9913246503827,
+                    1242.6404694136925,
+                    1224.466515424942,
+                    1281.1099517749756,
+                    1205.29676414834
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 1629.798443374483,
+            "scoreError" : 92.34239569936824,
+            "scoreConfidence" : [
+                1537.4560476751149,
+                1722.140839073851
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1613.7926374131714,
+                "50.0" : 1619.9608902897069,
+                "90.0" : 1671.638141004212,
+                "95.0" : 1671.638141004212,
+                "99.0" : 1671.638141004212,
+                "99.9" : 1671.638141004212,
+                "99.99" : 1671.638141004212,
+                "99.999" : 1671.638141004212,
+                "99.9999" : 1671.638141004212,
+                "100.0" : 1671.638141004212
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    1671.638141004212,
+                    1613.7926374131714,
+                    1615.9311339806452,
+                    1627.6694141846788,
+                    1619.9608902897069
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 15813.316760813788,
+            "scoreError" : 1977.2912781852524,
+            "scoreConfidence" : [
+                13836.025482628536,
+                17790.608038999042
+            ],
+            "scorePercentiles" : {
+                "0.0" : 15517.766539440203,
+                "50.0" : 15610.167402737246,
+                "90.0" : 16729.02446979327,
+                "95.0" : 16729.02446979327,
+                "99.0" : 16729.02446979327,
+                "99.9" : 16729.02446979327,
+                "99.99" : 16729.02446979327,
+                "99.999" : 16729.02446979327,
+                "99.9999" : 16729.02446979327,
+                "100.0" : 16729.02446979327
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    15622.498375812094,
+                    15610.167402737246,
+                    16729.02446979327,
+                    15587.127016286136,
+                    15517.766539440203
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 172538.7710175398,
+            "scoreError" : 1111.2884629748924,
+            "scoreConfidence" : [
+                171427.48255456492,
+                173650.0594805147
+            ],
+            "scorePercentiles" : {
+                "0.0" : 172168.47581339302,
+                "50.0" : 172685.64744475138,
+                "90.0" : 172842.5444042076,
+                "95.0" : 172842.5444042076,
+                "99.0" : 172842.5444042076,
+                "99.9" : 172842.5444042076,
+                "99.99" : 172842.5444042076,
+                "99.999" : 172842.5444042076,
+                "99.9999" : 172842.5444042076,
+                "100.0" : 172842.5444042076
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    172685.64744475138,
+                    172842.5444042076,
+                    172299.90111972438,
+                    172168.47581339302,
+                    172697.28630562263
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 1621.2282891725913,
+            "scoreError" : 47.6297407118521,
+            "scoreConfidence" : [
+                1573.5985484607393,
+                1668.8580298844433
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1604.334553539346,
+                "50.0" : 1626.0223210224688,
+                "90.0" : 1633.904339416434,
+                "95.0" : 1633.904339416434,
+                "99.0" : 1633.904339416434,
+                "99.9" : 1633.904339416434,
+                "99.99" : 1633.904339416434,
+                "99.999" : 1633.904339416434,
+                "99.9999" : 1633.904339416434,
+                "100.0" : 1633.904339416434
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    1612.491204879873,
+                    1604.334553539346,
+                    1629.3890270048353,
+                    1626.0223210224688,
+                    1633.904339416434
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 15651.986440903303,
+            "scoreError" : 450.6357330167869,
+            "scoreConfidence" : [
+                15201.350707886517,
+                16102.62217392009
+            ],
+            "scorePercentiles" : {
+                "0.0" : 15512.349251647925,
+                "50.0" : 15613.421903780712,
+                "90.0" : 15798.378480832715,
+                "95.0" : 15798.378480832715,
+                "99.0" : 15798.378480832715,
+                "99.9" : 15798.378480832715,
+                "99.99" : 15798.378480832715,
+                "99.999" : 15798.378480832715,
+                "99.9999" : 15798.378480832715,
+                "100.0" : 15798.378480832715
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    15512.349251647925,
+                    15590.883129637712,
+                    15744.899438617458,
+                    15798.378480832715,
+                    15613.421903780712
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 171713.3465283934,
+            "scoreError" : 2177.7730740567395,
+            "scoreConfidence" : [
+                169535.57345433664,
+                173891.11960245014
+            ],
+            "scorePercentiles" : {
+                "0.0" : 170901.61558175294,
+                "50.0" : 171883.37497851864,
+                "90.0" : 172405.40682640925,
+                "95.0" : 172405.40682640925,
+                "99.0" : 172405.40682640925,
+                "99.9" : 172405.40682640925,
+                "99.99" : 172405.40682640925,
+                "99.999" : 172405.40682640925,
+                "99.9999" : 172405.40682640925,
+                "100.0" : 172405.40682640925
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    171924.17995874872,
+                    171452.15529653753,
+                    170901.61558175294,
+                    171883.37497851864,
+                    172405.40682640925
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 1605.856536684827,
+            "scoreError" : 68.43700036575248,
+            "scoreConfidence" : [
+                1537.4195363190745,
+                1674.2935370505795
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1584.043825641318,
+                "50.0" : 1607.2054443433913,
+                "90.0" : 1628.5341037506962,
+                "95.0" : 1628.5341037506962,
+                "99.0" : 1628.5341037506962,
+                "99.9" : 1628.5341037506962,
+                "99.99" : 1628.5341037506962,
+                "99.999" : 1628.5341037506962,
+                "99.9999" : 1628.5341037506962,
+                "100.0" : 1628.5341037506962
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    1607.2054443433913,
+                    1628.5341037506962,
+                    1584.043825641318,
+                    1616.3505929735304,
+                    1593.1487167151988
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 15686.708560174055,
+            "scoreError" : 209.70888288145306,
+            "scoreConfidence" : [
+                15476.999677292602,
+                15896.417443055507
+            ],
+            "scorePercentiles" : {
+                "0.0" : 15613.908064818284,
+                "50.0" : 15689.407890814966,
+                "90.0" : 15757.94854423998,
+                "95.0" : 15757.94854423998,
+                "99.0" : 15757.94854423998,
+                "99.9" : 15757.94854423998,
+                "99.99" : 15757.94854423998,
+                "99.999" : 15757.94854423998,
+                "99.9999" : 15757.94854423998,
+                "100.0" : 15757.94854423998
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    15689.407890814966,
+                    15757.94854423998,
+                    15713.350384917518,
+                    15658.927916079536,
+                    15613.908064818284
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 215564.90765406602,
+            "scoreError" : 5763.665772369234,
+            "scoreConfidence" : [
+                209801.24188169677,
+                221328.57342643526
+            ],
+            "scorePercentiles" : {
+                "0.0" : 213225.7827755276,
+                "50.0" : 215598.53934037508,
+                "90.0" : 216900.12510841285,
+                "95.0" : 216900.12510841285,
+                "99.0" : 216900.12510841285,
+                "99.9" : 216900.12510841285,
+                "99.99" : 216900.12510841285,
+                "99.999" : 216900.12510841285,
+                "99.9999" : 216900.12510841285,
+                "100.0" : 216900.12510841285
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    216836.03208324302,
+                    215264.05896277167,
+                    213225.7827755276,
+                    216900.12510841285,
+                    215598.53934037508
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 1594.1751544039662,
+            "scoreError" : 25.327129135225267,
+            "scoreConfidence" : [
+                1568.848025268741,
+                1619.5022835391915
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1587.5883358599287,
+                "50.0" : 1593.846875144422,
+                "90.0" : 1602.2345081704582,
+                "95.0" : 1602.2345081704582,
+                "99.0" : 1602.2345081704582,
+                "99.9" : 1602.2345081704582,
+                "99.99" : 1602.2345081704582,
+                "99.999" : 1602.2345081704582,
+                "99.9999" : 1602.2345081704582,
+                "100.0" : 1602.2345081704582
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    1587.5883358599287,
+                    1593.846875144422,
+                    1599.2574785675686,
+                    1602.2345081704582,
+                    1587.9485742774534
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 15683.74491984396,
+            "scoreError" : 180.07575925252667,
+            "scoreConfidence" : [
+                15503.669160591435,
+                15863.820679096487
+            ],
+            "scorePercentiles" : {
+                "0.0" : 15631.838446510901,
+                "50.0" : 15696.286348728088,
+                "90.0" : 15728.378654212074,
+                "95.0" : 15728.378654212074,
+                "99.0" : 15728.378654212074,
+                "99.9" : 15728.378654212074,
+                "99.99" : 15728.378654212074,
+                "99.999" : 15728.378654212074,
+                "99.9999" : 15728.378654212074,
+                "100.0" : 15728.378654212074
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    15728.378654212074,
+                    15696.286348728088,
+                    15725.214317159838,
+                    15637.0068326089,
+                    15631.838446510901
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 225424.31392318028,
+            "scoreError" : 19122.728469449597,
+            "scoreConfidence" : [
+                206301.5854537307,
+                244547.04239262987
+            ],
+            "scorePercentiles" : {
+                "0.0" : 220751.12643171806,
+                "50.0" : 222565.95905651982,
+                "90.0" : 232372.61988847583,
+                "95.0" : 232372.61988847583,
+                "99.0" : 232372.61988847583,
+                "99.9" : 232372.61988847583,
+                "99.99" : 232372.61988847583,
+                "99.999" : 232372.61988847583,
+                "99.9999" : 232372.61988847583,
+                "100.0" : 232372.61988847583
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    220751.12643171806,
+                    232372.61988847583,
+                    228893.28604118995,
+                    222538.57819799776,
+                    222565.95905651982
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 1770.5519602673626,
+            "scoreError" : 345.2346981234858,
+            "scoreConfidence" : [
+                1425.3172621438766,
+                2115.7866583908485
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1708.2793367848035,
+                "50.0" : 1736.574053303238,
+                "90.0" : 1929.1562510850233,
+                "95.0" : 1929.1562510850233,
+                "99.0" : 1929.1562510850233,
+                "99.9" : 1929.1562510850233,
+                "99.99" : 1929.1562510850233,
+                "99.999" : 1929.1562510850233,
+                "99.9999" : 1929.1562510850233,
+                "100.0" : 1929.1562510850233
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    1742.6425881881464,
+                    1736.1075719756013,
+                    1929.1562510850233,
+                    1708.2793367848035,
+                    1736.574053303238
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 16676.575781730317,
+            "scoreError" : 1517.8633256805708,
+            "scoreConfidence" : [
+                15158.712456049745,
+                18194.439107410886
+            ],
+            "scorePercentiles" : {
+                "0.0" : 16314.988695680542,
+                "50.0" : 16626.51005651596,
+                "90.0" : 17248.07339449541,
+                "95.0" : 17248.07339449541,
+                "99.0" : 17248.07339449541,
+                "99.9" : 17248.07339449541,
+                "99.99" : 17248.07339449541,
+                "99.999" : 17248.07339449541,
+                "99.9999" : 17248.07339449541,
+                "100.0" : 17248.07339449541
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    16323.808640867024,
+                    16626.51005651596,
+                    16869.49812109263,
+                    16314.988695680542,
+                    17248.07339449541
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 182256.7867346317,
+            "scoreError" : 13333.597775369533,
+            "scoreConfidence" : [
+                168923.18895926216,
+                195590.38451000123
+            ],
+            "scorePercentiles" : {
+                "0.0" : 176485.55743779778,
+                "50.0" : 183234.4568602308,
+                "90.0" : 185103.0680977054,
+                "95.0" : 185103.0680977054,
+                "99.0" : 185103.0680977054,
+                "99.9" : 185103.0680977054,
+                "99.99" : 185103.0680977054,
+                "99.999" : 185103.0680977054,
+                "99.9999" : 185103.0680977054,
+                "100.0" : 185103.0680977054
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    181870.1349090909,
+                    176485.55743779778,
+                    184590.71636833364,
+                    183234.4568602308,
+                    185103.0680977054
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 1605.9375321643158,
+            "scoreError" : 23.791865771435635,
+            "scoreConfidence" : [
+                1582.1456663928802,
+                1629.7293979357514
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1598.4336398172284,
+                "50.0" : 1604.8166318211502,
+                "90.0" : 1615.4186850316887,
+                "95.0" : 1615.4186850316887,
+                "99.0" : 1615.4186850316887,
+                "99.9" : 1615.4186850316887,
+                "99.99" : 1615.4186850316887,
+                "99.999" : 1615.4186850316887,
+                "99.9999" : 1615.4186850316887,
+                "100.0" : 1615.4186850316887
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    1604.8166318211502,
+                    1615.4186850316887,
+                    1598.4336398172284,
+                    1603.947270761967,
+                    1607.0714333895446
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 15571.477208070206,
+            "scoreError" : 181.065266659576,
+            "scoreConfidence" : [
+                15390.41194141063,
+                15752.542474729782
+            ],
+            "scorePercentiles" : {
+                "0.0" : 15510.19370997007,
+                "50.0" : 15572.046864295946,
+                "90.0" : 15623.020306154327,
+                "95.0" : 15623.020306154327,
+                "99.0" : 15623.020306154327,
+                "99.9" : 15623.020306154327,
+                "99.99" : 15623.020306154327,
+                "99.999" : 15623.020306154327,
+                "99.9999" : 15623.020306154327,
+                "100.0" : 15623.020306154327
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    15572.046864295946,
+                    15541.496930990008,
+                    15510.19370997007,
+                    15623.020306154327,
+                    15610.628228940674
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeConstruction",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 166077.2867620417,
+            "scoreError" : 1668.2650657576794,
+            "scoreConfidence" : [
+                164409.02169628403,
+                167745.55182779938
+            ],
+            "scorePercentiles" : {
+                "0.0" : 165473.35566583954,
+                "50.0" : 166200.1458956464,
+                "90.0" : 166504.10038288662,
+                "95.0" : 166504.10038288662,
+                "99.0" : 166504.10038288662,
+                "99.9" : 166504.10038288662,
+                "99.99" : 166504.10038288662,
+                "99.999" : 166504.10038288662,
+                "99.9999" : 166504.10038288662,
+                "100.0" : 166504.10038288662
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    166410.4628951747,
+                    165473.35566583954,
+                    165798.36897066137,
+                    166200.1458956464,
+                    166504.10038288662
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 5.713120797794504,
+            "scoreError" : 0.24879158753889993,
+            "scoreConfidence" : [
+                5.464329210255604,
+                5.961912385333404
+            ],
+            "scorePercentiles" : {
+                "0.0" : 5.662340353475548,
+                "50.0" : 5.6712672942732105,
+                "90.0" : 5.804246331024997,
+                "95.0" : 5.804246331024997,
+                "99.0" : 5.804246331024997,
+                "99.9" : 5.804246331024997,
+                "99.99" : 5.804246331024997,
+                "99.999" : 5.804246331024997,
+                "99.9999" : 5.804246331024997,
+                "100.0" : 5.804246331024997
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    5.662340353475548,
+                    5.668804849990734,
+                    5.6712672942732105,
+                    5.804246331024997,
+                    5.758945160208028
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 8.013568826162095,
+            "scoreError" : 0.5286419526789391,
+            "scoreConfidence" : [
+                7.484926873483156,
+                8.542210778841033
+            ],
+            "scorePercentiles" : {
+                "0.0" : 7.892665957867452,
+                "50.0" : 7.945235616339869,
+                "90.0" : 8.205154240286053,
+                "95.0" : 8.205154240286053,
+                "99.0" : 8.205154240286053,
+                "99.9" : 8.205154240286053,
+                "99.99" : 8.205154240286053,
+                "99.999" : 8.205154240286053,
+                "99.9999" : 8.205154240286053,
+                "100.0" : 8.205154240286053
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    8.205154240286053,
+                    8.110872126112627,
+                    7.892665957867452,
+                    7.945235616339869,
+                    7.913916190204464
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 10.24239980071691,
+            "scoreError" : 1.252109549490324,
+            "scoreConfidence" : [
+                8.990290251226586,
+                11.494509350207235
+            ],
+            "scorePercentiles" : {
+                "0.0" : 9.861459411432625,
+                "50.0" : 10.370620120413326,
+                "90.0" : 10.579303059213,
+                "95.0" : 10.579303059213,
+                "99.0" : 10.579303059213,
+                "99.9" : 10.579303059213,
+                "99.99" : 10.579303059213,
+                "99.999" : 10.579303059213,
+                "99.9999" : 10.579303059213,
+                "100.0" : 10.579303059213
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    9.931667232990518,
+                    9.861459411432625,
+                    10.468949179535088,
+                    10.370620120413326,
+                    10.579303059213
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 5.727684628607477,
+            "scoreError" : 0.5817628108581572,
+            "scoreConfidence" : [
+                5.14592181774932,
+                6.309447439465634
+            ],
+            "scorePercentiles" : {
+                "0.0" : 5.48614436605744,
+                "50.0" : 5.763385476723985,
+                "90.0" : 5.855982197855126,
+                "95.0" : 5.855982197855126,
+                "99.0" : 5.855982197855126,
+                "99.9" : 5.855982197855126,
+                "99.99" : 5.855982197855126,
+                "99.999" : 5.855982197855126,
+                "99.9999" : 5.855982197855126,
+                "100.0" : 5.855982197855126
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    5.8446225000230685,
+                    5.763385476723985,
+                    5.855982197855126,
+                    5.6882886023777655,
+                    5.48614436605744
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 7.059963901587366,
+            "scoreError" : 0.2839003026051809,
+            "scoreConfidence" : [
+                6.776063598982185,
+                7.343864204192547
+            ],
+            "scorePercentiles" : {
+                "0.0" : 7.008487657830123,
+                "50.0" : 7.039509335566662,
+                "90.0" : 7.189326863438681,
+                "95.0" : 7.189326863438681,
+                "99.0" : 7.189326863438681,
+                "99.9" : 7.189326863438681,
+                "99.99" : 7.189326863438681,
+                "99.999" : 7.189326863438681,
+                "99.9999" : 7.189326863438681,
+                "100.0" : 7.189326863438681
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    7.189326863438681,
+                    7.008487657830123,
+                    7.043311846247906,
+                    7.039509335566662,
+                    7.019183804853458
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 8.620039732432046,
+            "scoreError" : 0.09715546870906892,
+            "scoreConfidence" : [
+                8.522884263722977,
+                8.717195201141115
+            ],
+            "scorePercentiles" : {
+                "0.0" : 8.58063666250217,
+                "50.0" : 8.634052014275259,
+                "90.0" : 8.641949717404277,
+                "95.0" : 8.641949717404277,
+                "99.0" : 8.641949717404277,
+                "99.9" : 8.641949717404277,
+                "99.99" : 8.641949717404277,
+                "99.999" : 8.641949717404277,
+                "99.9999" : 8.641949717404277,
+                "100.0" : 8.641949717404277
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    8.634257219428655,
+                    8.641949717404277,
+                    8.58063666250217,
+                    8.634052014275259,
+                    8.609303048549867
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 6.441015740199832,
+            "scoreError" : 0.48705049719617305,
+            "scoreConfidence" : [
+                5.953965243003659,
+                6.928066237396005
+            ],
+            "scorePercentiles" : {
+                "0.0" : 6.353632049136867,
+                "50.0" : 6.38745628910605,
+                "90.0" : 6.660048682050978,
+                "95.0" : 6.660048682050978,
+                "99.0" : 6.660048682050978,
+                "99.9" : 6.660048682050978,
+                "99.99" : 6.660048682050978,
+                "99.999" : 6.660048682050978,
+                "99.9999" : 6.660048682050978,
+                "100.0" : 6.660048682050978
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    6.660048682050978,
+                    6.36686149977754,
+                    6.437080180927722,
+                    6.38745628910605,
+                    6.353632049136867
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 7.848646516244186,
+            "scoreError" : 0.03517321998934187,
+            "scoreConfidence" : [
+                7.813473296254844,
+                7.883819736233527
+            ],
+            "scorePercentiles" : {
+                "0.0" : 7.8376761345485555,
+                "50.0" : 7.8451592677032815,
+                "90.0" : 7.859149119500031,
+                "95.0" : 7.859149119500031,
+                "99.0" : 7.859149119500031,
+                "99.9" : 7.859149119500031,
+                "99.99" : 7.859149119500031,
+                "99.999" : 7.859149119500031,
+                "99.9999" : 7.859149119500031,
+                "100.0" : 7.859149119500031
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    7.859149119500031,
+                    7.844177668430136,
+                    7.857070391038929,
+                    7.8451592677032815,
+                    7.8376761345485555
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 7.880648723087752,
+            "scoreError" : 0.4397504771324015,
+            "scoreConfidence" : [
+                7.440898245955351,
+                8.320399200220153
+            ],
+            "scorePercentiles" : {
+                "0.0" : 7.7745503385113395,
+                "50.0" : 7.861878972604845,
+                "90.0" : 8.051366271153412,
+                "95.0" : 8.051366271153412,
+                "99.0" : 8.051366271153412,
+                "99.9" : 8.051366271153412,
+                "99.99" : 8.051366271153412,
+                "99.999" : 8.051366271153412,
+                "99.9999" : 8.051366271153412,
+                "100.0" : 8.051366271153412
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    7.785739746044416,
+                    7.7745503385113395,
+                    8.051366271153412,
+                    7.929708287124746,
+                    7.861878972604845
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 5.5790281021277695,
+            "scoreError" : 0.35890377541719914,
+            "scoreConfidence" : [
+                5.22012432671057,
+                5.937931877544969
+            ],
+            "scorePercentiles" : {
+                "0.0" : 5.481942566783706,
+                "50.0" : 5.563199824046314,
+                "90.0" : 5.731896419121958,
+                "95.0" : 5.731896419121958,
+                "99.0" : 5.731896419121958,
+                "99.9" : 5.731896419121958,
+                "99.99" : 5.731896419121958,
+                "99.999" : 5.731896419121958,
+                "99.9999" : 5.731896419121958,
+                "100.0" : 5.731896419121958
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    5.580340777172154,
+                    5.537760923514714,
+                    5.563199824046314,
+                    5.731896419121958,
+                    5.481942566783706
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 8.411482992273346,
+            "scoreError" : 0.6713137875031461,
+            "scoreConfidence" : [
+                7.7401692047702,
+                9.082796779776492
+            ],
+            "scorePercentiles" : {
+                "0.0" : 8.144746914542567,
+                "50.0" : 8.511727262115524,
+                "90.0" : 8.554927029290422,
+                "95.0" : 8.554927029290422,
+                "99.0" : 8.554927029290422,
+                "99.9" : 8.554927029290422,
+                "99.99" : 8.554927029290422,
+                "99.999" : 8.554927029290422,
+                "99.9999" : 8.554927029290422,
+                "100.0" : 8.554927029290422
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    8.521840562532034,
+                    8.511727262115524,
+                    8.324173192886184,
+                    8.144746914542567,
+                    8.554927029290422
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 10.765020188153153,
+            "scoreError" : 0.39402175743723833,
+            "scoreConfidence" : [
+                10.370998430715915,
+                11.159041945590392
+            ],
+            "scorePercentiles" : {
+                "0.0" : 10.66710220108151,
+                "50.0" : 10.775194146840082,
+                "90.0" : 10.910769535844148,
+                "95.0" : 10.910769535844148,
+                "99.0" : 10.910769535844148,
+                "99.9" : 10.910769535844148,
+                "99.99" : 10.910769535844148,
+                "99.999" : 10.910769535844148,
+                "99.9999" : 10.910769535844148,
+                "100.0" : 10.910769535844148
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    10.775194146840082,
+                    10.910769535844148,
+                    10.804083605239079,
+                    10.667951451760942,
+                    10.66710220108151
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 6.004073214277469,
+            "scoreError" : 0.35915671809736005,
+            "scoreConfidence" : [
+                5.644916496180109,
+                6.3632299323748285
+            ],
+            "scorePercentiles" : {
+                "0.0" : 5.859729160982322,
+                "50.0" : 6.022028978850889,
+                "90.0" : 6.103047831044609,
+                "95.0" : 6.103047831044609,
+                "99.0" : 6.103047831044609,
+                "99.9" : 6.103047831044609,
+                "99.99" : 6.103047831044609,
+                "99.999" : 6.103047831044609,
+                "99.9999" : 6.103047831044609,
+                "100.0" : 6.103047831044609
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    6.022028978850889,
+                    5.859729160982322,
+                    6.0594286646168385,
+                    6.103047831044609,
+                    5.976131435892685
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 10.196493574781375,
+            "scoreError" : 0.8882230306392818,
+            "scoreConfidence" : [
+                9.308270544142093,
+                11.084716605420656
+            ],
+            "scorePercentiles" : {
+                "0.0" : 9.96353878655384,
+                "50.0" : 10.167756141633813,
+                "90.0" : 10.580772176348225,
+                "95.0" : 10.580772176348225,
+                "99.0" : 10.580772176348225,
+                "99.9" : 10.580772176348225,
+                "99.99" : 10.580772176348225,
+                "99.999" : 10.580772176348225,
+                "99.9999" : 10.580772176348225,
+                "100.0" : 10.580772176348225
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    9.96353878655384,
+                    10.167756141633813,
+                    10.099460560967882,
+                    10.170940208403119,
+                    10.580772176348225
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 10.91977175169913,
+            "scoreError" : 1.2750045865037352,
+            "scoreConfidence" : [
+                9.644767165195395,
+                12.194776338202866
+            ],
+            "scorePercentiles" : {
+                "0.0" : 10.533904983254292,
+                "50.0" : 10.840095240975078,
+                "90.0" : 11.362658036121848,
+                "95.0" : 11.362658036121848,
+                "99.0" : 11.362658036121848,
+                "99.9" : 11.362658036121848,
+                "99.99" : 11.362658036121848,
+                "99.999" : 11.362658036121848,
+                "99.9999" : 11.362658036121848,
+                "100.0" : 11.362658036121848
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    10.840095240975078,
+                    11.362658036121848,
+                    11.13954830619473,
+                    10.722652191949704,
+                    10.533904983254292
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 0.57411662464469,
+            "scoreError" : 0.013701848586411207,
+            "scoreConfidence" : [
+                0.5604147760582788,
+                0.5878184732311013
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.5693502266031054,
+                "50.0" : 0.5738266262310198,
+                "90.0" : 0.5793487827341118,
+                "95.0" : 0.5793487827341118,
+                "99.0" : 0.5793487827341118,
+                "99.9" : 0.5793487827341118,
+                "99.99" : 0.5793487827341118,
+                "99.999" : 0.5793487827341118,
+                "99.9999" : 0.5793487827341118,
+                "100.0" : 0.5793487827341118
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    0.5793487827341118,
+                    0.5693502266031054,
+                    0.5745047575228978,
+                    0.5735527301323153,
+                    0.5738266262310198
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 0.5722078451168844,
+            "scoreError" : 0.01559563289816362,
+            "scoreConfidence" : [
+                0.5566122122187208,
+                0.587803478015048
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.5694601567922499,
+                "50.0" : 0.5703880194901716,
+                "90.0" : 0.5791252915374369,
+                "95.0" : 0.5791252915374369,
+                "99.0" : 0.5791252915374369,
+                "99.9" : 0.5791252915374369,
+                "99.99" : 0.5791252915374369,
+                "99.999" : 0.5791252915374369,
+                "99.9999" : 0.5791252915374369,
+                "100.0" : 0.5791252915374369
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    0.5703880194901716,
+                    0.5724717507816257,
+                    0.5695940069829382,
+                    0.5694601567922499,
+                    0.5791252915374369
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeSearch",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 10.643052124693714,
+            "scoreError" : 0.20706357000650844,
+            "scoreConfidence" : [
+                10.435988554687206,
+                10.850115694700222
+            ],
+            "scorePercentiles" : {
+                "0.0" : 10.595040541265925,
+                "50.0" : 10.633429454696328,
+                "90.0" : 10.72120499147294,
+                "95.0" : 10.72120499147294,
+                "99.0" : 10.72120499147294,
+                "99.9" : 10.72120499147294,
+                "99.99" : 10.72120499147294,
+                "99.999" : 10.72120499147294,
+                "99.9999" : 10.72120499147294,
+                "100.0" : 10.72120499147294
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    10.72120499147294,
+                    10.670544507903701,
+                    10.595040541265925,
+                    10.595041128129669,
+                    10.633429454696328
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 62.36320013441913,
+            "scoreError" : 1.7769128769706133,
+            "scoreConfidence" : [
+                60.58628725744852,
+                64.14011301138974
+            ],
+            "scorePercentiles" : {
+                "0.0" : 62.02105905692996,
+                "50.0" : 62.09238241132314,
+                "90.0" : 63.1061535101019,
+                "95.0" : 63.1061535101019,
+                "99.0" : 63.1061535101019,
+                "99.9" : 63.1061535101019,
+                "99.99" : 63.1061535101019,
+                "99.999" : 63.1061535101019,
+                "99.9999" : 63.1061535101019,
+                "100.0" : 63.1061535101019
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    62.09238241132314,
+                    62.522863150904,
+                    62.07354254283667,
+                    62.02105905692996,
+                    63.1061535101019
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 118.14885594488399,
+            "scoreError" : 2.4618314159916617,
+            "scoreConfidence" : [
+                115.68702452889232,
+                120.61068736087566
+            ],
+            "scorePercentiles" : {
+                "0.0" : 117.37591559568214,
+                "50.0" : 117.98776793764678,
+                "90.0" : 118.88848944167216,
+                "95.0" : 118.88848944167216,
+                "99.0" : 118.88848944167216,
+                "99.9" : 118.88848944167216,
+                "99.99" : 118.88848944167216,
+                "99.999" : 118.88848944167216,
+                "99.9999" : 118.88848944167216,
+                "100.0" : 118.88848944167216
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    117.98776793764678,
+                    117.37591559568214,
+                    118.88848944167216,
+                    117.77401955323512,
+                    118.7180871961837
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 163.66196493180556,
+            "scoreError" : 3.2410146888759623,
+            "scoreConfidence" : [
+                160.4209502429296,
+                166.90297962068152
+            ],
+            "scorePercentiles" : {
+                "0.0" : 162.84373651672863,
+                "50.0" : 163.2560997009383,
+                "90.0" : 164.83126753808003,
+                "95.0" : 164.83126753808003,
+                "99.0" : 164.83126753808003,
+                "99.9" : 164.83126753808003,
+                "99.99" : 164.83126753808003,
+                "99.999" : 164.83126753808003,
+                "99.9999" : 164.83126753808003,
+                "100.0" : 164.83126753808003
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    163.1277933667062,
+                    163.2560997009383,
+                    164.83126753808003,
+                    162.84373651672863,
+                    164.2509275365745
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 65.67331383796991,
+            "scoreError" : 1.1436382975740171,
+            "scoreConfidence" : [
+                64.5296755403959,
+                66.81695213554393
+            ],
+            "scorePercentiles" : {
+                "0.0" : 65.29355940196335,
+                "50.0" : 65.61538319221094,
+                "90.0" : 66.04383806180127,
+                "95.0" : 66.04383806180127,
+                "99.0" : 66.04383806180127,
+                "99.9" : 66.04383806180127,
+                "99.99" : 66.04383806180127,
+                "99.999" : 66.04383806180127,
+                "99.9999" : 66.04383806180127,
+                "100.0" : 66.04383806180127
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    65.52561920249573,
+                    65.61538319221094,
+                    65.88816933137826,
+                    66.04383806180127,
+                    65.29355940196335
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 123.44850885405285,
+            "scoreError" : 10.01921611953157,
+            "scoreConfidence" : [
+                113.42929273452128,
+                133.4677249735844
+            ],
+            "scorePercentiles" : {
+                "0.0" : 120.04390047074324,
+                "50.0" : 123.2279871365997,
+                "90.0" : 127.14589717857531,
+                "95.0" : 127.14589717857531,
+                "99.0" : 127.14589717857531,
+                "99.9" : 127.14589717857531,
+                "99.99" : 127.14589717857531,
+                "99.999" : 127.14589717857531,
+                "99.9999" : 127.14589717857531,
+                "100.0" : 127.14589717857531
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    120.04390047074324,
+                    123.2279871365997,
+                    124.35245295461621,
+                    127.14589717857531,
+                    122.4723065297299
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "10",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 176.63610211770597,
+            "scoreError" : 12.775818370377571,
+            "scoreConfidence" : [
+                163.8602837473284,
+                189.41192048808355
+            ],
+            "scorePercentiles" : {
+                "0.0" : 171.97758433131827,
+                "50.0" : 176.5674092149811,
+                "90.0" : 179.84051225547813,
+                "95.0" : 179.84051225547813,
+                "99.0" : 179.84051225547813,
+                "99.9" : 179.84051225547813,
+                "99.99" : 179.84051225547813,
+                "99.999" : 179.84051225547813,
+                "99.9999" : 179.84051225547813,
+                "100.0" : 179.84051225547813
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    179.73181417019393,
+                    175.06319061655844,
+                    176.5674092149811,
+                    179.84051225547813,
+                    171.97758433131827
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 62.552707158900375,
+            "scoreError" : 4.012767687304047,
+            "scoreConfidence" : [
+                58.53993947159633,
+                66.56547484620442
+            ],
+            "scorePercentiles" : {
+                "0.0" : 60.98523256537185,
+                "50.0" : 62.41312636794362,
+                "90.0" : 63.67098043781577,
+                "95.0" : 63.67098043781577,
+                "99.0" : 63.67098043781577,
+                "99.9" : 63.67098043781577,
+                "99.99" : 63.67098043781577,
+                "99.999" : 63.67098043781577,
+                "99.9999" : 63.67098043781577,
+                "100.0" : 63.67098043781577
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    62.41312636794362,
+                    63.318048396187415,
+                    63.67098043781577,
+                    60.98523256537185,
+                    62.37614802718319
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 125.20653920411306,
+            "scoreError" : 6.702589613820911,
+            "scoreConfidence" : [
+                118.50394959029215,
+                131.90912881793398
+            ],
+            "scorePercentiles" : {
+                "0.0" : 122.29967615236284,
+                "50.0" : 125.9668531626011,
+                "90.0" : 126.71772414717536,
+                "95.0" : 126.71772414717536,
+                "99.0" : 126.71772414717536,
+                "99.9" : 126.71772414717536,
+                "99.99" : 126.71772414717536,
+                "99.999" : 126.71772414717536,
+                "99.9999" : 126.71772414717536,
+                "100.0" : 126.71772414717536
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    125.9668531626011,
+                    124.9738242302843,
+                    126.07461832814167,
+                    126.71772414717536,
+                    122.29967615236284
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 157.42710082058048,
+            "scoreError" : 7.083569662849264,
+            "scoreConfidence" : [
+                150.3435311577312,
+                164.51067048342975
+            ],
+            "scorePercentiles" : {
+                "0.0" : 156.04126881152712,
+                "50.0" : 156.725040307675,
+                "90.0" : 160.55795250275384,
+                "95.0" : 160.55795250275384,
+                "99.0" : 160.55795250275384,
+                "99.9" : 160.55795250275384,
+                "99.99" : 160.55795250275384,
+                "99.999" : 160.55795250275384,
+                "99.9999" : 160.55795250275384,
+                "100.0" : 160.55795250275384
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    160.55795250275384,
+                    156.04126881152712,
+                    157.5287957216381,
+                    156.725040307675,
+                    156.28244675930844
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 59.428730370129905,
+            "scoreError" : 0.7815329809068158,
+            "scoreConfidence" : [
+                58.64719738922309,
+                60.21026335103672
+            ],
+            "scorePercentiles" : {
+                "0.0" : 59.19908664324198,
+                "50.0" : 59.50750860693113,
+                "90.0" : 59.62716813368469,
+                "95.0" : 59.62716813368469,
+                "99.0" : 59.62716813368469,
+                "99.9" : 59.62716813368469,
+                "99.99" : 59.62716813368469,
+                "99.999" : 59.62716813368469,
+                "99.9999" : 59.62716813368469,
+                "100.0" : 59.62716813368469
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    59.224220217515885,
+                    59.585668249275805,
+                    59.62716813368469,
+                    59.50750860693113,
+                    59.19908664324198
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 119.84365878957354,
+            "scoreError" : 1.4157543272580069,
+            "scoreConfidence" : [
+                118.42790446231554,
+                121.25941311683154
+            ],
+            "scorePercentiles" : {
+                "0.0" : 119.47291587984452,
+                "50.0" : 119.74660159161915,
+                "90.0" : 120.32728906530002,
+                "95.0" : 120.32728906530002,
+                "99.0" : 120.32728906530002,
+                "99.9" : 120.32728906530002,
+                "99.99" : 120.32728906530002,
+                "99.999" : 120.32728906530002,
+                "99.9999" : 120.32728906530002,
+                "100.0" : 120.32728906530002
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    120.11842891949212,
+                    119.74660159161915,
+                    119.47291587984452,
+                    119.55305849161182,
+                    120.32728906530002
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "50",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 152.46363088680855,
+            "scoreError" : 3.829479119349954,
+            "scoreConfidence" : [
+                148.6341517674586,
+                156.29311000615849
+            ],
+            "scorePercentiles" : {
+                "0.0" : 150.96661355468007,
+                "50.0" : 152.94174602577476,
+                "90.0" : 153.3967497351928,
+                "95.0" : 153.3967497351928,
+                "99.0" : 153.3967497351928,
+                "99.9" : 153.3967497351928,
+                "99.99" : 153.3967497351928,
+                "99.999" : 153.3967497351928,
+                "99.9999" : 153.3967497351928,
+                "100.0" : 153.3967497351928
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    151.95330279359453,
+                    153.3967497351928,
+                    150.96661355468007,
+                    152.94174602577476,
+                    153.05974232480054
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 59.01596453021324,
+            "scoreError" : 0.47641882316852374,
+            "scoreConfidence" : [
+                58.53954570704472,
+                59.49238335338176
+            ],
+            "scorePercentiles" : {
+                "0.0" : 58.93447862477819,
+                "50.0" : 58.948951815098575,
+                "90.0" : 59.229319673422395,
+                "95.0" : 59.229319673422395,
+                "99.0" : 59.229319673422395,
+                "99.9" : 59.229319673422395,
+                "99.99" : 59.229319673422395,
+                "99.999" : 59.229319673422395,
+                "99.9999" : 59.229319673422395,
+                "100.0" : 59.229319673422395
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    58.94834603352932,
+                    59.229319673422395,
+                    58.948951815098575,
+                    59.018726504237755,
+                    58.93447862477819
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 123.13998686972695,
+            "scoreError" : 2.350047930737163,
+            "scoreConfidence" : [
+                120.78993893898979,
+                125.49003480046412
+            ],
+            "scorePercentiles" : {
+                "0.0" : 122.40088800699813,
+                "50.0" : 122.89061133246713,
+                "90.0" : 123.80239363598373,
+                "95.0" : 123.80239363598373,
+                "99.0" : 123.80239363598373,
+                "99.9" : 123.80239363598373,
+                "99.99" : 123.80239363598373,
+                "99.999" : 123.80239363598373,
+                "99.9999" : 123.80239363598373,
+                "100.0" : 123.80239363598373
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    123.80239363598373,
+                    123.74430643474108,
+                    122.40088800699813,
+                    122.89061133246713,
+                    122.86173493844471
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "2",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 146.91752852236561,
+            "scoreError" : 6.144755660775918,
+            "scoreConfidence" : [
+                140.7727728615897,
+                153.06228418314154
+            ],
+            "scorePercentiles" : {
+                "0.0" : 145.20879509549636,
+                "50.0" : 147.25276266743066,
+                "90.0" : 149.12301966953206,
+                "95.0" : 149.12301966953206,
+                "99.0" : 149.12301966953206,
+                "99.9" : 149.12301966953206,
+                "99.99" : 149.12301966953206,
+                "99.999" : 149.12301966953206,
+                "99.9999" : 149.12301966953206,
+                "100.0" : 149.12301966953206
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    145.20879509549636,
+                    147.4873125773601,
+                    145.51575260200886,
+                    147.25276266743066,
+                    149.12301966953206
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "200"
+        },
+        "primaryMetric" : {
+            "score" : 58.34951941763254,
+            "scoreError" : 3.4751357253961577,
+            "scoreConfidence" : [
+                54.874383692236385,
+                61.8246551430287
+            ],
+            "scorePercentiles" : {
+                "0.0" : 57.19355063399215,
+                "50.0" : 58.042515639578944,
+                "90.0" : 59.45169830735471,
+                "95.0" : 59.45169830735471,
+                "99.0" : 59.45169830735471,
+                "99.9" : 59.45169830735471,
+                "99.99" : 59.45169830735471,
+                "99.999" : 59.45169830735471,
+                "99.9999" : 59.45169830735471,
+                "100.0" : 59.45169830735471
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    59.45169830735471,
+                    59.05312437307466,
+                    58.042515639578944,
+                    58.00670813416222,
+                    57.19355063399215
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "2000"
+        },
+        "primaryMetric" : {
+            "score" : 119.6786060530493,
+            "scoreError" : 0.8114191324491068,
+            "scoreConfidence" : [
+                118.86718692060019,
+                120.4900251854984
+            ],
+            "scorePercentiles" : {
+                "0.0" : 119.40440493842252,
+                "50.0" : 119.75472720354388,
+                "90.0" : 119.89090478190127,
+                "95.0" : 119.89090478190127,
+                "99.0" : 119.89090478190127,
+                "99.9" : 119.89090478190127,
+                "99.99" : 119.89090478190127,
+                "99.999" : 119.89090478190127,
+                "99.9999" : 119.89090478190127,
+                "100.0" : 119.89090478190127
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    119.89090478190127,
+                    119.40440493842252,
+                    119.51108444256226,
+                    119.83190889881661,
+                    119.75472720354388
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.willcall.allocation.ContiguousSeatSearchBenchmark.segmentTreeUpdate",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Djava.io.tmpdir=/home/yzhao/willcall/server/build/tmp/jmh",
+            "-Duser.country",
+            "-Duser.language=en",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "21.0.12",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.12+8-1-26.04-Ubuntu",
+        "warmupIterations" : 3,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "occupancyPercent" : "90",
+            "requestedRun" : "4",
+            "seatsPerRow" : "20000"
+        },
+        "primaryMetric" : {
+            "score" : 158.90476858336862,
+            "scoreError" : 24.581965026009904,
+            "scoreConfidence" : [
+                134.32280355735872,
+                183.48673360937852
+            ],
+            "scorePercentiles" : {
+                "0.0" : 153.23754624086385,
+                "50.0" : 155.93747874844,
+                "90.0" : 168.9815012634877,
+                "95.0" : 168.9815012634877,
+                "99.0" : 168.9815012634877,
+                "99.9" : 168.9815012634877,
+                "99.99" : 168.9815012634877,
+                "99.999" : 168.9815012634877,
+                "99.9999" : 168.9815012634877,
+                "100.0" : 168.9815012634877
+            },
+            "scoreUnit" : "ns/op",
+            "rawData" : [
+                [
+                    153.23754624086385,
+                    155.06021269596272,
+                    161.30710396808897,
+                    168.9815012634877,
+                    155.93747874844
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+

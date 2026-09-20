@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 /**
  * The wire contract.
  *
- * <p>Status codes here are a client-facing API, not an implementation detail. The distinctions
- * that matter, and that each test pins:
+ * <p>Status codes here are a client-facing API, not an implementation detail. The distinctions that
+ * matter, and that each test pins:
  *
  * <ul>
  *   <li>409 — a legitimate answer; ask for something else, do not retry this.
@@ -23,10 +23,10 @@ import org.springframework.http.ResponseEntity;
  *       seats.
  * </ul>
  *
- * <p>{@code @AutoConfigureObservability} is present because Spring Boot switches metrics export
- * off in tests by default. Without it the Prometheus endpoint is simply not mapped, and a test
- * that asserted the dashboards' counters exist would fail for a reason that has nothing to do
- * with the application.
+ * <p>{@code @AutoConfigureObservability} is present because Spring Boot switches metrics export off
+ * in tests by default. Without it the Prometheus endpoint is simply not mapped, and a test that
+ * asserted the dashboards' counters exist would fail for a reason that has nothing to do with the
+ * application.
  */
 @org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability
 class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
@@ -111,7 +111,8 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
 
     assertThat(response.getStatusCode().value()).isEqualTo(409);
     assertThat(field(response.getBody(), "code")).isEqualTo("too_many_seats");
-    assertThat(response.getHeaders().getContentType().toString()).startsWith("application/problem+json");
+    assertThat(response.getHeaders().getContentType().toString())
+        .startsWith("application/problem+json");
   }
 
   @Test
@@ -130,7 +131,11 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
     // must be told so rather than getting a partial allocation.
     for (int i = 0; i < 8; i++) {
       ResponseEntity<String> held =
-          post("/api/events/" + eventId + "/holds", "{\"quantity\":5}", "buyer-%08d".formatted(i), null);
+          post(
+              "/api/events/" + eventId + "/holds",
+              "{\"quantity\":5}",
+              "buyer-%08d".formatted(i),
+              null);
       assertThat(held.getStatusCode().value()).as("buyer %s: %s", i, held.getBody()).isEqualTo(201);
     }
 
@@ -146,7 +151,8 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
   void replayIsMarked() {
     String holdId =
         field(
-            post("/api/events/" + eventId + "/holds", "{\"quantity\":1}", "buyer-00000001", "h1").getBody(),
+            post("/api/events/" + eventId + "/holds", "{\"quantity\":1}", "buyer-00000001", "h1")
+                .getBody(),
             "holdId");
 
     ResponseEntity<String> first =
@@ -167,11 +173,13 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
   void keyReuseIs422() {
     String holdA =
         field(
-            post("/api/events/" + eventId + "/holds", "{\"quantity\":1}", "buyer-00000001", "h1").getBody(),
+            post("/api/events/" + eventId + "/holds", "{\"quantity\":1}", "buyer-00000001", "h1")
+                .getBody(),
             "holdId");
     String holdB =
         field(
-            post("/api/events/" + eventId + "/holds", "{\"quantity\":1}", "buyer-00000001", "h2").getBody(),
+            post("/api/events/" + eventId + "/holds", "{\"quantity\":1}", "buyer-00000001", "h2")
+                .getBody(),
             "holdId");
 
     post("/api/orders", "{\"holdId\":\"" + holdA + "\"}", "buyer-00000001", "same-key");
@@ -188,7 +196,8 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
   void declineIs402() {
     String holdId =
         field(
-            post("/api/events/" + eventId + "/holds", "{\"quantity\":2}", "buyer-00000001", "h1").getBody(),
+            post("/api/events/" + eventId + "/holds", "{\"quantity\":2}", "buyer-00000001", "h1")
+                .getBody(),
             "holdId");
 
     ResponseEntity<String> response =
@@ -200,7 +209,10 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
 
     assertThat(response.getStatusCode().value()).isEqualTo(402);
     assertThat(field(response.getBody(), "code")).isEqualTo("payment_declined");
-    assertThat(field(get("/api/events/" + eventId + "/seats", "buyer-00000001").getBody(), "availableCount"))
+    assertThat(
+            field(
+                get("/api/events/" + eventId + "/seats", "buyer-00000001").getBody(),
+                "availableCount"))
         .isEqualTo("40");
   }
 
@@ -209,7 +221,8 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
   void timeoutIs504WithRetryAfter() {
     String holdId =
         field(
-            post("/api/events/" + eventId + "/holds", "{\"quantity\":2}", "buyer-00000001", "h1").getBody(),
+            post("/api/events/" + eventId + "/holds", "{\"quantity\":2}", "buyer-00000001", "h1")
+                .getBody(),
             "holdId");
 
     ResponseEntity<String> response =
@@ -221,7 +234,9 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
 
     assertThat(response.getStatusCode().value()).isEqualTo(504);
     assertThat(response.getHeaders().getFirst("Retry-After")).isEqualTo("2");
-    assertThat(field(get("/api/events/" + eventId + "/seats", "buyer-00000001").getBody(), "heldCount"))
+    assertThat(
+            field(
+                get("/api/events/" + eventId + "/seats", "buyer-00000001").getBody(), "heldCount"))
         .isEqualTo("2");
   }
 
@@ -230,7 +245,8 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
   void expiredHoldIs410() {
     String holdId =
         field(
-            post("/api/events/" + eventId + "/holds", "{\"quantity\":1}", "buyer-00000001", "h1").getBody(),
+            post("/api/events/" + eventId + "/holds", "{\"quantity\":1}", "buyer-00000001", "h1")
+                .getBody(),
             "holdId");
 
     jdbc.update("update holds set expires_at = now() - interval '1 second'");
@@ -248,13 +264,17 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
   void cancelIs204() {
     String holdId =
         field(
-            post("/api/events/" + eventId + "/holds", "{\"quantity\":3}", "buyer-00000001", "h1").getBody(),
+            post("/api/events/" + eventId + "/holds", "{\"quantity\":3}", "buyer-00000001", "h1")
+                .getBody(),
             "holdId");
 
     ResponseEntity<String> response = delete("/api/holds/" + holdId, "buyer-00000001");
 
     assertThat(response.getStatusCode().value()).isEqualTo(204);
-    assertThat(field(get("/api/events/" + eventId + "/seats", "buyer-00000001").getBody(), "availableCount"))
+    assertThat(
+            field(
+                get("/api/events/" + eventId + "/seats", "buyer-00000001").getBody(),
+                "availableCount"))
         .isEqualTo("40");
   }
 
@@ -263,7 +283,8 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
   void someoneElsesHoldIs404() {
     String holdId =
         field(
-            post("/api/events/" + eventId + "/holds", "{\"quantity\":1}", "buyer-00000001", "h1").getBody(),
+            post("/api/events/" + eventId + "/holds", "{\"quantity\":1}", "buyer-00000001", "h1")
+                .getBody(),
             "holdId");
 
     ResponseEntity<String> response = delete("/api/holds/" + holdId, "buyer-00000002");
@@ -290,7 +311,10 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
     ResponseEntity<String> response = get("/api/events/" + eventId + "/me", "buyer-00000001");
 
     assertThat(response.getStatusCode().value()).isEqualTo(200);
-    assertThat(response.getBody()).contains("\"serverTime\"").contains("\"holds\"").contains("\"orders\"");
+    assertThat(response.getBody())
+        .contains("\"serverTime\"")
+        .contains("\"holds\"")
+        .contains("\"orders\"");
     assertThat(field(response.getBody(), "availableSeats")).isEqualTo("38");
   }
 
@@ -315,7 +339,8 @@ class ReservationApiIntegrationTest extends HttpIntegrationTestBase {
   void adminInvariantEndpoint() {
     post("/api/events/" + eventId + "/holds", "{\"quantity\":2}", "buyer-00000001", "h1");
 
-    ResponseEntity<String> response = post("/api/admin/verify-invariants", "", "buyer-organizer", null);
+    ResponseEntity<String> response =
+        post("/api/admin/verify-invariants", "", "buyer-organizer", null);
 
     assertThat(response.getStatusCode().value()).isEqualTo(200);
     assertThat(field(response.getBody(), "passed")).isEqualTo("true");
