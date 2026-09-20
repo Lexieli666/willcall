@@ -1,0 +1,201 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  JAVA_VERSION: '21'
+  NODE_VERSION: '20'
+
+jobs:
+  backend:
+    name: backend (lint, unit, property)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Static checks
+        working-directory: server
+        run: ./gradlew spotlessCheck compileJava
+      - name: Unit and property tests
+        working-directory: server
+        run: ./gradlew test jacocoTestReport
+      - name: Enforce coverage floor
+        working-directory: server
+        run: ../scripts/check-coverage.sh build/reports/jacoco/test/jacocoTestReport.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-test-reports
+          path: |
+            server/build/reports/tests/test
+            server/build/reports/jacoco/test
+
+  integration:
+    name: backend (Testcontainers)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Integration and concurrency suites
+        working-directory: server
+        run: ./gradlew integrationTest
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integration-test-reports
+          path: server/build/reports/tests/integrationTest
+
+  frontend:
+    name: frontend (typecheck, lint, unit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - working-directory: web
+        run: npm ci --no-audit --no-fund
+      - name: Typecheck
+        working-directory: web
+        run: npx tsc -b
+      - name: Lint
+        working-directory: web
+        run: npm run lint
+      - name: Unit tests
+        working-directory: web
+        run: npm run test -- --coverage
+      - name: Build
+        working-directory: web
+        run: npm run build
+      - name: Per-route bundle budget
+        working-directory: web
+        run: node ../scripts/check-bundle-budget.mjs dist
+
+  e2e:
+    name: e2e, accessibility and keyboard gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Start the stack
+        run: |
+          docker compose up -d --build postgres redis app1
+          ./scripts/wait-for-healthy.sh http://127.0.0.1:18081
+      - working-directory: web
+        run: npm ci --no-audit --no-fund
+      - working-directory: web
+        run: npx playwright install --with-deps chromium
+      - name: Playwright (includes @a11y and @keyboard)
+        working-directory: web
+        env:
+          WILLCALL_API_ORIGIN: http://127.0.0.1:18081
+        run: npx playwright test
+      - name: Lighthouse budgets
+        working-directory: web
+        run: ../scripts/lighthouse.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-report
+          path: |
+            web/playwright-report
+            web/.lighthouseci
+      - name: Stack logs on failure
+        if: failure()
+        run: docker compose logs --no-color | tail -500
+
+  verify-invariants:
+    name: verify-invariants
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: Start the stack
+        run: |
+          docker compose up -d --build postgres redis app1
+          ./scripts/wait-for-healthy.sh http://127.0.0.1:18081
+      - name: Drive traffic through the reservation core
+        run: ./scripts/exercise-api.sh http://127.0.0.1:18081
+      - name: Assert the invariant against the database
+        run: ./scripts/verify-invariants.sh
+
+  load-smoke:
+    name: k6 smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: grafana/setup-k6-action@v1
+      - name: Start the stack
+        run: |
+          docker compose up -d --build postgres redis app1
+          ./scripts/wait-for-healthy.sh http://127.0.0.1:18081
+      - name: Smoke run
+        env:
+          WILLCALL_BASE_URL: http://127.0.0.1:18081
+        run: ./scripts/run-load.sh smoke
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: k6-smoke
+          path: load/results
+
+  terraform:
+    name: terraform fmt and validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.16.3
+      - working-directory: infra/terraform
+        run: |
+          terraform init -backend=false -input=false
+          terraform fmt -check -recursive
+          terraform validate
+
+  hygiene:
+    name: repository hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: No committed secrets or state
+        run: ./scripts/check-no-secrets.sh

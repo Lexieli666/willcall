@@ -1,0 +1,113 @@
+name: deploy
+
+# Deploys every merge to main. The job is split so that a build failure never leaves a
+# half-applied infrastructure change: images are built and pushed first, Terraform is applied
+# second, and the smoke check against the public URL is what decides whether the deploy
+# counted.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        default: dev
+        type: choice
+        options: [dev]
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  AWS_REGION: ${{ vars.AWS_REGION || 'us-west-2' }}
+  TF_VAR_environment: ${{ inputs.environment || 'dev' }}
+
+jobs:
+  build-images:
+    name: build and push images
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Without a configured AWS role this deploy cannot run. It is skipped rather than failed,
+    # so a red X on main never means "the code is broken" when it means "no cloud account".
+    if: ${{ vars.AWS_DEPLOY_ROLE_ARN != '' }}
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: meta
+        run: echo "tag=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
+        id: ecr
+      - name: Build and push the server image
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+          TAG: ${{ steps.meta.outputs.tag }}
+        run: |
+          docker build --build-arg GIT_COMMIT="$TAG" \
+            -t "$REGISTRY/willcall-server:$TAG" -t "$REGISTRY/willcall-server:latest" server
+          docker push "$REGISTRY/willcall-server:$TAG"
+          docker push "$REGISTRY/willcall-server:latest"
+      - name: Build and push the web image
+        env:
+          REGISTRY: ${{ steps.ecr.outputs.registry }}
+          TAG: ${{ steps.meta.outputs.tag }}
+        run: |
+          docker build -t "$REGISTRY/willcall-web:$TAG" -t "$REGISTRY/willcall-web:latest" web
+          docker push "$REGISTRY/willcall-web:$TAG"
+          docker push "$REGISTRY/willcall-web:latest"
+
+  terraform-apply:
+    name: terraform apply
+    needs: build-images
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.16.3
+      - working-directory: infra/terraform
+        env:
+          TF_VAR_image_tag: ${{ needs.build-images.outputs.image_tag }}
+        run: |
+          terraform init -input=false
+          terraform plan -input=false -out=tfplan -var-file=env/dev.tfvars
+          terraform apply -input=false -auto-approve tfplan
+      - id: url
+        working-directory: infra/terraform
+        run: echo "public_url=$(terraform output -raw public_url)" >> "$GITHUB_OUTPUT"
+      - name: The deploy counts only if the public URL serves the app
+        run: |
+          ./scripts/wait-for-healthy.sh "${{ steps.url.outputs.public_url }}" 300
+          curl -fsS "${{ steps.url.outputs.public_url }}/" | grep -q '<div id="root">'
+          echo "deployed: ${{ steps.url.outputs.public_url }}"
+
+  post-deploy-invariants:
+    name: verify-invariants against the deployed database
+    needs: terraform-apply
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Run the invariant checks through the bastion task
+        run: ./scripts/verify-invariants-remote.sh
