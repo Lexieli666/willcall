@@ -39,6 +39,13 @@ export const options: Options = {
 }
 
 export function setup(): { eventId: string } {
+  // The game day creates the event itself so its timeline can name the one under load; when it
+  // does, reuse it rather than quietly creating a second one and measuring that instead.
+  const existing = __ENV.HOLD_EVENT_ID
+  if (existing) {
+    console.log(`holds scenario using the caller's event ${existing}`)
+    return { eventId: existing }
+  }
   // Large enough that the run does not sell out and start measuring the sold-out path instead of
   // the hold path.
   const event = createEvent({

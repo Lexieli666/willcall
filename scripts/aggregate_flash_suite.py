@@ -19,7 +19,9 @@ import sys
 def main(suite_dir: str) -> None:
     per_run = []
 
-    for run_dir in sorted(glob.glob(f'{suite_dir}/run-*')):
+    # run-[0-9][0-9][0-9] rather than run-*: the suite writes run-context.md beside the run
+    # directories, and run-* matched it as a fifty-first run that was 'still in progress'.
+    for run_dir in sorted(glob.glob(f'{suite_dir}/run-[0-9][0-9][0-9]')):
         entry = {'run': os.path.basename(run_dir)}
 
         summary_path = os.path.join(run_dir, 'summary.json')

@@ -1,0 +1,193 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: load/scripts/flash.ts
+        output: -
+
+     scenarios: (100.00%) 2 scenarios, 12001 max VUs, 1m10s max duration (incl. graceful stop):
+              * flash: Up to 1000.00 iterations/s for 30s over 2 stages (maxVUs: 2000-12000, gracefulStop: 30s)
+              * watcher: 1 looping VUs for 40s (exec: watchInventory, gracefulStop: 30s)
+
+time="2026-09-20T14:39:17-07:00" level=info msg="flash sale: 10000 buyers arriving in 10s for 5000 seats (event d019412b-33f9-498d-ae94-8e364aad90c3)" source=console
+
+running (0m00.9s), 00476/02001 VUs, 125 complete and 0 interrupted iterations
+flash     [   2% ] 00475/02000 VUs  00.6s/30s  1000.00 iters/s
+watcher   [   2% ] 1 VUs            00.6s/40s 
+
+running (0m01.9s), 01220/02001 VUs, 381 complete and 0 interrupted iterations
+flash     [   5% ] 01219/02000 VUs  01.6s/30s  1000.00 iters/s
+watcher   [   4% ] 1 VUs            01.6s/40s 
+
+running (0m02.9s), 01921/02001 VUs, 681 complete and 0 interrupted iterations
+flash     [   9% ] 01920/02000 VUs  02.6s/30s  1000.00 iters/s
+watcher   [   7% ] 1 VUs            02.6s/40s 
+
+running (0m03.9s), 02156/02177 VUs, 1205 complete and 0 interrupted iterations
+flash     [  12% ] 02155/02176 VUs  03.6s/30s  1000.00 iters/s
+watcher   [   9% ] 1 VUs            03.6s/40s 
+
+running (0m04.9s), 02276/02301 VUs, 1930 complete and 0 interrupted iterations
+flash     [  15% ] 02275/02300 VUs  04.6s/30s  1000.00 iters/s
+watcher   [  12% ] 1 VUs            04.6s/40s 
+
+running (0m05.9s), 02385/02407 VUs, 2679 complete and 0 interrupted iterations
+flash     [  19% ] 02384/02406 VUs  05.6s/30s  1000.00 iters/s
+watcher   [  14% ] 1 VUs            05.6s/40s 
+
+running (0m06.9s), 02492/02509 VUs, 3439 complete and 0 interrupted iterations
+flash     [  22% ] 02490/02508 VUs  06.6s/30s  1000.00 iters/s
+watcher   [  17% ] 1 VUs            06.6s/40s 
+
+running (0m07.9s), 02570/02599 VUs, 4244 complete and 0 interrupted iterations
+flash     [  25% ] 02569/02598 VUs  07.6s/30s  1000.00 iters/s
+watcher   [  19% ] 1 VUs            07.6s/40s 
+
+running (0m08.9s), 02605/02666 VUs, 5122 complete and 0 interrupted iterations
+flash     [  29% ] 02604/02665 VUs  08.6s/30s  1000.00 iters/s
+watcher   [  22% ] 1 VUs            08.6s/40s 
+time="2026-09-20T14:39:26-07:00" level=info msg="sold out after 8.9 s" source=console
+
+running (0m09.9s), 02091/02666 VUs, 6636 complete and 0 interrupted iterations
+flash     [  32% ] 02090/02665 VUs  09.6s/30s  1000.00 iters/s
+watcher   [  24% ] 1 VUs            09.6s/40s 
+
+running (0m10.9s), 01040/02666 VUs, 8680 complete and 0 interrupted iterations
+flash     [  35% ] 01039/02665 VUs  10.6s/30s  0970.03 iters/s
+watcher   [  27% ] 1 VUs            10.6s/40s 
+
+running (0m11.9s), 00007/02666 VUs, 10659 complete and 0 interrupted iterations
+flash     [  39% ] 00006/02665 VUs  11.6s/30s  0920.03 iters/s
+watcher   [  29% ] 1 VUs            11.6s/40s 
+
+running (0m12.9s), 00008/02666 VUs, 11554 complete and 0 interrupted iterations
+flash     [  42% ] 00007/02665 VUs  12.6s/30s  0870.03 iters/s
+watcher   [  32% ] 1 VUs            12.6s/40s 
+
+running (0m13.9s), 00004/02666 VUs, 12404 complete and 0 interrupted iterations
+flash     [  45% ] 00003/02665 VUs  13.6s/30s  0820.03 iters/s
+watcher   [  34% ] 1 VUs            13.6s/40s 
+
+running (0m14.9s), 00005/02666 VUs, 13199 complete and 0 interrupted iterations
+flash     [  49% ] 00004/02665 VUs  14.6s/30s  0770.03 iters/s
+watcher   [  37% ] 1 VUs            14.6s/40s 
+
+running (0m15.9s), 00004/02666 VUs, 13946 complete and 0 interrupted iterations
+flash     [  52% ] 00003/02665 VUs  15.6s/30s  0720.03 iters/s
+watcher   [  39% ] 1 VUs            15.6s/40s 
+
+running (0m16.9s), 00004/02666 VUs, 14642 complete and 0 interrupted iterations
+flash     [  55% ] 00003/02665 VUs  16.6s/30s  0670.04 iters/s
+watcher   [  42% ] 1 VUs            16.6s/40s 
+
+running (0m17.9s), 00004/02666 VUs, 15288 complete and 0 interrupted iterations
+flash     [  59% ] 00003/02665 VUs  17.6s/30s  0620.04 iters/s
+watcher   [  44% ] 1 VUs            17.6s/40s 
+
+running (0m18.9s), 00004/02666 VUs, 15884 complete and 0 interrupted iterations
+flash     [  62% ] 00003/02665 VUs  18.6s/30s  0570.04 iters/s
+watcher   [  47% ] 1 VUs            18.6s/40s 
+
+running (0m19.9s), 00004/02666 VUs, 16430 complete and 0 interrupted iterations
+flash     [  65% ] 00003/02665 VUs  19.6s/30s  0520.05 iters/s
+watcher   [  49% ] 1 VUs            19.6s/40s 
+
+running (0m20.9s), 00003/02666 VUs, 16927 complete and 0 interrupted iterations
+flash     [  69% ] 00002/02665 VUs  20.6s/30s  0470.05 iters/s
+watcher   [  52% ] 1 VUs            20.6s/40s 
+
+running (0m21.9s), 00003/02666 VUs, 17373 complete and 0 interrupted iterations
+flash     [  72% ] 00002/02665 VUs  21.6s/30s  0420.06 iters/s
+watcher   [  54% ] 1 VUs            21.6s/40s 
+
+running (0m22.9s), 00002/02666 VUs, 17770 complete and 0 interrupted iterations
+flash     [  75% ] 00001/02665 VUs  22.6s/30s  0370.07 iters/s
+watcher   [  57% ] 1 VUs            22.6s/40s 
+
+running (0m23.9s), 00002/02666 VUs, 18116 complete and 0 interrupted iterations
+flash     [  79% ] 00001/02665 VUs  23.6s/30s  0320.08 iters/s
+watcher   [  59% ] 1 VUs            23.6s/40s 
+
+running (0m24.9s), 00002/02666 VUs, 18412 complete and 0 interrupted iterations
+flash     [  82% ] 00001/02665 VUs  24.6s/30s  0270.09 iters/s
+watcher   [  62% ] 1 VUs            24.6s/40s 
+
+running (0m25.9s), 00002/02666 VUs, 18658 complete and 0 interrupted iterations
+flash     [  85% ] 00001/02665 VUs  25.6s/30s  0220.11 iters/s
+watcher   [  64% ] 1 VUs            25.6s/40s 
+
+running (0m26.9s), 00001/02666 VUs, 18855 complete and 0 interrupted iterations
+flash     [  89% ] 00000/02665 VUs  26.6s/30s  0170.15 iters/s
+watcher   [  67% ] 1 VUs            26.6s/40s 
+
+running (0m27.9s), 00001/02666 VUs, 19001 complete and 0 interrupted iterations
+flash     [  92% ] 00000/02665 VUs  27.6s/30s  0120.21 iters/s
+watcher   [  69% ] 1 VUs            27.6s/40s 
+
+running (0m28.9s), 00001/02666 VUs, 19097 complete and 0 interrupted iterations
+flash     [  95% ] 00000/02665 VUs  28.6s/30s  0070.36 iters/s
+watcher   [  72% ] 1 VUs            28.6s/40s 
+
+running (0m29.9s), 00001/02666 VUs, 19143 complete and 0 interrupted iterations
+flash     [  99% ] 00000/02665 VUs  29.6s/30s  0021.18 iters/s
+watcher   [  74% ] 1 VUs            29.6s/40s 
+
+running (0m30.9s), 00001/02666 VUs, 19148 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher   [  77% ] 1 VUs            30.6s/40s
+
+running (0m31.9s), 00001/02666 VUs, 19149 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher   [  79% ] 1 VUs            31.6s/40s
+
+running (0m32.9s), 00001/02666 VUs, 19150 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher   [  82% ] 1 VUs            32.6s/40s
+
+running (0m33.9s), 00001/02666 VUs, 19151 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher   [  84% ] 1 VUs            33.6s/40s
+
+running (0m34.9s), 00001/02666 VUs, 19152 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher   [  87% ] 1 VUs            34.6s/40s
+
+running (0m35.9s), 00001/02666 VUs, 19153 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher   [  89% ] 1 VUs            35.6s/40s
+
+running (0m36.9s), 00001/02666 VUs, 19154 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher   [  92% ] 1 VUs            36.6s/40s
+
+running (0m37.9s), 00001/02666 VUs, 19155 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher   [  94% ] 1 VUs            37.6s/40s
+
+running (0m38.9s), 00001/02666 VUs, 19156 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher   [  97% ] 1 VUs            38.6s/40s
+
+running (0m39.9s), 00001/02666 VUs, 19157 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher   [  99% ] 1 VUs            39.6s/40s
+
+running (0m40.9s), 00001/02666 VUs, 19158 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher ↓ [ 100% ] 1 VUs            40s 
+time="2026-09-20T14:39:58-07:00" level=info msg="invariants after the flash sale: PASS" source=console
+time="2026-09-20T14:39:58-07:00" level=info msg="final tally for event d019412b-33f9-498d-ae94-8e364aad90c3 (capacity 5000): 2690 sold, 0 held, 2310 available" source=console
+
+thresholds: PASS willcall_invariants_held: rate==1
+            PASS willcall_flash_errors: rate<0.001
+            PASS willcall_flash_server_errors: count==0
+            PASS willcall_flash_hold_duration: p(99)<5000
+
+running (0m41.2s), 00000/02666 VUs, 19159 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02665 VUs  30s  0005.00 iters/s
+watcher ✓ [ 100% ] 1 VUs            40s 

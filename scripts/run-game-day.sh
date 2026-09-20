@@ -72,6 +72,7 @@ SCENARIO_OUT="$OUT_DIR" \
     --summary-trend-stats 'min,med,avg,p(90),p(95),p(99),max' \
     -e "BASE_URL=$BASE_URL" \
     -e "SCENARIO_OUT=$OUT_DIR" \
+    -e "HOLD_EVENT_ID=$EVENT_ID" \
     -e "HOLD_RATE=${WILLCALL_GAMEDAY_RATE:-150}" \
     -e "HOLD_DURATION=${LOAD_SECONDS}s" \
     load/scripts/holds.ts > "$OUT_DIR/k6.log" 2>&1 &

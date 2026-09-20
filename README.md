@@ -54,8 +54,8 @@ targets that were missed.
 | 10,000 concurrent holds on 500 seats | **5/5 runs: exactly 500 held, 0 errors, 0 oversells** | exactly 500 held, 0 oversells, 0 errors | met |
 | Backend tests | **110 run, 0 failed** | 150–220 | below the range |
 | Backend line coverage | **86.47%** | ≥ 80% | met |
-| Flash sale: 10,000 buyers in 10 s for 5,000 seats | **23/23 runs with invariants intact, 0 oversells, 0 server errors** | 0 oversells across 50 runs | 0 oversells, fewer than 50 runs |
-| Time to sell out | **7.5 / 8.0 / 9.6 s (min/median/max)** | 8–45 s | met |
+| Flash sale: 10,000 buyers in 10 s for 5,000 seats | **50/50 runs with invariants intact, 0 oversells, 0 server errors** | 0 oversells across 50 runs | met |
+| Time to sell out | **7.4 / 8.0 / 10.5 s (min/median/max)** | 8–45 s | faster than the range |
 | Concurrent SSE connections | **5,000 established, 0 failed** | ≥ 5,000 | met |
 | Delta propagation, commit → client, p99 | **223 ms (p50 113 ms, includes the 50 ms coalescing window)** | 80–250 ms | met |
 | Retained heap per connection | **75.7 KiB** | 10–60 KB | **missed** |

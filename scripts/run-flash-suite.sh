@@ -86,7 +86,8 @@ import glob, json, os, re, statistics, subprocess, sys
 suite_dir, runs = sys.argv[1], int(sys.argv[2])
 per_run = []
 
-for run_dir in sorted(glob.glob(f'{suite_dir}/run-*')):
+# run-[0-9][0-9][0-9] rather than run-*: run-context.md sits beside the run directories.
+for run_dir in sorted(glob.glob(f'{suite_dir}/run-[0-9][0-9][0-9]')):
     entry = {'run': os.path.basename(run_dir)}
     summary_path = os.path.join(run_dir, 'summary.json')
     if os.path.exists(summary_path):
