@@ -173,88 +173,21 @@ printf '\n--- invariants after the scenario ---\n'
 ./scripts/verify-invariants.sh 2>&1 | tee "$OUT_DIR/verify-invariants.log" | tail -3
 INVARIANT_EXIT="${PIPESTATUS[0]}"
 
-python3 - "$OUT_DIR" "$SCENARIO" "$K6_EXIT" "$INVARIANT_EXIT" "$FAULT_START" <<'PY'
-import collections, json, os, re, sys
-
+# The raw files are the measurement; gameday.json is a view over them. Writing the view here as
+# well as in the summariser meant two copies of the counter-reset logic, and they disagreed - this
+# one counted gauge dips as replica restarts and reported eighty on a replica nobody touched.
+python3 - "$OUT_DIR" "$SCENARIO" "$K6_EXIT" "$INVARIANT_EXIT" "$FAULT_START" <<'SEED'
+import json, os, sys
 out_dir, scenario, k6_exit, invariant_exit, fault_start = sys.argv[1:6]
-
-# Status-code counts over the run, summed from the sampled counters.
-#
-# Last-minus-first is wrong the moment a replica restarts: its counters go back to zero, and the
-# kill-replica scenario reported -93,580 responses with status 201 - a number that is not merely
-# inaccurate but impossible, and that no amount of reading the chart would have explained. This
-# walks the samples in order and adds each positive step, treating a step backwards as a restart
-# and counting the new value from zero, which is what Prometheus' own increase() does. The resets
-# are counted too, because "the replica restarted twice" is itself a finding.
-previous = {}
-totals = collections.Counter()
-resets = collections.Counter()
-for line in open(os.path.join(out_dir, 'metrics.txt'), errors='replace'):
-    parts = line.split(' ', 2)
-    if len(parts) < 3:
-        continue
-    _, replica, metric = parts
-    metric = metric.strip()
-    if not metric or metric.startswith('#'):
-        continue
-    name, _, value = metric.rpartition(' ')
-    try:
-        value = float(value)
-    except ValueError:
-        continue
-    key = (replica, name)
-    if key not in previous:
-        # The first sample is the baseline: work done before the run started is not this run's.
-        previous[key] = value
-        continue
-    if value >= previous[key]:
-        totals[key] += value - previous[key]
-    else:
-        totals[key] += value
-        resets[replica] += 1
-    previous[key] = value
-
-by_status = collections.Counter()
-for (replica, name), value in totals.items():
-    if not name.startswith('http_server_requests_seconds_count'):
-        continue
-    status = re.search(r'status="(\d+)"', name)
-    if not status:
-        continue
-    by_status[status.group(1)] += value
-
-summary = {}
-summary_path = os.path.join(out_dir, 'summary.json')
-if os.path.exists(summary_path):
-    metrics = json.load(open(summary_path)).get('metrics', {})
-    summary = {
-        'holdP99Ms': metrics.get('willcall_hold_duration', {}).get('p(99)'),
-        'holdMaxMs': metrics.get('willcall_hold_duration', {}).get('max'),
-        'holdsGranted': metrics.get('willcall_holds_granted', {}).get('count'),
-        'holdsRefused': metrics.get('willcall_holds_refused', {}).get('count'),
-        'errorRate': metrics.get('willcall_hold_errors', {}).get('rate'),
-    }
-
-report = {
+json.dump({
     'scenario': scenario,
     'faultInjectedAt': fault_start,
     'k6ExitCode': int(k6_exit),
     'invariantsHeld': int(invariant_exit) == 0,
-    'responsesByStatus': {k: round(v) for k, v in sorted(by_status.items())},
-    # A counter that went backwards means that replica restarted mid-run. Zero here during
-    # kill-replica would mean the fault did not land.
-    'counterResetsByReplica': dict(sorted(resets.items())),
-    'load': summary,
-}
-json.dump(report, open(os.path.join(out_dir, 'gameday.json'), 'w'), indent=2)
+}, open(os.path.join(out_dir, 'gameday.json'), 'w'), indent=2)
+SEED
 
-print('')
-print(f"responses by status : {report['responsesByStatus']}")
-print(f"counter resets      : {report['counterResetsByReplica'] or 'none'}")
-print(f"invariants held     : {report['invariantsHeld']}")
-if summary.get('holdP99Ms'):
-    print(f"hold p99 / max (ms) : {summary['holdP99Ms']:.0f} / {summary['holdMaxMs']:.0f}")
-PY
+./scripts/summarise_game_day.py "$OUT_DIR"
 
 {
   printf '# Run context: game day, %s\n\n' "$SCENARIO"
@@ -268,7 +201,7 @@ PY
   printf '| Host logical cores | %s |\n' "$(nproc)"
   printf '\n## Caveats\n\n'
   printf -- '- Local Compose cannot exercise Application Load Balancer behaviour, cross-availability-zone failure, or RDS failover. Those remain outstanding and are listed in PROGRESS.md.\n'
-  printf -- '- Metrics are sampled every two seconds from each replica directly. A counter that resets because a replica restarted shows as a negative delta; the kill-replica scenario is read with that in mind.\n'
+  printf -- '- Metrics are sampled every two seconds from each replica directly. Counters are summed as positive steps, so a replica that restarts mid-run is counted from zero rather than producing a negative total; the number of series that reset is reported, because during kill-replica a reset count of zero would mean the fault never landed.\n'
 } > "$OUT_DIR/run-context.md"
 
 printf '\nwritten to %s\n' "$OUT_DIR"

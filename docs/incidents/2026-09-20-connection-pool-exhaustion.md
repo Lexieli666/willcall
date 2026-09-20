@@ -140,20 +140,55 @@ of 30,001 ms is nginx's `proxy_read_timeout`, likewise.
 
 | # | Action | Kind | Owner | Status |
 |---|---|---|---|---|
-| 1 | Set `lock_timeout` on application connections so a blocked statement fails and releases its pool connection instead of waiting for the proxy to give up | prevent | Lexie Li | pending |
-| 2 | Map PostgreSQL `55P03` (lock not available) and `57014` (query cancelled) to `503` with `Retry-After`, like pool exhaustion | prevent | Lexie Li | pending |
-| 3 | Raise `max_fails` and shorten `proxy_read_timeout` on the API location so shared slowness cannot eject every replica at once | mitigate | Lexie Li | pending |
-| 4 | Stop retrying timed-out requests on the next upstream; during a shared slowdown it is pure amplification | mitigate | Lexie Li | pending |
-| 5 | Turn the edge access log back on, in a format that counts status codes, so a `502` the application never sees is still counted somewhere | detect | Lexie Li | pending |
-| 6 | Alert on edge 5xx, not only on application 5xx — the gap between them is exactly this incident | detect | Lexie Li | pending |
-| 7 | Re-run this scenario and confirm the `502`s are gone | detect | Lexie Li | pending |
+| 1 | Set `lock_timeout` on application connections so a blocked statement fails and releases its pool connection instead of waiting for the proxy to give up | prevent | Lexie Li | done |
+| 2 | Map PostgreSQL `55P03` (lock not available) and `57014` (query cancelled) to `503` with `Retry-After`, like pool exhaustion | prevent | Lexie Li | done |
+| 3 | Stop nginx ejecting every replica when the slowness is shared: `max_fails=0`, and rely on the container health check for liveness | mitigate | Lexie Li | done |
+| 4 | Shorten `proxy_read_timeout` on the API location from 30 s to 10 s, below anything the application will now take | mitigate | Lexie Li | done |
+| 5 | Stop retrying timed-out requests on the next upstream; during a shared slowdown it is pure amplification | mitigate | Lexie Li | done |
+| 6 | Turn the edge access log back on, with status and per-request timing, so a `502` the application never sees is still counted somewhere | detect | Lexie Li | done |
+| 7 | Re-run this scenario and confirm the `502`s are gone | detect | Lexie Li | done — three times; see below |
+| 8 | Shed at admission when the pool is saturated, instead of letting requests queue behind it — a bulkhead, so a `503` arrives in tens of milliseconds rather than nine seconds | mitigate | Lexie Li | **not done** |
 
 ## Verification
 
-**Not yet done.** The falsifier is simple and is already a scenario that runs on demand: hold the
-lock again, and if the edge logs `no live upstreams` even once, the fix did not work. This section
-will name the result directory once that run exists; until then every action above is pending and
-this postmortem describes a diagnosis, not a repair.
+The scenario was re-run three times, each after a change. The falsifier is the same every time:
+hold the lock again, and if the edge logs `no live upstreams` even once, the fix did not work.
+
+| Run | Configuration | `no live upstreams` | `502` | `500` | `503` | Invariants |
+|---|---|---|---|---|---|---|
+| `gameday-exhaust-pool-215700` | before any fix | **1,227** | 1,227 | 0 | 4,427 | held |
+| `gameday-exhaust-pool-221655` | `lock_timeout` 5 s, edge fixes | 0 | 9 | **98** | 5,274 | held |
+| `gameday-exhaust-pool-222155` | + SQL exception translator | 0 | 1 | 0 | 5,402 | held |
+| `gameday-exhaust-pool-222551` | `lock_timeout` 2 s | 0 | 1 | 0 | 5,530 | held |
+
+The second run is the interesting one. `lock_timeout` worked — statements were cancelled, pool
+connections were released, the edge held — and 98 requests became `500` instead of `503`, because
+PostgreSQL's `55P03` arrives as an `UncategorizedSQLException`: the driver throws a plain
+`PSQLException`, so Spring's subclass translator has nothing to match, and its error-code
+translator has no PostgreSQL entry for that state. **Setting a timeout without deciding what its
+expiry means is half a change**, and the half that was missing turned a graceful shed into a fault
+for one request in sixty. It is fixed by a translator on the `JdbcTemplate` rather than another
+`@ExceptionHandler`, so every query gets it and not only the ones somebody remembered.
+
+One `502` remains in each of the later runs, out of roughly eighteen thousand requests. It is a
+single request that reached the 10 s read timeout, and it is left alone rather than tuned away.
+
+### What the verification did not fix
+
+**Shed responses are slow.** The `503`s arrive at a p99 of 9.5 s, against 2.0 s before any of this.
+That is not a regression caused by the fix: the earlier 2.0 s figure was the pool's own timeout on a
+system that was simultaneously collapsing at the edge, and the requests that would have been slow
+were the 1,227 that got a fast `502` instead. Lowering `lock_timeout` from 5 s to 2 s changed the
+p99 from 8.3 s to 9.6 s — that is, made no useful difference — which is the measurement that says
+the wait is not in the timeouts at all. It is queueing: at 150 requests/s against a database that
+is not answering, the backlog ahead of the pool is what a request spends its time in, and every
+timeout downstream of that queue is reached only after waiting in it.
+
+A `503` that takes nine seconds has shed nothing a buyer still cares about. The fix is a bulkhead —
+refuse at admission when the pool has no capacity, rather than accepting the request and letting it
+queue — and it is action 8, recorded and not done. `lock_timeout` stays at 2 s because it bounds a
+blocked statement tightly and matches the pool's own timeout, not because it made the p99 better;
+it did not.
 
 ## Evidence
 
@@ -162,3 +197,4 @@ this postmortem describes a diagnosis, not a repair.
 - `timeline.txt` — fault injection and release times
 - Edge log excerpt: `upstream timed out (110: Operation timed out) while reading response header`
   at 21:58:10, then 1,227 × `no live upstreams while connecting to upstream`
+- Verification runs: `load/results/2026-09-20/gameday-exhaust-pool-221655/`, `-222155/`, `-222551/`
