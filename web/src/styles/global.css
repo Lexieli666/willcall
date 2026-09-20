@@ -539,3 +539,18 @@ body {
   align-items: center;
   margin-bottom: 1rem;
 }
+
+/*
+  Skeletons exist to hold space, not to entertain. Their job is to occupy exactly the room the
+  real content will take so that nothing moves when it arrives: a cumulative layout shift of 0.88
+  was measured before they existed, against a budget of 0.05.
+
+  No shimmer animation. It would be motion for its own sake, and under prefers-reduced-motion it
+  would have to be switched off anyway, leaving the version below as the one that has to work.
+*/
+.wc-skeleton span {
+  color: transparent;
+  background: var(--wc-bg-sunken);
+  border-radius: 3px;
+  display: inline-block;
+}

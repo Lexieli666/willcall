@@ -1,0 +1,76 @@
+{
+  "commit": "54285a944b388094646ab619671e8fa1dfa79b3d",
+  "lighthouse": {
+    "runs": 3,
+    "preset": "desktop",
+    "accessibility": 1,
+    "performance": 1,
+    "bestPractices": 1,
+    "seo": 0.91,
+    "medianLargestContentfulPaintMs": 444.5561,
+    "medianCumulativeLayoutShift": 0.0085,
+    "medianTotalBlockingTimeMs": 0,
+    "medianFirstContentfulPaintMs": 364.199,
+    "perRun": [
+      {
+        "url": "http://127.0.0.1:8080/",
+        "categories": {
+          "performance": 1,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 0.91
+        },
+        "largestContentfulPaintMs": 404.199,
+        "cumulativeLayoutShift": 0.00851063829787234,
+        "totalBlockingTimeMs": 0,
+        "firstContentfulPaintMs": 364.199,
+        "speedIndexMs": 364.199
+      },
+      {
+        "url": "http://127.0.0.1:8080/",
+        "categories": {
+          "performance": 1,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 0.91
+        },
+        "largestContentfulPaintMs": 444.5561,
+        "cumulativeLayoutShift": 0.00851063829787234,
+        "totalBlockingTimeMs": 0,
+        "firstContentfulPaintMs": 403.0374,
+        "speedIndexMs": 403.0374
+      },
+      {
+        "url": "http://127.0.0.1:8080/",
+        "categories": {
+          "performance": 1,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 0.91
+        },
+        "largestContentfulPaintMs": 446.21525,
+        "cumulativeLayoutShift": 0.00851063829787234,
+        "totalBlockingTimeMs": 0,
+        "firstContentfulPaintMs": 364.1435,
+        "speedIndexMs": 364.1435
+      }
+    ]
+  },
+  "seatMapRender": {
+    "seats": 5000,
+    "renderMs": 42,
+    "budgetMs": 120
+  },
+  "playwright": {
+    "total": 15,
+    "passed": 15,
+    "failed": 0
+  },
+  "vitestCoverage": {
+    "lines": 41.48,
+    "statements": 41.48,
+    "functions": 77.58,
+    "branches": 82.74
+  },
+  "bundleBudget": "ok: route index.html -> 100.3 KB gzipped (budget 180 KB)"
+}

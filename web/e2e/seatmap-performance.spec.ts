@@ -39,7 +39,7 @@ test.describe('seat map performance', () => {
       body: JSON.stringify({ seats: 5000, renderMs: milliseconds, budgetMs: 120 }, null, 2),
       contentType: 'application/json',
     })
-    // eslint-disable-next-line no-console -- the measured value belongs in the CI log
+     
     console.log(`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`)
 
     expect(milliseconds).toBeLessThan(120)
@@ -61,7 +61,7 @@ test.describe('seat map performance', () => {
     const body = (await seatsResponse.json()) as {
       sections: Array<{ rows: Array<{ seats: Array<{ id: string }> }> }>
     }
-    const seatId = body.sections[0]!.rows[0]!.seats[0]!.id
+    const seatId = body.sections[0].rows[0].seats[0].id
 
     await page.evaluate(() => performance.clearMeasures())
 

@@ -227,10 +227,60 @@ Each of these was found by a test, not by reading the code. They are listed in
       text-only list mode
 - [x] End-to-end gap injection: a sequence number is genuinely burned on the server and the
       client is observed detecting and recovering
-- [ ] Phase 2 numbers folded into the README
+
+#### Phase 2 VERIFY results
+
+Raw files: `load/results/2026-09-20/jmh-contiguous-search/`,
+`load/results/2026-09-20/phase2-correctness/`, `load/results/2026-09-20/phase2-frontend/`.
+
+| Check | Result |
+|---|---|
+| JMH: segment tree vs linear scan | 18 parameter combinations committed; crossover published |
+| Property test: tree matches brute force | 10,000 random patterns per property, 0 disagreements |
+| Backend tests | **110 total, 0 failed** (46 fast, 64 Testcontainers) |
+| Backend line coverage | **86.47%** (1,796 / 2,077 lines), floor 80% |
+| Frontend unit tests | **85 passed** |
+| End-to-end tests | **15 passed**, including gap injection and the keyboard pass |
+| Gap injection → resync | server burns a sequence number; the client detects it and recovers |
+| 5,000-seat map render | **42.0 ms** against a 120 ms budget (100 rows × 50 seats) |
+| Lighthouse, 3 runs, desktop | accessibility **100**, performance **100**, best practices **100** |
+| Core Web Vitals | LCP 445 ms, CLS **0.0085**, TBT 0 ms |
+| Gzipped JS for the route | 100.1 KB against a 180 KB budget |
+
+**The crossover is not where it was expected.** The plan predicted "linear wins below ~500 seats
+per row, tree wins at 2,000+". The measurement says the crossover is an *occupancy* level, not a
+size: at 10% occupancy the linear scan wins at every size including 20,000 seats per row, and at
+90% occupancy the tree wins everywhere. The tree's best case is answering "no" — where no run of
+four exists it returns in 0.6 ns against 1,214 ns for the scan at 20,000 seats. Full analysis in
+`load/results/2026-09-20/jmh-contiguous-search/crossover.md`.
+
+#### Things that went wrong in Phase 2
+
+1. **Coalescing broke gap detection.** A window batches three seat changes into one frame, but
+   those changes consumed three sequence numbers. The frame carried only the highest, so every
+   multi-seat hold looked to the client like two lost messages. Caught by the end-to-end test,
+   which noticed the client reporting gaps that had not happened. Frames now carry the range.
+2. **The seat map was 126 ms against a 120 ms budget**, and nothing in the code looked expensive.
+   `formatMoney` was constructing an `Intl.NumberFormat` per seat while composing accessible
+   names — five thousand formatters per render. Caching them took it to 42 ms.
+3. **The ARIA grid structure was invalid.** `aria-pressed` is not supported on `role="gridcell"`,
+   and a grid's children must be rows or rowgroups, so `grid > section > h3 > row` failed
+   `aria-required-children`, `aria-required-parent` and `heading-order` at once. Found by ESLint
+   and axe, not by review.
+4. **Cumulative layout shift was 0.88** against a 0.05 budget: the events list replaced a
+   one-line "Loading…" with a list of cards. Skeletons that reuse the real card markup took it to
+   0.0085.
+5. **A closed browser tab produced an ERROR with a stack trace.** `AsyncRequestNotUsableException`
+   is a checked `IOException` subclass, so `catch (RuntimeException)` missed it, and Spring then
+   failed a second time trying to render problem+json into a `text/event-stream` response. At five
+   thousand connections that is five thousand stack traces for an ordinary disconnect.
+6. **A stale buyer-state response re-adopted an expired hold**, so the page announced "your hold
+   expired" and kept offering Pay for seats already back on sale.
+7. **The Redis outage test could not see Redis come back.** Testcontainers maps an ephemeral host
+   port and Docker assigns a new one on restart, so the application kept dialling the old address.
 
 ---
 
 ## What is next
 
-Finish Phase 2 verification, then Phase 3 (waiting room and real-time at load).
+Phase 3: the waiting room and real-time fan-out at load.

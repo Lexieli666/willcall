@@ -153,23 +153,30 @@ export function SeatMap({ store, revision, selectedIds, onSelect, onFirstRenderM
       navigate across section boundaries as one continuous map: the row index the handler works
       in is global, even though the markup is one grid per section.
     */
-    <div
-      ref={gridRef}
-      className="wc-seatmap"
-      onKeyDown={onKeyDown}
-      data-seat-count={store.size}
-      data-revision={revision}
-      // Programmatically focusable but not a tab stop. Focus normally lives on a cell via the
-      // roving tabindex; this exists so focus can be returned to the map as a whole after a
-      // resync replaces its contents, rather than being dumped on <body>.
-      tabIndex={-1}
-    >
+    <div ref={gridRef} className="wc-seatmap" data-seat-count={store.size} data-revision={revision}>
       {store.sections.map((section) => (
         <section key={section.id} className="wc-seatmap__section">
           <h2 className="wc-seatmap__section-name" id={`section-${section.id}`}>
             {section.name}
           </h2>
-          <div role="grid" aria-labelledby={`section-${section.id}`} aria-rowcount={section.rows.length}>
+          {/*
+            The key handler lives on each grid rather than on the wrapper. A bare <div> with a
+            keydown handler and no role is exactly what jsx-a11y's no-static-element-interactions
+            rule is for, and the rule is right: a keyboard handler on something with no interactive
+            role is invisible to assistive technology. Cross-section navigation still works,
+            because the handler and the focus state it reads are shared and index rows globally.
+
+            tabIndex={-1} makes the grid programmatically focusable without adding a tab stop, so
+            focus can be returned to it after a resync replaces its contents rather than being
+            dumped on <body>.
+          */}
+          <div
+            role="grid"
+            aria-labelledby={`section-${section.id}`}
+            aria-rowcount={section.rows.length}
+            tabIndex={-1}
+            onKeyDown={onKeyDown}
+          >
             {section.rows.map((row) => {
               rowIndex += 1
               const thisRow = rowIndex

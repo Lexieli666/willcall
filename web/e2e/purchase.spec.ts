@@ -42,7 +42,7 @@ test.describe('buying seats', () => {
     await page.goto(`/events/${event.id}`)
 
     const seatIds = await seatIdsOf(request, event.id, 1)
-    const seatId = seatIds[0]!
+    const seatId = seatIds[0]
 
     await page.locator(`#seat-${seatId}`).click()
     await expect(page.getByText('1 seat(s) selected')).toBeVisible()

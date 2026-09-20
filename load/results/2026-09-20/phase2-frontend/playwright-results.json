@@ -1,0 +1,747 @@
+{
+  "config": {
+    "argv": [
+      "/home/yzhao/.local/opt/node20/bin/node",
+      "/home/yzhao/willcall/web/node_modules/.bin/playwright",
+      "test"
+    ],
+    "configFile": "/home/yzhao/willcall/web/playwright.config.ts",
+    "rootDir": "/home/yzhao/willcall/web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/yzhao/willcall/web/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/yzhao/willcall/web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "playwright-report/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "purchase.spec.ts",
+      "file": "purchase.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "buying seats",
+          "file": "purchase.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "pick seats, hold them, pay, and land on a confirmation @smoke",
+              "ok": true,
+              "tags": [
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 784,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:34.281Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-b7484777af31bd529676",
+              "file": "purchase.spec.ts",
+              "line": 6,
+              "column": 3
+            },
+            {
+              "title": "best available takes seats without touching the map @smoke",
+              "ok": true,
+              "tags": [
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 531,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:34.270Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-534f6cc74579cd3afec2",
+              "file": "purchase.spec.ts",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "a seat taken between render and click is refused by name, not silently swapped",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 293,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:34.864Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-0669dfe6786b3da29a90",
+              "file": "purchase.spec.ts",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "an expired hold disables checkout and says why @realtime",
+              "ok": true,
+              "tags": [
+                "realtime"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 15601,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:35.127Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-6d7c1c6a5d71a0438a9a",
+              "file": "purchase.spec.ts",
+              "line": 59,
+              "column": 3
+            },
+            {
+              "title": "the text list mode offers the same seats as the map @a11y",
+              "ok": true,
+              "tags": [
+                "a11y"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 642,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:35.164Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "axe-seat-list-mode.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-24262a61e1e81a29ebbb",
+              "file": "purchase.spec.ts",
+              "line": 73,
+              "column": 3
+            },
+            {
+              "title": "every route and state is free of axe violations @a11y",
+              "ok": true,
+              "tags": [
+                "a11y"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3590,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:35.811Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "axe-events-list.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-event-map-empty-selection.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-event-map-with-selection.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-event-holding.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-confirmation.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-organizer.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-status.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-6792395ec4b7e0526582",
+              "file": "purchase.spec.ts",
+              "line": 86,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "realtime.spec.ts",
+      "file": "realtime.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "live seat updates",
+          "file": "realtime.spec.ts",
+          "line": 11,
+          "column": 6,
+          "specs": [
+            {
+              "title": "a seat taken by somebody else turns up on the map without a reload @realtime",
+              "ok": true,
+              "tags": [
+                "realtime"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 360,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:39.411Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f9e2d0c80f3a45ae9766-48ec1a980ad966d41bed",
+              "file": "realtime.spec.ts",
+              "line": 12,
+              "column": 3
+            },
+            {
+              "title": "a missing sequence number is detected and the client resyncs @realtime",
+              "ok": true,
+              "tags": [
+                "realtime"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 343,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:39.778Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f9e2d0c80f3a45ae9766-0d25f9cf5cdd8127354c",
+              "file": "realtime.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "the organizer dashboard counts the same seats the buyers see @realtime",
+              "ok": true,
+              "tags": [
+                "realtime"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 350,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:40.126Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f9e2d0c80f3a45ae9766-4b9102074796a643a135",
+              "file": "realtime.spec.ts",
+              "line": 63,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "seatmap-performance.spec.ts",
+      "file": "seatmap-performance.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "seat map performance",
+          "file": "seatmap-performance.spec.ts",
+          "line": 16,
+          "column": 6,
+          "specs": [
+            {
+              "title": "a 5,000-seat map renders inside the budget @performance",
+              "ok": true,
+              "tags": [
+                "performance"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 607,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "5,000-seat map rendered in 42.0 ms (budget 120 ms)\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:40.488Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "seatmap-render-ms.json",
+                          "contentType": "application/json",
+                          "body": "ewogICJzZWF0cyI6IDUwMDAsCiAgInJlbmRlck1zIjogNDIsCiAgImJ1ZGdldE1zIjogMTIwCn0="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b8fac0c830a0f28763d1-ca8d0c4d7762ed507081",
+              "file": "seatmap-performance.spec.ts",
+              "line": 17,
+              "column": 3
+            },
+            {
+              "title": "a delta repaints only the rows it touches @performance",
+              "ok": true,
+              "tags": [
+                "performance"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 320,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:41.101Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b8fac0c830a0f28763d1-c5be5af6b408c858103b",
+              "file": "seatmap-performance.spec.ts",
+              "line": 51,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "smoke.spec.ts",
+      "file": "smoke.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "landing page",
+          "file": "smoke.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "lists what is on sale @smoke",
+              "ok": true,
+              "tags": [
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 157,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:41.433Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4219922fea2e2bd3c691-240b172b6bdaeea9de2b",
+              "file": "smoke.spec.ts",
+              "line": 6,
+              "column": 3
+            },
+            {
+              "title": "has no axe violations @a11y",
+              "ok": true,
+              "tags": [
+                "a11y"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1591,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:41.596Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "axe-landing.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4219922fea2e2bd3c691-db894bdd7d6e956983cb",
+              "file": "smoke.spec.ts",
+              "line": 20,
+              "column": 3
+            },
+            {
+              "title": "the first tab stop is the skip link and it moves focus to main @keyboard",
+              "ok": true,
+              "tags": [
+                "keyboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 161,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:43.193Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4219922fea2e2bd3c691-ca8546f9aee8275948bb",
+              "file": "smoke.spec.ts",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "an unknown route says so rather than showing a blank page @smoke",
+              "ok": true,
+              "tags": [
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 110,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T20:17:43.359Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4219922fea2e2bd3c691-766d007e3d562815eac3",
+              "file": "smoke.spec.ts",
+              "line": 36,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-20T20:17:33.811Z",
+    "duration": 16961.238999999998,
+    "expected": 15,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

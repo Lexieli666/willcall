@@ -17,7 +17,7 @@ test.describe('live seat updates', () => {
     await page.goto(`/events/${event.id}`)
 
     const seatIds = await seatIdsOf(request, event.id, 1)
-    const seatId = seatIds[0]!
+    const seatId = seatIds[0]
     const seat = page.locator(`#seat-${seatId}`)
 
     await expect(seat).toHaveAttribute('data-status', 'AVAILABLE')
@@ -39,7 +39,7 @@ test.describe('live seat updates', () => {
     const seatIds = await seatIdsOf(request, event.id, 3)
 
     // One real change first, so the client has a cursor to be wrong about.
-    await holdAsSomeoneElse(request, event.id, [seatIds[0]!])
+    await holdAsSomeoneElse(request, event.id, [seatIds[0]])
     await expect(page.locator(`#seat-${seatIds[0]}`)).toHaveAttribute('data-status', 'HELD', {
       timeout: 10_000,
     })
@@ -47,7 +47,7 @@ test.describe('live seat updates', () => {
     // Now make a message vanish, then cause another change. The client should see sequence N+2
     // where it expected N+1.
     await injectGap(request, event.id)
-    await holdAsSomeoneElse(request, event.id, [seatIds[1]!])
+    await holdAsSomeoneElse(request, event.id, [seatIds[1]])
 
     // The recovery is what is asserted: the second seat's state arrives correctly despite the
     // hole, which can only happen if the client noticed and re-fetched.
