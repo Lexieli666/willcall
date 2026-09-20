@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -71,15 +72,11 @@ public abstract class HttpIntegrationTestBase {
   @Autowired protected TestRestTemplate rest;
   @Autowired protected JdbcTemplate jdbc;
 
+  @Autowired protected RedisConnectionFactory redis;
+
   @BeforeEach
-  void truncate() {
-    jdbc.execute(
-        """
-        truncate table outbox, idempotency_records, order_lines, orders,
-                       holds, hold_groups, seats, seat_rows, sections,
-                       price_tiers, events, venues
-        restart identity cascade
-        """);
+  void resetEverything() {
+    TestStateReset.clean(jdbc, redis);
   }
 
   protected HttpHeaders headers(String buyer, String idempotencyKey) {
