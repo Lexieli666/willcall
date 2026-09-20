@@ -1,0 +1,108 @@
+# Alerts fire on symptoms a person can act on. Anything else teaches people to ignore alerts, which
+# costs more than the thing it was watching. See docs/slo.md for the reasoning behind each.
+groups:
+  - name: willcall-correctness
+    rules:
+      - alert: WillcallSeatsLostAfterPayment
+        expr: increase(willcall_orders_seats_lost_after_payment_total[10m]) > 0
+        for: 0m
+        labels:
+          severity: page
+        annotations:
+          summary: 'A payment succeeded but the seats were gone'
+          description: >-
+            {{ $value }} order(s) took money without allocating seats. Each one needs a refund
+            issued by hand. If this is non-zero in normal operation the checkout grace is too
+            short; see ADR 0011.
+
+      - alert: WillcallSweeperStalled
+        expr: >-
+          increase(willcall_holds_granted_total[10m]) > 100
+          and increase(willcall_holds_expired_total[10m]) == 0
+        for: 10m
+        labels:
+          severity: page
+        annotations:
+          summary: 'Holds are being granted but none are expiring'
+          description: >-
+            Capacity is leaking: every hold that expires without being released is a seat nobody
+            can buy and nobody owns. Check the sweeper's scheduler and the database connection.
+
+  - name: willcall-availability
+    rules:
+      - alert: WillcallReservationErrors
+        expr: >-
+          sum(rate(http_server_requests_seconds_count{status=~"5..",status!="503",uri=~".*(holds|orders).*"}[5m]))
+          /
+          sum(rate(http_server_requests_seconds_count{uri=~".*(holds|orders).*"}[5m]))
+          > 0.01
+        for: 5m
+        labels:
+          severity: page
+        annotations:
+          summary: 'The reservation path is failing, not shedding'
+          description: >-
+            More than 1% of hold and checkout requests are answering 5xx. 503 is excluded on
+            purpose: shedding load is the service working, and folding the two together would make
+            a real fault indistinguishable from a busy afternoon.
+
+      - alert: WillcallSheddingSustained
+        expr: >-
+          sum(rate(http_server_requests_seconds_count{status="503"}[10m]))
+          /
+          sum(rate(http_server_requests_seconds_count[10m]))
+          > 0.10
+        for: 10m
+        labels:
+          severity: ticket
+        annotations:
+          summary: 'More than a tenth of requests are being shed'
+          description: >-
+            The admission rate is set above what the reservation path survives. Lower it, then
+            re-measure before raising it again - the rate is supposed to be a measurement.
+
+      - alert: WillcallPoolSaturated
+        expr: hikaricp_connections_pending > 0
+        for: 5m
+        labels:
+          severity: ticket
+        annotations:
+          summary: 'Requests are queueing for a database connection on {{ $labels.replica }}'
+          description: >-
+            The named bottleneck in docs/capacity-model.md is being reached. A bigger pool will not
+            make the database faster; it will convert fast rejections into slow ones.
+
+  - name: willcall-realtime
+    rules:
+      - alert: WillcallOutboxBacklog
+        expr: willcall_outbox_pending > 10000
+        for: 5m
+        labels:
+          severity: ticket
+        annotations:
+          summary: 'The outbox is not draining'
+          description: >-
+            Seat changes are committed but not reaching browsers, so every open seat map is going
+            stale. Clients will not notice: they only detect gaps in what arrives, not silence.
+
+      - alert: WillcallQueueDegraded
+        expr: increase(willcall_queue_degraded_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: ticket
+        annotations:
+          summary: 'The waiting room cannot reach Redis; admission is open'
+          description: >-
+            Selling correctly but unpaced, which is the documented degradation. Watch
+            WillcallPoolSaturated - unpaced admission is how the pool gets exhausted.
+
+      - alert: WillcallRateLimiterFailedOpen
+        expr: increase(willcall_ratelimit_failed_open_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: ticket
+        annotations:
+          summary: 'The rate limiter is allowing requests it cannot evaluate'
+          description: >-
+            Redis is unreachable. Not urgent alone; urgent together with WillcallQueueDegraded,
+            because then nothing is pacing arrivals at all.

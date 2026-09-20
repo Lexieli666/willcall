@@ -1,0 +1,31 @@
+# Scrapes each replica directly rather than through the load balancer.
+#
+# Going through the proxy would return one replica's metrics per scrape, chosen by least_conn, and
+# the resulting series would be an unlabelled average of three machines that are not doing the same
+# work — the replica holding four thousand SSE connections and the one holding none would be
+# indistinguishable. Per-replica targets keep the `replica` label meaningful, which is what makes
+# "is this one machine or all of them?" answerable during an incident.
+global:
+  scrape_interval: 5s
+  evaluation_interval: 15s
+  external_labels:
+    environment: local
+    stack: docker-compose
+
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  - job_name: willcall-app
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ['app1:8080', 'app2:8080', 'app3:8080']
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: '([^:]+):.*'
+        target_label: instance
+        replacement: '$1'
+
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']

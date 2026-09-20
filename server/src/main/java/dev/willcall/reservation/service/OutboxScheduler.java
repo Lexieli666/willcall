@@ -32,11 +32,14 @@ public class OutboxScheduler {
   private final boolean enabled;
   private final Duration retain;
   private final AtomicBoolean running = new AtomicBoolean(false);
+  private final java.util.concurrent.atomic.AtomicLong pending =
+      new java.util.concurrent.atomic.AtomicLong();
 
   public OutboxScheduler(
       OutboxRelay relay,
       OutboxRepository outbox,
       Clock clock,
+      io.micrometer.core.instrument.MeterRegistry meterRegistry,
       @Value("${willcall.outbox.enabled:true}") boolean enabled,
       @Value("${willcall.outbox.retain:PT1H}") Duration retain) {
     this.relay = relay;
@@ -44,6 +47,13 @@ public class OutboxScheduler {
     this.clock = clock;
     this.enabled = enabled;
     this.retain = retain;
+
+    // The alert that matters here is a backlog, and a backlog is invisible from throughput alone:
+    // a relay publishing steadily while falling further behind looks healthy on a rate graph.
+    io.micrometer.core.instrument.Gauge.builder(
+            "willcall.outbox.pending", pending, java.util.concurrent.atomic.AtomicLong::doubleValue)
+        .description("Outbox rows written but not yet published")
+        .register(meterRegistry);
   }
 
   @Scheduled(fixedDelayString = "${willcall.outbox.interval-ms:100}")
@@ -80,6 +90,17 @@ public class OutboxScheduler {
    * replay recent history; beyond that a client resyncs from a snapshot anyway, and the table would
    * otherwise grow by one row per seat change forever.
    */
+  /** Refreshes the backlog gauge. Separate from the drain so a stalled drain still reports. */
+  @Scheduled(fixedDelayString = "${willcall.outbox.gauge-interval-ms:5000}")
+  public void refreshBacklogGauge() {
+    if (!enabled) return;
+    try {
+      pending.set(outbox.countPending());
+    } catch (RuntimeException e) {
+      log.debug("could not read the outbox backlog: {}", e.toString());
+    }
+  }
+
   @Scheduled(fixedDelayString = "${willcall.outbox.trim-interval-ms:300000}")
   public void trim() {
     if (!enabled) return;

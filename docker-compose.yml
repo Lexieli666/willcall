@@ -184,7 +184,55 @@ services:
       - web-dist:/out
     restart: 'no'
 
+  # ---------------------------------------------------------------- observability
+  #
+  # Its own profile: a load run should not compete with a metrics stack for CPU unless the run is
+  # about the metrics. `docker compose --profile observability up -d` brings it up.
+
+  prometheus:
+    profiles: ['observability']
+    image: prom/prometheus:v3.1.0
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=7d
+      - --web.enable-lifecycle
+    ports:
+      - '${WILLCALL_PROMETHEUS_PORT:-9090}:9090'
+    volumes:
+      - ./infra/observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./infra/observability/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheusdata:/prometheus
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:9090/-/healthy']
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  grafana:
+    profiles: ['observability']
+    image: grafana/grafana:11.5.1
+    depends_on:
+      - prometheus
+    environment:
+      # Anonymous viewer access: this stack is local and short-lived, and a login prompt between an
+      # engineer and a dashboard during an incident is friction with no security benefit here.
+      # The Terraform does not deploy Grafana, so this never reaches anything public.
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_DISABLE_LOGIN_FORM: 'true'
+      GF_USERS_DEFAULT_THEME: light
+      GF_FEATURE_TOGGLES_ENABLE: publicDashboards
+    ports:
+      - '${WILLCALL_GRAFANA_PORT:-3000}:3000'
+    volumes:
+      - ./infra/observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./infra/observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafanadata:/var/lib/grafana
+
 volumes:
   pgdata:
   redisdata:
   web-dist:
+  prometheusdata:
+  grafanadata:
