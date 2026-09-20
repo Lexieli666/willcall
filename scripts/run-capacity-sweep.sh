@@ -55,69 +55,8 @@ done
 printf '\n--- invariants ---\n'
 ./scripts/verify-invariants.sh 2>&1 | tee "$OUT_DIR/verify-invariants.log" | tail -3
 
-python3 - "$OUT_DIR" "$LABEL" "$DURATION" <<'SWEEPJSON'
-import glob, json, os, sys
-
-out_dir, label, duration = sys.argv[1:4]
-steps = []
-for step in sorted(glob.glob(os.path.join(out_dir, 'rate-*'))):
-    path = os.path.join(step, 'summary.json')
-    if not os.path.exists(path):
-        continue
-    m = json.load(open(path))['metrics']
-    offered = int(os.path.basename(step).split('-')[1])
-    def metric(name, key):
-        return m.get(name, {}).get(key)
-    granted = metric('willcall_holds_granted', 'count') or 0
-    refused = metric('willcall_holds_refused', 'count') or 0
-    total = metric('http_reqs', 'count') or 0
-    # A 503 with Retry-After is the service shedding deliberately; it is neither a grant nor a
-    # clean refusal, and calling it a fault would mean reporting the load shedder working as an
-    # outage. Anything that is neither granted nor refused is counted here.
-    shed = max(total - granted - refused, 0)
-    steps.append({
-        'offeredRatePerSecond': offered,
-        'achievedRatePerSecond': metric('http_reqs', 'rate'),
-        'requests': total,
-        'granted': granted,
-        'refused409': refused,
-        'shedOrFailed': shed,
-        'shedFraction': round(shed / total, 4) if total else None,
-        'droppedIterations': metric('dropped_iterations', 'count') or 0,
-        'holdP50Ms': metric('willcall_hold_duration', 'med'),
-        'holdP99Ms': metric('willcall_hold_duration', 'p(99)'),
-        'holdMaxMs': metric('willcall_hold_duration', 'max'),
-        'maxVus': metric('vus_max', 'value'),
-    })
-
-# The sustainable rate: the highest step that shed under 1% and kept p99 inside the 150 ms budget.
-# Both conditions matter - a step can serve everything slowly, and that is not capacity either.
-within = [s for s in steps
-          if (s['shedFraction'] or 0) < 0.01 and (s['holdP99Ms'] or 1e9) <= 150]
-report = {
-    'label': label,
-    'stepDuration': duration,
-    'replicas': 3,
-    'steps': steps,
-    'sustainableRatePerSecond': max((s['offeredRatePerSecond'] for s in within), default=None),
-    'criterion': 'highest offered rate that shed under 1% of requests and kept hold p99 at or below 150 ms',
-}
-if report['sustainableRatePerSecond']:
-    report['sustainableRatePerReplica'] = report['sustainableRatePerSecond'] / report['replicas']
-json.dump(report, open(os.path.join(out_dir, 'capacity-sweep.json'), 'w'), indent=2)
-
-print('')
-print(f"{'offered':>8} {'achieved':>9} {'granted':>8} {'409':>7} {'shed':>7} {'shed%':>6} "
-      f"{'p50 ms':>7} {'p99 ms':>8}")
-for s in steps:
-    print(f"{s['offeredRatePerSecond']:>8} {s['achievedRatePerSecond']:>9.0f} {s['granted']:>8} "
-          f"{s['refused409']:>7} {s['shedOrFailed']:>7} "
-          f"{(s['shedFraction'] or 0) * 100:>5.1f}% {s['holdP50Ms']:>7.0f} {s['holdP99Ms']:>8.0f}")
-print('')
-print(f"sustainable rate : {report['sustainableRatePerSecond']} requests/s "
-      f"({report.get('sustainableRatePerReplica', 0):.0f} per replica)")
-print(f"criterion        : {report['criterion']}")
-SWEEPJSON
+# The step duration is passed so goodput is per second rather than per step.
+./scripts/summarise_capacity_sweep.py "$OUT_DIR" "${DURATION%s}"
 
 {
   printf '# Run context: capacity sweep\n\n'

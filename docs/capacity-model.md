@@ -118,7 +118,7 @@ Run of record: `load/results/2026-09-20/phase2-correctness/test-results.json`.
 |---|---|---|---|
 | 10,000 concurrent holds at 500 seats | exactly 500 granted, 9,500 clean 409s, **0 oversells** across 5 runs | pass/fail | met |
 | Wall clock for 10,000 concurrent attempts | 642 ms min, 691 ms median, 994 ms max | — | — |
-| Flash sale, 10,000 buyers in 10 s for 5,000 seats | 50/50 runs with invariants intact, **0 oversells** | 0 oversells over 50 runs | met |
+| Hold p99 at a controlled ~1,000 requests/s | **4,564 ms** | 60–150 ms | **missed** |
 <!-- RESERVATION:END -->
 
 Figures for sustained hold latency, flash-sale time-to-sell-out and the FIFO inversion rate are in

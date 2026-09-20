@@ -101,14 +101,43 @@ if flash:
 # ---------------------------------------------------------------- sustained holds
 
 holds_dir = latest('load/results/*/holds-*')
-holds = load(f'{holds_dir}/k6-summary.json') if holds_dir else None
+# summary.json, not k6-summary.json: --summary-export flattens each metric to {p(99): ...}, while
+# handleSummary's copy nests them under `values`. Reading the wrong one returns None for every
+# percentile and the row silently disappears, which is how this went unnoticed.
+holds = load(f'{holds_dir}/summary.json') if holds_dir else None
 if holds:
-    src = f'`{holds_dir}/k6-summary.json`'
+    src = f'`{holds_dir}/summary.json`'
     metrics = holds.get('metrics', {})
     p99 = metrics.get('willcall_hold_duration', {}).get('p(99)')
+    total = metrics.get('http_reqs', {}).get('count') or 0
+    granted = metrics.get('willcall_holds_granted', {}).get('count') or 0
     if p99 is not None:
-        row('Hold p99 at a controlled ~1,000 requests/s', f'{fmt(p99)} ms', '60–150 ms', src,
-            'met' if 60 <= p99 <= 150 else 'MISSED')
+        row('Hold p99 at 1,000 requests/s, the rate the plan assumed',
+            f"{fmt(p99)} ms, with {fmt(total - granted)} of {fmt(total)} requests shed "
+            f"— above this stack's ceiling, see the sweep above",
+            '60–150 ms', src, 'met' if 60 <= p99 <= 150 else 'MISSED')
+
+# ---------------------------------------------------------------- capacity
+
+sweep_dir = latest('load/results/*/capacity-sweep-*')
+sweep = load(f'{sweep_dir}/capacity-sweep.json') if sweep_dir else None
+if sweep:
+    src = f'`{sweep_dir}/capacity-sweep.json`'
+    sustainable = sweep.get('sustainableRatePerSecond')
+    per_replica = sweep.get('sustainableRatePerReplica')
+    row('Sustainable hold rate',
+        f"{fmt(sustainable)} requests/s ({per_replica:.0f} per replica) with nothing shed and "
+        f"p99 under 150 ms" if sustainable else 'no step met the criterion',
+        '~1,000 requests/s at 60–150 ms p99', src,
+        'met' if sustainable and sustainable >= 1000 else 'MISSED')
+    collapse = sweep.get('congestionCollapse')
+    if collapse:
+        row('Peak goodput, and where it collapses',
+            f"{collapse['peakGrantedPerSecond']:,.0f} holds/s granted at "
+            f"{fmt(collapse['atOfferedRate'])} offered, falling to "
+            f"{collapse['fallsToGrantedPerSecond']:,.0f} at "
+            f"{fmt(collapse['atHigherOfferedRate'])} offered",
+            'no target; offering more load and getting less work done is the finding', src)
 
 # ---------------------------------------------------------------- real time
 
