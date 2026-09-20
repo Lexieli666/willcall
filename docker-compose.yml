@@ -25,6 +25,9 @@ x-app-base: &app-base
     WILLCALL_OTLP_ENABLED: ${WILLCALL_OTLP_ENABLED:-false}
     WILLCALL_OTLP_ENDPOINT: ${WILLCALL_OTLP_ENDPOINT:-http://otel-collector:4318/v1/traces}
     SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-container}
+    # The end-to-end suite needs to make a delta genuinely go missing to prove the client notices.
+    # Never set in the Terraform, so a deployed stack does not map these endpoints at all.
+    WILLCALL_TEST_HOOKS: ${WILLCALL_TEST_HOOKS:-true}
   depends_on:
     postgres:
       condition: service_healthy

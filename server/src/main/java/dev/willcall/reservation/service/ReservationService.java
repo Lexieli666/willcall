@@ -1,6 +1,7 @@
 package dev.willcall.reservation.service;
 
 import dev.willcall.allocation.AllocationRequest;
+import dev.willcall.allocation.ContiguousSeatIndex;
 import dev.willcall.catalog.domain.Event;
 import dev.willcall.catalog.domain.PriceTier;
 import dev.willcall.catalog.domain.Seat;
@@ -73,6 +74,7 @@ public class ReservationService {
   private final HoldRepository holds;
   private final OrderRepository orders;
   private final DomainEvents domainEvents;
+  private final ContiguousSeatIndex contiguousIndex;
   private final Clock clock;
 
   private final Duration checkoutGrace;
@@ -90,6 +92,7 @@ public class ReservationService {
       HoldRepository holds,
       OrderRepository orders,
       DomainEvents domainEvents,
+      ContiguousSeatIndex contiguousIndex,
       Clock clock,
       MeterRegistry meterRegistry,
       @Value("${willcall.checkout.grace:PT30S}") Duration checkoutGrace,
@@ -99,6 +102,7 @@ public class ReservationService {
     this.holds = holds;
     this.orders = orders;
     this.domainEvents = domainEvents;
+    this.contiguousIndex = contiguousIndex;
     this.clock = clock;
     this.checkoutGrace = checkoutGrace;
     this.maxActiveHoldsPerUser = maxActiveHoldsPerUser;
@@ -224,8 +228,32 @@ public class ReservationService {
         yield found;
       }
       case BEST_AVAILABLE -> seats.claimAnyAvailable(event.id(), request.quantity());
-      case BEST_AVAILABLE_TOGETHER -> seats.claimContiguousInAnyRow(event.id(), request.quantity());
+      case BEST_AVAILABLE_TOGETHER -> lockContiguous(event.id(), request.quantity());
     };
+  }
+
+  /**
+   * Finds adjacent seats, asking the in-memory index first and the database second.
+   *
+   * <p>The index is a hint and is treated as one: its proposal is locked and re-checked, and a
+   * proposal that has gone stale falls through to the SQL scan. Under a flash sale proposals go
+   * stale constantly, which is why the fallback is an ordinary path rather than an error path.
+   */
+  private List<Seat> lockContiguous(UUID eventId, int quantity) {
+    // Built on first use rather than at start-up: a replica that never sees a request for
+    // adjacent seats should not pay to index every event in the catalogue.
+    if (!contiguousIndex.isIndexed(eventId)) contiguousIndex.load(eventId);
+
+    Optional<List<UUID>> proposal = contiguousIndex.propose(eventId, quantity);
+    if (proposal.isPresent()) {
+      List<Seat> locked = seats.lockForAcquisition(proposal.get());
+      boolean usable =
+          locked.size() == quantity
+              && locked.stream().allMatch(seat -> seat.status().isAcquirable());
+      if (usable) return locked;
+      contiguousIndex.proposalWasStale(eventId, proposal.get());
+    }
+    return seats.claimContiguousInAnyRow(eventId, quantity);
   }
 
   private ErrorCode errorForEmptyAllocation(AllocationRequest request, UUID eventId) {

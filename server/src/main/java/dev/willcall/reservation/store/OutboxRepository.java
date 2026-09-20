@@ -120,6 +120,37 @@ public class OutboxRepository {
                 rs.getObject("sequence_no", Long.class)));
   }
 
+  /**
+   * Published entries after a given sequence number, for a reconnecting client.
+   *
+   * <p>Retained history only: the trimmer removes entries older than the retention window, so a
+   * client that has been away longer gets a snapshot instead. The caller checks contiguity — a hole
+   * here means part of what the client needs is already gone.
+   */
+  public List<Entry> publishedSince(UUID eventId, long afterSequence, int limit) {
+    return jdbc.query(
+        """
+        select id, event_id, aggregate_type, aggregate_id, type, payload::text as payload, sequence_no
+        from outbox
+        where event_id = :eventId and sequence_no > :after and published_at is not null
+        order by sequence_no
+        limit :limit
+        """,
+        new MapSqlParameterSource()
+            .addValue("eventId", eventId)
+            .addValue("after", afterSequence)
+            .addValue("limit", limit),
+        (rs, i) ->
+            new Entry(
+                rs.getLong("id"),
+                rs.getObject("event_id", UUID.class),
+                rs.getString("aggregate_type"),
+                rs.getObject("aggregate_id", UUID.class),
+                rs.getString("type"),
+                rs.getString("payload"),
+                rs.getObject("sequence_no", Long.class)));
+  }
+
   /** Advances the event's sequence counter by {@code count} and returns the first value used. */
   public long reserveSequenceRange(UUID eventId, int count) {
     Long last =

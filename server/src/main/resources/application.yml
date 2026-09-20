@@ -94,6 +94,24 @@ willcall:
     batch-size: ${WILLCALL_OUTBOX_BATCH:500}
     retain: ${WILLCALL_OUTBOX_RETAIN:PT1H}
 
+  realtime:
+    # The coalescing window. Every propagation percentile this project publishes includes it, so
+    # its value is recorded in each results file rather than assumed.
+    coalesce-window-ms: ${WILLCALL_COALESCE_WINDOW_MS:50}
+    # Per-connection outbound queue. On overflow the connection is told to resync rather than
+    # being blocked or closed; see docs/realtime-protocol.md section 7.
+    queue-capacity: ${WILLCALL_SSE_QUEUE:64}
+    heartbeat-ms: ${WILLCALL_SSE_HEARTBEAT_MS:15000}
+    # 0 means no timeout: a stream should live as long as the tab does, and Spring's default of
+    # 30 s would make every client reconnect twice a minute.
+    stream-timeout-ms: ${WILLCALL_SSE_TIMEOUT_MS:0}
+
+  admin:
+    # Off by default. The compose stack and CI turn it on so the end-to-end suite can make a
+    # message genuinely go missing; the Terraform never sets it, so a deployed environment has no
+    # such endpoint mapped at all.
+    test-hooks-enabled: ${WILLCALL_TEST_HOOKS:false}
+
   idempotency:
     retention: ${WILLCALL_IDEMPOTENCY_RETENTION:PT24H}
 

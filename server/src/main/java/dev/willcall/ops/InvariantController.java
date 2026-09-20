@@ -1,4 +1,4 @@
-package dev.willcall.platform.admin;
+package dev.willcall.ops;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Runs the invariant checks from inside the application.
+ *
+ * <p>It lives in {@code ops} rather than {@code platform} because the architecture test is right
+ * that shared infrastructure must not depend on a feature module: the sibling test-hook controller
+ * needs the real-time hub, and {@code platform} sits underneath everything. {@code ops} is
+ * explicitly the top of the stack and may depend on any module.
  *
  * <p>The authoritative version is {@code scripts/verify-invariants.sh}, which talks to the database
  * directly and therefore cannot be fooled by an application bug. This endpoint exists for the
