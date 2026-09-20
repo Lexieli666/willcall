@@ -137,6 +137,78 @@ if sse:
         f"{fmt(counters.get('gaps'))} over {fmt(counters.get('changes'))} delivered changes",
         '—', src)
 
+# ---------------------------------------------------------------- fairness
+
+fairness_dir = latest('load/results/*/fairness-*')
+fairness = load(f'{fairness_dir}/fairness.json') if fairness_dir else None
+if fairness and fairness.get('headline'):
+    src = f'`{fairness_dir}/fairness.json`'
+    head = fairness['headline']
+    rate = head['inversionRatePercent']
+    # The spec says "<1% expected; publish whatever it is". Publishing it is the obligation; the
+    # 1% is an expectation, so a higher number is reported as over the expectation, not hidden.
+    row('FIFO inversion rate in the waiting room',
+        f"{rate}% ({fmt(head['inversions'])} out-of-order pairs among "
+        f"{fmt(head['admittedCount'])} admitted buyers)",
+        '< 1% expected; publish whatever it is', src,
+        'met' if rate < 1 else 'above the expectation, published')
+
+# ---------------------------------------------------------------- rate limiting
+
+rl_dir = latest('load/results/*/ratelimit-*')
+rl = load(f'{rl_dir}/k6-summary.json') if rl_dir else None
+if rl:
+    src = f'`{rl_dir}/k6-summary.json`'
+    m = rl.get('metrics', {})
+    limited = m.get('willcall_rate_limited', {}).get('count')
+    retry_after = m.get('willcall_retry_after_present', {}).get('rate')
+    if limited is not None:
+        row('Rate limiting under a single-client flood',
+            f"{fmt(limited)} responses were 429, Retry-After present on "
+            f"{retry_after * 100:.1f}%" if retry_after is not None else f'{fmt(limited)} responses were 429',
+            '429 with Retry-After on every shed request', src,
+            'met' if retry_after == 1 else 'MISSED')
+
+# ---------------------------------------------------------------- game day
+
+gameday_dirs = sorted(glob.glob('load/results/*/gameday-*'))
+gameday = [(d, load(f'{d}/gameday.json')) for d in gameday_dirs]
+gameday = [(d, g) for d, g in gameday if g]
+if gameday:
+    held = sum(1 for _, g in gameday if g.get('invariantsHeld'))
+    names = ', '.join(sorted({g['scenario'] for _, g in gameday}))
+    row('Game day: faults injected while traffic flowed',
+        f'{len(gameday)} scenarios ({names}); invariants held after {held}/{len(gameday)}',
+        'every scenario survives with invariants intact and a written postmortem',
+        '`docs/incidents/`', 'met' if held == len(gameday) else 'MISSED')
+
+# ---------------------------------------------------------------- seeded dataset
+
+seed_dir = latest('load/results/*/query-plans')
+seed = load(f'{seed_dir}/seed.json') if seed_dir else None
+if seed:
+    src = f'`{seed_dir}/seed.json`'
+    counts = seed.get('rowCounts', {})
+    row('Seeded dataset for query-plan checks',
+        ', '.join(f"{fmt(counts.get(k, 0))} {k}" for k in ('users', 'events', 'orders')),
+        '1,000,000 users, 50,000 events, 1,000,000 orders', src,
+        'met' if counts.get('users', 0) >= 1_000_000 and counts.get('orders', 0) >= 1_000_000
+        and counts.get('events', 0) >= 50_000 else 'MISSED')
+    plans = seed.get('plans', [])
+    if plans:
+        # Only the hot-path plans are held to the rule. The invariant check reads every event by
+        # definition, so a sequential scan there is the right plan and flagging it would train a
+        # reader to ignore the column.
+        hot = [p for p in plans if p.get('hotPath')]
+        seq = [p['name'] for p in hot if p.get('seqScan')]
+        timed = [p['executionMs'] for p in plans if p.get('executionMs') is not None]
+        row('Query plans on the seeded dataset',
+            f"{len(plans)} plans captured ({len(hot)} on hot paths)"
+            + (f", slowest {fmt(max(timed), digits=1)} ms" if timed else '')
+            + (f"; sequential scans on: {', '.join(seq)}" if seq else '; no hot path sequentially scans'),
+            'no sequential scan on a hot path', src,
+            'met' if not seq else 'MISSED')
+
 # ---------------------------------------------------------------- front end
 
 fe_dir = latest('load/results/*/phase*-frontend')
