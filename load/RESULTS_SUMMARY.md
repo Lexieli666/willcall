@@ -22,6 +22,9 @@ there is no cloud measurement.
 | Wall clock for 10,000 concurrent attempts | 642 / 691 / 994 ms (min/median/max) | — |  | `load/results/2026-09-20/phase2-correctness/test-results.json` |
 | Backend tests | 110 run, 0 failed | 150–220 | below the range | `load/results/2026-09-20/phase2-correctness/test-results.json` |
 | Backend line coverage | 86.47% | ≥ 80% | met | `load/results/2026-09-20/phase2-correctness/test-results.json` |
+| Flash sale: 10,000 buyers in 10 s for 5,000 seats | 23/23 runs with invariants intact, 0 oversells, 0 server errors | 0 oversells across 50 runs | 0 oversells, fewer than 50 runs | `load/results/2026-09-20/flash-suite-211316/flash-suite.json` |
+| Time to sell out | 7.5 / 8.0 / 9.6 s (min/median/max) | 8–45 s | met | `load/results/2026-09-20/flash-suite-211316/flash-suite.json` |
+| Hold p99 during an unpaced burst | 2,453 ms median across runs | no target; the paced figure is below |  | `load/results/2026-09-20/flash-suite-211316/flash-suite.json` |
 | Concurrent SSE connections | 5,000 established, 0 failed | ≥ 5,000 | met | `load/results/2026-09-20/sse-5000-205019/sse-result.json` |
 | Delta propagation, commit → client, p99 | 223 ms (p50 113 ms, includes the 50 ms coalescing window) | 80–250 ms | met | `load/results/2026-09-20/sse-5000-205019/sse-result.json` |
 | Retained heap per connection | 75.7 KiB | 10–60 KB | **missed** | `load/results/2026-09-20/sse-5000-205019/sse-result.json` |
@@ -35,9 +38,10 @@ there is no cloud measurement.
 | Gzipped JavaScript per route | 100.3 KB | < 180 KB | met | `load/results/2026-09-20/phase2-frontend/frontend-results.json` |
 | Segment tree against linear scan | crossover is an occupancy level, not a row size — see the analysis | linear wins below ~500/row, tree at 2,000+ | the prediction was wrong; the measurement is published | `load/results/2026-09-20/jmh-contiguous-search/crossover.md` |
 
-### Targets not met: 3
+### Targets not met: 4
 
 - **Backend tests** (below the range) — measured 110 run, 0 failed, target 150–220. Raw file: `load/results/2026-09-20/phase2-correctness/test-results.json`
+- **Flash sale: 10,000 buyers in 10 s for 5,000 seats** (0 oversells, fewer than 50 runs) — measured 23/23 runs with invariants intact, 0 oversells, 0 server errors, target 0 oversells across 50 runs. Raw file: `load/results/2026-09-20/flash-suite-211316/flash-suite.json`
 - **Retained heap per connection** (MISSED) — measured 75.7 KiB, target 10–60 KB. Raw file: `load/results/2026-09-20/sse-5000-205019/sse-result.json`
 - **End-to-end tests** (below the range) — measured 15 run, 0 failed, target 30–50. Raw file: `load/results/2026-09-20/phase2-frontend/frontend-results.json`
 
