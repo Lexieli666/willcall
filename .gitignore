@@ -1,0 +1,65 @@
+# Only the project's own files live at the repository root. Anything a local tool drops there
+# — a dot-directory of its own settings, or a Markdown file of instructions for itself — is
+# machine state, not project state, and stays out of the history. Enforced by
+# scripts/check-no-secrets.sh, which fails the build if an unlisted root entry is tracked.
+/.*/
+!/.github/
+/*.md
+!/README.md
+!/CONTRIBUTING.md
+!/PROGRESS.md
+
+# Java / Gradle
+.gradle/
+.jqwik-database
+build/
+out/
+*.class
+server/bin/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Node
+node_modules/
+web/dist/
+web/coverage/
+web/.vite/
+web/playwright-report/
+web/test-results/
+web/blob-report/
+web/.lighthouseci/
+*.tsbuildinfo
+
+# Terraform — never commit state or provider binaries
+infra/**/.terraform/
+infra/**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+!*.tfvars.example
+crash.log
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials
+
+# Chrome, launched by Lighthouse under WSL, resolves LOCALAPPDATA from the Windows
+# environment and creates a profile directory whose name is a literal Windows path. Ignored
+# defensively; scripts/lighthouse.sh also points it at a proper temporary directory.
+C:*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Local scratch
+tmp/
+*.log
+!load/results/**/*.log
