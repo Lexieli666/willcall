@@ -1,0 +1,14 @@
+{
+  "name": "willcall-load",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "k6 load scenarios, written in TypeScript and typechecked in CI.",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/k6": "^1.3.0",
+    "typescript": "~5.9.2"
+  }
+}
