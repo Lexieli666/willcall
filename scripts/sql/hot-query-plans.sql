@@ -12,6 +12,23 @@
 \set ON_ERROR_STOP on
 \pset pager off
 
+-- Bind the event id once, up front, instead of writing `(select id from events ...)` inside every
+-- query. The application passes the id as a parameter; a subquery is scaffolding, and it showed up
+-- in the captured plans as an InitPlan with a `Seq Scan on events` under it. Three hot paths were
+-- reported as sequentially scanning on that basis when every one of them was using its index -
+-- a false positive in the exact check these plans exist to support, which would have been
+-- switched off within a week.
+-- The event with the most seats still available, not the most recent one: a plan taken against an
+-- event with nothing left to sell measures the empty case and says nothing about a flash sale.
+select s.event_id, count(*) as available_seats
+from seats s
+where s.status = 'AVAILABLE'
+group by s.event_id
+order by count(*) desc
+limit 1
+\gset
+\echo 'Plans taken against event' :'event_id' 'with' :available_seats 'seats available'
+
 \echo '================================================================'
 \echo 'Table sizes these plans were taken against'
 \echo '================================================================'
@@ -24,13 +41,15 @@ order by n_live_tup desc;
 \echo '================================================================'
 \echo '1. Claim any available seat  (the hot path of a flash sale)  [hot path]'
 \echo '================================================================'
-\echo 'Must be an index scan on seats_by_event_status. A sequential scan here is the difference'
-\echo 'between a sale and an outage: it runs once per acquisition attempt, ten thousand times in'
-\echo 'ten seconds.'
+\echo 'Predicted: an index scan on seats_by_event_status. Measured: an index scan on seats_pkey,'
+\echo 'because ORDER BY id LIMIT 4 lets the planner walk the primary key and stop after four'
+\echo 'matches instead of sorting. That is cheaper here and depends on an event s seats being'
+\echo 'clustered in id order, which holds while an event is created in one go; the buffer count'
+\echo 'is the thing to watch if that ever stops being true.'
 explain (analyze, buffers, costs off)
 select id, event_id, row_id, price_tier_id, seat_number, label, status, version, updated_at
 from seats
-where event_id = (select id from events where status = 'ON_SALE' limit 1)
+where event_id = :'event_id'
   and status = 'AVAILABLE'
 order by id
 limit 4
@@ -47,7 +66,7 @@ with numbered as (
   select id, row_id, seat_number,
          seat_number - row_number() over (partition by row_id order by seat_number) as run_key
   from seats
-  where event_id = (select id from events where status = 'ON_SALE' limit 1)
+  where event_id = :'event_id'
     and status = 'AVAILABLE'
 ),
 runs as (
@@ -62,9 +81,11 @@ select * from runs order by run_length, row_id, start_number limit 1;
 \echo '================================================================'
 \echo '3. The sweeper claiming expired holds  [hot path]'
 \echo '================================================================'
-\echo 'Must use the partial index holds_active_by_expiry. This runs four times a second on every'
-\echo 'replica; a sequential scan over the holds table at that rate would saturate the database on'
-\echo 'its own.'
+\echo 'Predicted: must use the partial index holds_active_by_expiry, because this runs four times a'
+\echo 'second on every replica. The prediction was wrong in a way a sequential-scan check could'
+\echo 'not catch - see 3b below, where the planner serves ORDER BY seat_id from a different index'
+\echo 'and filters, which is an index scan that reads everything. The query was changed; this'
+\echo 'section is kept because whichever plan the current query gets is worth seeing.'
 explain (analyze, buffers, costs off)
 select id, hold_group_id, event_id, seat_id, user_ref, status, expires_at, created_at, resolved_at
 from holds
@@ -72,6 +93,54 @@ where status = 'ACTIVE' and expires_at <= now()
 order by seat_id
 limit 500
 for update skip locked;
+
+\echo ''
+\echo '================================================================'
+\echo '3b. The sweeper under an adverse ratio  [hot path]'
+\echo '================================================================'
+\echo 'Query 3 above runs against whatever holds happen to exist, which after a load run is'
+\echo 'usually none at all - and a plan over an empty partial index says nothing. This section'
+\echo 'builds the population that matters (50,000 live holds of which 50 have expired: the steady'
+\echo 'state seconds after a sale opens) and measures both forms of the query against it. It runs'
+\echo 'inside a transaction that is rolled back, so nothing it inserts survives.'
+begin;
+
+insert into holds (id, hold_group_id, event_id, seat_id, user_ref, status, expires_at, created_at)
+select gen_random_uuid(), hg.id, s.event_id, s.id, 'planseed-' || row_number() over (), 'ACTIVE',
+       now() + make_interval(secs => case when row_number() over () <= 50 then -30 else 300 end),
+       now()
+from (select id, event_id from seats where status = 'AVAILABLE' limit 50000) s
+cross join lateral (select id from hold_groups limit 1) hg;
+analyze holds;
+
+\echo ''
+\echo '--- 3b(i) one statement, ORDER BY seat_id: what the sweeper used to run ---'
+explain (analyze, buffers, costs off)
+select id, hold_group_id, event_id, seat_id, user_ref, status, expires_at, created_at, resolved_at
+from holds
+where status = 'ACTIVE' and expires_at <= now()
+order by seat_id
+limit 500
+for update skip locked;
+
+\echo ''
+\echo '--- 3b(ii) select by expiry, lock by seat_id: what it runs now ---'
+explain (analyze, buffers, costs off)
+with due as (
+  select id from holds
+  where status = 'ACTIVE' and expires_at <= now()
+  order by expires_at
+  limit 500
+)
+select h.id, h.hold_group_id, h.event_id, h.seat_id, h.user_ref, h.status, h.expires_at,
+       h.created_at, h.resolved_at
+from holds h
+join due on due.id = h.id
+where h.status = 'ACTIVE' and h.expires_at <= now()
+order by h.seat_id
+for update of h skip locked;
+
+rollback;
 
 \echo ''
 \echo '================================================================'
@@ -117,7 +186,7 @@ where o.event_id = (select event_id from seed_orders group by event_id order by 
 explain (analyze, buffers, costs off)
 select id, event_id, type, payload::text, sequence_no, created_at
 from outbox
-where event_id = (select id from events where status = 'ON_SALE' limit 1)
+where event_id = :'event_id'
   and published_at is null
 order by id
 limit 500;

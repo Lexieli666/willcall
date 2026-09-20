@@ -22,9 +22,9 @@ import org.springframework.stereotype.Component;
  * If Redis is unreachable the limiter allows the request. That is a deliberate choice and the
  * uncomfortable direction: a broken limiter lets abuse through, where failing closed would refuse
  * every legitimate buyer. Refusing to sell tickets because the *rate limiter* is down is a worse
- * outcome than being briefly unprotected, and it is consistent with
- * {@code docs/adr/0001-postgresql-owns-correctness-redis-only-accelerates.md}: Redis accelerates,
- * it does not gate. The number of times this happens is a counter with an alert on it.
+ * outcome than being briefly unprotected, and it is consistent with {@code
+ * docs/adr/0001-postgresql-owns-correctness-redis-only-accelerates.md}: Redis accelerates, it does
+ * not gate. The number of times this happens is a counter with an alert on it.
  *
  * <h2>Why the decision is one round trip</h2>
  *

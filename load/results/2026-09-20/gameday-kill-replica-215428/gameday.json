@@ -1,0 +1,33 @@
+{
+  "scenario": "kill-replica",
+  "faultInjectedAt": "2026-09-20T21:55:09Z",
+  "k6ExitCode": 0,
+  "invariantsHeld": true,
+  "responsesByStatus": {
+    "200": 237,
+    "201": 17810,
+    "404": 0,
+    "409": 0,
+    "429": 0,
+    "500": 0,
+    "503": 0
+  },
+  "counterSeriesResetByReplica": {
+    "app2": 26
+  },
+  "peakPoolPending": {
+    "value": 0.0,
+    "replica": "app1",
+    "atEpochSeconds": 1789941268
+  },
+  "load": {
+    "holdP99Ms": 14.827353,
+    "holdMaxMs": 38663.675514,
+    "holdMedianMs": 7.534597,
+    "holdsGranted": 17993,
+    "holdsRefused": null,
+    "errorRate": 0.0004444197544580857,
+    "requests": 18001,
+    "droppedIterations": 0
+  }
+}

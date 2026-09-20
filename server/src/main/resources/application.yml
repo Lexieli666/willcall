@@ -18,6 +18,16 @@ spring:
       minimum-idle: ${WILLCALL_DB_POOL_MIN:5}
       connection-timeout: ${WILLCALL_DB_POOL_TIMEOUT_MS:2000}
       pool-name: willcall-pool
+      # connection-timeout bounds acquiring a connection. It says nothing about a statement that
+      # is already running, and on 2026-09-20 that gap was the whole incident: an exclusive lock
+      # on the seat table left requests blocked in PostgreSQL for thirty seconds, holding their
+      # pool connections until nginx gave up and ejected every replica.
+      #
+      # lock_timeout, not statement_timeout: the reservation path waits on row locks by design and
+      # a statement timeout would also cut short an honest query that is merely large. Five
+      # seconds is above the measured hold p99 under an unpaced burst (2.4 s) and well below the
+      # proxy's 10 s patience, so the application gives up first and says 503 with Retry-After.
+      connection-init-sql: ${WILLCALL_DB_INIT_SQL:set lock_timeout = '5s'}
   data:
     redis:
       url: ${WILLCALL_REDIS_URL:redis://localhost:6379}

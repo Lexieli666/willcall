@@ -5,12 +5,14 @@ import java.net.URI;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.CannotAcquireLockException;
+import org.springframework.dao.DeadlockLoserDataAccessException;
+import org.springframework.dao.QueryTimeoutException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.dao.QueryTimeoutException;
-import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.transaction.CannotCreateTransactionException;
@@ -110,20 +112,35 @@ public class ApiExceptionHandler {
    * <p>503 with {@code Retry-After} says what to do. It is 503 rather than 500 because the request
    * never ran: there was no connection to run it on, so a retry is safe with or without an
    * idempotency key.
+   *
+   * <p>{@link CannotAcquireLockException} is here for the same reason and was added after the game
+   * day on 2026-09-20. {@code lock_timeout} makes a statement that cannot get its row lock give up
+   * and release its pool connection; without a handler that becomes a 500, and the failure it
+   * describes — somebody else is holding the row — is load, not a fault. The statement rolled back,
+   * so a retry is as safe as the pool-exhaustion case.
    */
   @ExceptionHandler({
     CannotGetJdbcConnectionException.class,
     CannotCreateTransactionException.class,
+    CannotAcquireLockException.class,
     QueryTimeoutException.class
   })
   public ResponseEntity<ProblemDetail> handleOverloaded(Exception e, HttpServletRequest request) {
-    // INFO without a stack trace: under a burst this fires thousands of times, and thousands of
-    // stack traces would bury the genuine 500 somebody needs to find.
-    log.info(
-        "shedding load on {} {}: {}",
-        request.getMethod(),
-        request.getRequestURI(),
-        e.getClass().getSimpleName());
+    if (e instanceof DeadlockLoserDataAccessException) {
+      // A deadlock is not load. One lock order is the invariant the reservation core is built on
+      // (ADR 0005), so a deadlock means something took its locks in a different order — a bug,
+      // and one that a 503 would otherwise hide inside the shedding counter. The buyer still gets
+      // 503 and can still retry; the stack trace is for us.
+      log.warn("deadlock on {} {}", request.getMethod(), request.getRequestURI(), e);
+    } else {
+      // INFO without a stack trace: under a burst this fires thousands of times, and thousands of
+      // stack traces would bury the genuine 500 somebody needs to find.
+      log.info(
+          "shedding load on {} {}: {}",
+          request.getMethod(),
+          request.getRequestURI(),
+          e.getClass().getSimpleName());
+    }
 
     ProblemDetail problem =
         problem(ErrorCode.OVERLOADED, "The service is at capacity. Retry shortly.", request);

@@ -1,0 +1,175 @@
+{
+    "metrics": {
+        "data_received": {
+            "count": 100648434,
+            "rate": 1915145.4183826912
+        },
+        "http_req_connecting": {
+            "min": 0,
+            "med": 0,
+            "avg": 0.008945951768845543,
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0.08579331999999994,
+            "max": 39.689672
+        },
+        "willcall_fairness_joined": {
+            "rate": 351.92414929166085,
+            "count": 18495
+        },
+        "willcall_fairness_held": {
+            "count": 5000,
+            "rate": 95.14034855140872
+        },
+        "http_req_waiting": {
+            "avg": 94.66579030641336,
+            "p(90)": 402.43060410000015,
+            "p(95)": 519.8302725499999,
+            "p(99)": 799.5946249799995,
+            "max": 1901.433515,
+            "min": 0.592381,
+            "med": 3.6239305
+        },
+        "iteration_duration": {
+            "min": 1037.881288,
+            "med": 14629.82183,
+            "avg": 12942.386676482334,
+            "p(90)": 18048.9869744,
+            "p(95)": 18061.7922726,
+            "p(99)": 18113.84572832,
+            "max": 18224.746799
+        },
+        "vus": {
+            "value": 80,
+            "min": 80,
+            "max": 7146
+        },
+        "http_req_duration{expected_response:true}": {
+            "min": 0.629607,
+            "med": 3.462421,
+            "avg": 99.37757498847162,
+            "p(90)": 407.5529576,
+            "p(95)": 541.8658513999993,
+            "p(99)": 803.64226388,
+            "max": 1901.490768
+        },
+        "http_req_sending": {
+            "min": 0.002208,
+            "med": 0.00857,
+            "avg": 0.015293361717808712,
+            "p(90)": 0.02017330000000002,
+            "p(95)": 0.03563665,
+            "p(99)": 0.0745302799999998,
+            "max": 10.492492
+        },
+        "checks": {
+            "passes": 18495,
+            "fails": 0,
+            "value": 1
+        },
+        "data_sent": {
+            "rate": 922231.304476348,
+            "count": 48466887
+        },
+        "iterations": {
+            "count": 18495,
+            "rate": 351.92414929166085
+        },
+        "http_req_failed": {
+            "passes": 13495,
+            "fails": 238873,
+            "value": 0.05347349901730806
+        },
+        "willcall_fairness_join_duration": {
+            "med": 86.342783,
+            "avg": 195.94817730381243,
+            "p(90)": 533.9745266,
+            "p(95)": 654.3312578999999,
+            "p(99)": 918.4424907800044,
+            "max": 1551.115767,
+            "min": 0.730631,
+            "thresholds": {
+                "p(99)<1000": false
+            }
+        },
+        "http_req_receiving": {
+            "min": 0.004864,
+            "med": 0.031035,
+            "avg": 0.05303773529528249,
+            "p(90)": 0.06837230000000002,
+            "p(95)": 0.1162476999999999,
+            "p(99)": 0.3486148799999944,
+            "max": 47.812347
+        },
+        "vus_max": {
+            "max": 7170,
+            "value": 7170,
+            "min": 2000
+        },
+        "willcall_fairness_errors": {
+            "passes": 0,
+            "fails": 36990,
+            "thresholds": {
+                "rate<0.001": false
+            },
+            "value": 0
+        },
+        "http_reqs": {
+            "count": 252368,
+            "rate": 4802.075896644383
+        },
+        "willcall_fairness_admitted": {
+            "count": 18495,
+            "rate": 351.92414929166085
+        },
+        "dropped_iterations": {
+            "count": 6504,
+            "rate": 123.75856539567246
+        },
+        "http_req_duration": {
+            "med": 3.677841,
+            "avg": 94.73412140342793,
+            "p(90)": 402.49151420000015,
+            "p(95)": 519.9609831999999,
+            "p(99)": 799.7916007299997,
+            "max": 1901.490768,
+            "min": 0.629607
+        },
+        "http_req_blocked": {
+            "max": 39.729626,
+            "min": 0.000475,
+            "med": 0.003488,
+            "avg": 0.014271607592880407,
+            "p(90)": 0.005205,
+            "p(95)": 0.008663649999999995,
+            "p(99)": 0.13660030999999992
+        },
+        "http_req_tls_handshaking": {
+            "min": 0,
+            "med": 0,
+            "avg": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "p(99)": 0,
+            "max": 0
+        }
+    },
+    "setup_data": {
+        "eventId": "41ad48f8-5cf4-4d4f-8fcc-2776aa18cded"
+    },
+    "root_group": {
+        "groups": {},
+        "checks": {
+                "an admitted buyer is never refused for lack of admission": {
+                    "name": "an admitted buyer is never refused for lack of admission",
+                    "path": "::an admitted buyer is never refused for lack of admission",
+                    "id": "9a78bb5c103b43ec8162489157a7f0e9",
+                    "passes": 18495,
+                    "fails": 0
+                }
+            },
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+}

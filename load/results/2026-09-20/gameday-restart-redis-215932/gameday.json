@@ -1,0 +1,27 @@
+{
+  "scenario": "restart-redis",
+  "faultInjectedAt": "2026-09-20T22:00:12Z",
+  "k6ExitCode": 0,
+  "invariantsHeld": true,
+  "responsesByStatus": {
+    "200": 271,
+    "201": 17872,
+    "404": 0,
+    "409": 0,
+    "429": 0,
+    "500": 0,
+    "503": 0
+  },
+  "counterResetsByReplica": {
+    "app1": 68,
+    "app2": 63,
+    "app3": 61
+  },
+  "load": {
+    "holdP99Ms": 77.137566,
+    "holdMaxMs": 1076.330274,
+    "holdsGranted": 18001,
+    "holdsRefused": null,
+    "errorRate": null
+  }
+}

@@ -52,6 +52,11 @@ public class HoldRepository {
   private static final String HOLD_COLUMNS =
       "id, hold_group_id, event_id, seat_id, user_ref, status, expires_at, created_at, resolved_at";
 
+  /** The same columns qualified, for the one query that joins holds to a subquery over holds. */
+  private static final String HOLD_COLUMNS_QUALIFIED =
+      "h.id, h.hold_group_id, h.event_id, h.seat_id, h.user_ref, h.status, h.expires_at,"
+          + " h.created_at, h.resolved_at";
+
   public void insertGroup(
       UUID groupId, UUID eventId, String userRef, Instant expiresAt, int seatCount) {
     jdbc.update(
@@ -211,17 +216,39 @@ public class HoldRepository {
    * <p>{@code SKIP LOCKED} is what lets every replica run the sweeper concurrently without
    * coordination: two sweepers never pick the same row, so expiry releases capacity exactly once
    * without a leader election.
+   *
+   * <p>The selection and the locking are two steps on purpose, and the reason is a measurement. As
+   * one statement — {@code where status = 'ACTIVE' and expires_at <= now() order by seat_id} — the
+   * planner serves the {@code ORDER BY} from {@code holds_single_active_per_seat} and filters out
+   * everything that has not expired yet. With 50,000 live holds of which 50 had expired, that read
+   * 50,060 buffers to return 50 rows, in 9.5 ms; the sweeper runs four times a second on every
+   * replica, so that is 600,000 buffer touches a second spent finding almost nothing. The inner
+   * query walks {@code holds_active_by_expiry} instead and stops at the batch size, and the outer
+   * one locks those rows in {@code seat_id} order, which keeps the single lock order of ADR 0005
+   * intact. Same population, same result: 0.26 ms and a few dozen buffers.
+   *
+   * <p>The outer query repeats the predicate rather than trusting the inner one. Under READ
+   * COMMITTED, {@code FOR UPDATE} re-evaluates it after taking the lock, so a hold that was
+   * confirmed between the two steps is dropped instead of being expired out from under its buyer.
+   *
+   * <p>The plan for both forms is captured in {@code load/results/*}{@code /query-plans/}.
    */
   public List<Hold> claimExpired(Instant now, int batchSize) {
     return jdbc.query(
         """
-        select %s from holds
-        where status = 'ACTIVE' and expires_at <= :now
-        order by seat_id
-        limit :batchSize
-        for update skip locked
+        with due as (
+          select id from holds
+          where status = 'ACTIVE' and expires_at <= :now
+          order by expires_at
+          limit :batchSize
+        )
+        select %s from holds h
+        join due on due.id = h.id
+        where h.status = 'ACTIVE' and h.expires_at <= :now
+        order by h.seat_id
+        for update of h skip locked
         """
-            .formatted(HOLD_COLUMNS),
+            .formatted(HOLD_COLUMNS_QUALIFIED),
         new MapSqlParameterSource()
             .addValue("now", Timestamp.from(now))
             .addValue("batchSize", batchSize),

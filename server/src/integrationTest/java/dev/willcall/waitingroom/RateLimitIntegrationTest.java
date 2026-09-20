@@ -49,7 +49,9 @@ class RateLimitIntegrationTest extends HttpIntegrationTestBase {
       }
     }
 
-    assertThat(limited).as("a burst of twelve past a burst limit of three must be refused").isPositive();
+    assertThat(limited)
+        .as("a burst of twelve past a burst limit of three must be refused")
+        .isPositive();
     assertThat(retryAfter).as("Retry-After must be present").isNotNull();
     assertThat(Integer.parseInt(retryAfter))
         .as("Retry-After: 0 invites an immediate retry, which is what the limiter is preventing")

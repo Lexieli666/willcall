@@ -1,0 +1,152 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: load/scripts/ratelimit.ts
+        output: -
+
+     scenarios: (100.00%) 2 scenarios, 1000 max VUs, 1m0s max duration (incl. graceful stop):
+              * abusive: 400.00 iterations/s for 30s (maxVUs: 50-500, exec: abusive, gracefulStop: 30s)
+              * polite: 50.00 iterations/s for 30s (maxVUs: 50-500, exec: polite, gracefulStop: 30s)
+
+
+running (0m01.0s), 0120/0165 VUs, 31 complete and 0 interrupted iterations
+abusive   [   2% ] 115/115 VUs  00.5s/30s  400.00 iters/s
+polite    [   2% ] 005/050 VUs  00.5s/30s  50.00 iters/s
+
+running (0m02.0s), 0262/0306 VUs, 200 complete and 0 interrupted iterations
+abusive   [   5% ] 256/256 VUs  01.5s/30s  400.00 iters/s
+polite    [   5% ] 006/050 VUs  01.5s/30s  50.00 iters/s
+
+running (0m03.0s), 0331/0376 VUs, 510 complete and 0 interrupted iterations
+abusive   [   8% ] 325/326 VUs  02.5s/30s  400.00 iters/s
+polite    [   8% ] 006/050 VUs  02.5s/30s  50.00 iters/s
+
+running (0m04.0s), 0366/0412 VUs, 890 complete and 0 interrupted iterations
+abusive   [  12% ] 360/362 VUs  03.5s/30s  400.00 iters/s
+polite    [  12% ] 006/050 VUs  03.5s/30s  50.00 iters/s
+
+running (0m05.0s), 0383/0429 VUs, 1304 complete and 0 interrupted iterations
+abusive   [  15% ] 378/379 VUs  04.5s/30s  400.00 iters/s
+polite    [  15% ] 005/050 VUs  04.5s/30s  50.00 iters/s
+
+running (0m06.0s), 0393/0438 VUs, 1737 complete and 0 interrupted iterations
+abusive   [  18% ] 387/388 VUs  05.5s/30s  400.00 iters/s
+polite    [  18% ] 006/050 VUs  05.5s/30s  50.00 iters/s
+
+running (0m07.0s), 0397/0443 VUs, 2178 complete and 0 interrupted iterations
+abusive   [  22% ] 391/393 VUs  06.5s/30s  400.00 iters/s
+polite    [  22% ] 006/050 VUs  06.5s/30s  50.00 iters/s
+
+running (0m08.0s), 0400/0445 VUs, 2623 complete and 0 interrupted iterations
+abusive   [  25% ] 394/395 VUs  07.5s/30s  400.00 iters/s
+polite    [  25% ] 006/050 VUs  07.5s/30s  50.00 iters/s
+
+running (0m09.0s), 0399/0446 VUs, 3071 complete and 0 interrupted iterations
+abusive   [  28% ] 394/396 VUs  08.5s/30s  400.00 iters/s
+polite    [  28% ] 005/050 VUs  08.5s/30s  50.00 iters/s
+
+running (0m10.0s), 0401/0447 VUs, 3520 complete and 0 interrupted iterations
+abusive   [  32% ] 395/397 VUs  09.5s/30s  400.00 iters/s
+polite    [  32% ] 006/050 VUs  09.5s/30s  50.00 iters/s
+
+running (0m11.0s), 0401/0447 VUs, 3968 complete and 0 interrupted iterations
+abusive   [  35% ] 396/397 VUs  10.5s/30s  400.00 iters/s
+polite    [  35% ] 005/050 VUs  10.5s/30s  50.00 iters/s
+
+running (0m12.0s), 0399/0448 VUs, 4419 complete and 0 interrupted iterations
+abusive   [  38% ] 394/398 VUs  11.5s/30s  400.00 iters/s
+polite    [  38% ] 005/050 VUs  11.5s/30s  50.00 iters/s
+
+running (0m13.0s), 0400/0448 VUs, 4868 complete and 0 interrupted iterations
+abusive   [  42% ] 395/398 VUs  12.5s/30s  400.00 iters/s
+polite    [  42% ] 005/050 VUs  12.5s/30s  50.00 iters/s
+
+running (0m14.0s), 0402/0448 VUs, 5318 complete and 0 interrupted iterations
+abusive   [  45% ] 396/398 VUs  13.5s/30s  400.00 iters/s
+polite    [  45% ] 006/050 VUs  13.5s/30s  50.00 iters/s
+
+running (0m15.0s), 0402/0448 VUs, 5768 complete and 0 interrupted iterations
+abusive   [  48% ] 396/398 VUs  14.5s/30s  400.00 iters/s
+polite    [  48% ] 006/050 VUs  14.5s/30s  50.00 iters/s
+
+running (0m16.0s), 0402/0448 VUs, 6218 complete and 0 interrupted iterations
+abusive   [  52% ] 396/398 VUs  15.5s/30s  400.00 iters/s
+polite    [  52% ] 006/050 VUs  15.5s/30s  50.00 iters/s
+
+running (0m17.0s), 0402/0448 VUs, 6668 complete and 0 interrupted iterations
+abusive   [  55% ] 396/398 VUs  16.5s/30s  400.00 iters/s
+polite    [  55% ] 006/050 VUs  16.5s/30s  50.00 iters/s
+
+running (0m18.0s), 0402/0448 VUs, 7118 complete and 0 interrupted iterations
+abusive   [  58% ] 396/398 VUs  17.5s/30s  400.00 iters/s
+polite    [  58% ] 006/050 VUs  17.5s/30s  50.00 iters/s
+
+running (0m19.0s), 0402/0448 VUs, 7568 complete and 0 interrupted iterations
+abusive   [  62% ] 396/398 VUs  18.5s/30s  400.00 iters/s
+polite    [  62% ] 006/050 VUs  18.5s/30s  50.00 iters/s
+
+running (0m20.0s), 0402/0448 VUs, 8018 complete and 0 interrupted iterations
+abusive   [  65% ] 396/398 VUs  19.5s/30s  400.00 iters/s
+polite    [  65% ] 006/050 VUs  19.5s/30s  50.00 iters/s
+
+running (0m21.0s), 0400/0448 VUs, 8468 complete and 0 interrupted iterations
+abusive   [  68% ] 395/398 VUs  20.5s/30s  400.00 iters/s
+polite    [  68% ] 005/050 VUs  20.5s/30s  50.00 iters/s
+
+running (0m22.0s), 0400/0448 VUs, 8918 complete and 0 interrupted iterations
+abusive   [  72% ] 395/398 VUs  21.5s/30s  400.00 iters/s
+polite    [  72% ] 005/050 VUs  21.5s/30s  50.00 iters/s
+
+running (0m23.0s), 0402/0448 VUs, 9368 complete and 0 interrupted iterations
+abusive   [  75% ] 396/398 VUs  22.5s/30s  400.00 iters/s
+polite    [  75% ] 006/050 VUs  22.5s/30s  50.00 iters/s
+
+running (0m24.0s), 0402/0448 VUs, 9818 complete and 0 interrupted iterations
+abusive   [  78% ] 396/398 VUs  23.5s/30s  400.00 iters/s
+polite    [  78% ] 006/050 VUs  23.5s/30s  50.00 iters/s
+
+running (0m25.0s), 0401/0448 VUs, 10268 complete and 0 interrupted iterations
+abusive   [  82% ] 396/398 VUs  24.5s/30s  400.00 iters/s
+polite    [  82% ] 005/050 VUs  24.5s/30s  50.00 iters/s
+
+running (0m26.0s), 0402/0448 VUs, 10718 complete and 0 interrupted iterations
+abusive   [  85% ] 396/398 VUs  25.5s/30s  400.00 iters/s
+polite    [  85% ] 006/050 VUs  25.5s/30s  50.00 iters/s
+
+running (0m27.0s), 0400/0448 VUs, 11168 complete and 0 interrupted iterations
+abusive   [  88% ] 395/398 VUs  26.5s/30s  400.00 iters/s
+polite    [  88% ] 005/050 VUs  26.5s/30s  50.00 iters/s
+
+running (0m28.0s), 0402/0448 VUs, 11618 complete and 0 interrupted iterations
+abusive   [  92% ] 396/398 VUs  27.5s/30s  400.00 iters/s
+polite    [  92% ] 006/050 VUs  27.5s/30s  50.00 iters/s
+
+running (0m29.0s), 0402/0448 VUs, 12068 complete and 0 interrupted iterations
+abusive   [  95% ] 396/398 VUs  28.5s/30s  400.00 iters/s
+polite    [  95% ] 006/050 VUs  28.5s/30s  50.00 iters/s
+
+running (0m30.0s), 0402/0448 VUs, 12518 complete and 0 interrupted iterations
+abusive   [  98% ] 396/398 VUs  29.5s/30s  400.00 iters/s
+polite    [  98% ] 006/050 VUs  29.5s/30s  50.00 iters/s
+
+running (0m31.0s), 0206/0448 VUs, 12948 complete and 0 interrupted iterations
+abusive ↓ [ 100% ] 395/398 VUs  30s  400.00 iters/s
+polite  ✓ [ 100% ] 000/050 VUs  30s  50.00 iters/s
+
+thresholds: PASS willcall_ratelimit_errors: rate<0.001
+            PASS willcall_missing_retry_after: count==0
+
+running (0m31.5s), 0000/0448 VUs, 13154 complete and 0 interrupted iterations
+abusive ✓ [ 100% ] 000/398 VUs  30s  400.00 iters/s
+polite  ✓ [ 100% ] 000/050 VUs  30s  50.00 iters/s
+
+k6 exit code: 0
+
+--- verify-invariants ---
+invariants: PASS

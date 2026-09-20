@@ -1,0 +1,4 @@
+2026-09-20T21:57:40Z  INJECTING: exhaust-pool
+2026-09-20T21:57:40Z  ACCESS EXCLUSIVE on seats held for 40s
+2026-09-20T21:58:25Z  lock released
+2026-09-20T21:58:25Z  fault window closed; waiting for the load to finish

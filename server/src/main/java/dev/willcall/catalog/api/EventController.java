@@ -161,10 +161,10 @@ public class EventController {
   /**
    * Just the counts.
    *
-   * <p>Exists because the flash-sale watcher needs to know when the last seat goes, and polling
-   * the full seat map four times a second serialises five thousand rows into the middle of the
-   * burst it is trying to observe. The first version did exactly that, and the run it was
-   * measuring stopped selling out — the measurement was changing the result.
+   * <p>Exists because the flash-sale watcher needs to know when the last seat goes, and polling the
+   * full seat map four times a second serialises five thousand rows into the middle of the burst it
+   * is trying to observe. The first version did exactly that, and the run it was measuring stopped
+   * selling out — the measurement was changing the result.
    */
   @GetMapping("/{eventId}/availability")
   public AvailabilityResponse availability(@PathVariable UUID eventId) {

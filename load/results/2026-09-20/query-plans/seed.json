@@ -1,0 +1,100 @@
+{
+  "label": "local Docker Compose, not AWS",
+  "rowCounts": {
+    "users": 1000000,
+    "events": 50008,
+    "orders": 1000000
+  },
+  "tableRowCounts": {
+    "seed_users": 1000000,
+    "seed_orders": 1000000,
+    "outbox": 193624,
+    "idempotency_records": 100031,
+    "seats": 100000,
+    "hold_groups": 96812,
+    "holds": 96812,
+    "events": 50008,
+    "admissions": 18790,
+    "orders": 3680,
+    "order_lines": 3331,
+    "seat_rows": 1600,
+    "venues": 9,
+    "price_tiers": 8,
+    "sections": 8,
+    "flyway_schema_history": 4
+  },
+  "plans": [
+    {
+      "number": 1,
+      "name": "Claim any available seat  (the hot path of a flash sale)",
+      "classification": "hot path",
+      "hotPath": true,
+      "executionMs": 0.107,
+      "seqScan": true,
+      "indexScan": true
+    },
+    {
+      "number": 2,
+      "name": "Find N contiguous free seats  (the SQL fallback for the segment tree)",
+      "classification": "hot path",
+      "hotPath": true,
+      "executionMs": 20.702,
+      "seqScan": true,
+      "indexScan": true
+    },
+    {
+      "number": 3,
+      "name": "The sweeper claiming expired holds",
+      "classification": "hot path",
+      "hotPath": true,
+      "executionMs": 0.096,
+      "seqScan": false,
+      "indexScan": true
+    },
+    {
+      "number": 4,
+      "name": "Idempotency lookup",
+      "classification": "hot path",
+      "hotPath": true,
+      "executionMs": 0.031,
+      "seqScan": false,
+      "indexScan": true
+    },
+    {
+      "number": 5,
+      "name": "A buyer's order history  (the skewed join)",
+      "classification": "hot path",
+      "hotPath": true,
+      "executionMs": 0.05,
+      "seqScan": false,
+      "indexScan": true
+    },
+    {
+      "number": 6,
+      "name": "Orders for a popular event  (the other side of the skew)",
+      "classification": "analytical",
+      "hotPath": false,
+      "executionMs": 71.363,
+      "seqScan": true,
+      "indexScan": false
+    },
+    {
+      "number": 7,
+      "name": "Outbox relay: unpublished entries for an event",
+      "classification": "hot path",
+      "hotPath": true,
+      "executionMs": 0.028,
+      "seqScan": true,
+      "indexScan": true
+    },
+    {
+      "number": 8,
+      "name": "The capacity invariant check",
+      "classification": "analytical",
+      "hotPath": false,
+      "executionMs": 144.836,
+      "seqScan": true,
+      "indexScan": true
+    }
+  ]
+}

@@ -24,8 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Sequence numbers, which the whole real-time protocol rests on.
  *
  * <p>If they are not contiguous, every client resyncs constantly. If they are not monotonic,
- * clients apply stale state. If two replicas can assign the same number, two clients disagree
- * about what happened. Each of those is tested here rather than assumed from the design.
+ * clients apply stale state. If two replicas can assign the same number, two clients disagree about
+ * what happened. Each of those is tested here rather than assumed from the design.
  */
 class OutboxRelayIntegrationTest extends IntegrationTestBase {
 
@@ -47,12 +47,14 @@ class OutboxRelayIntegrationTest extends IntegrationTestBase {
   @DisplayName("sequence numbers are contiguous from one, with no gaps")
   void sequenceIsContiguous() {
     for (int i = 0; i < 20; i++) {
-      reservations.acquire(event.id(), "buyer-%06d".formatted(i), AllocationRequest.bestAvailable(event.id(), 1));
+      reservations.acquire(
+          event.id(), "buyer-%06d".formatted(i), AllocationRequest.bestAvailable(event.id(), 1));
     }
 
     scheduler.drain();
 
-    List<Long> sequences = published.stream().map(OutboxRelay.PublishedEntry::sequenceNo).sorted().toList();
+    List<Long> sequences =
+        published.stream().map(OutboxRelay.PublishedEntry::sequenceNo).sorted().toList();
     assertThat(sequences).hasSize(20);
     for (int i = 0; i < sequences.size(); i++) {
       // Contiguity is what makes gap detection possible at all: a client holding N that receives
@@ -64,12 +66,15 @@ class OutboxRelayIntegrationTest extends IntegrationTestBase {
   @Test
   @DisplayName("sequence numbers survive a second pass without restarting or repeating")
   void sequenceContinuesAcrossPasses() {
-    reservations.acquire(event.id(), "buyer-000001", AllocationRequest.bestAvailable(event.id(), 3));
+    reservations.acquire(
+        event.id(), "buyer-000001", AllocationRequest.bestAvailable(event.id(), 3));
     scheduler.drain();
-    reservations.acquire(event.id(), "buyer-000002", AllocationRequest.bestAvailable(event.id(), 2));
+    reservations.acquire(
+        event.id(), "buyer-000002", AllocationRequest.bestAvailable(event.id(), 2));
     scheduler.drain();
 
-    List<Long> sequences = published.stream().map(OutboxRelay.PublishedEntry::sequenceNo).sorted().toList();
+    List<Long> sequences =
+        published.stream().map(OutboxRelay.PublishedEntry::sequenceNo).sorted().toList();
     assertThat(sequences).containsExactly(1L, 2L, 3L, 4L, 5L);
   }
 
@@ -77,7 +82,8 @@ class OutboxRelayIntegrationTest extends IntegrationTestBase {
   @DisplayName("concurrent relays never assign the same number twice")
   void concurrentRelaysDoNotCollide() throws Exception {
     for (int i = 0; i < 40; i++) {
-      reservations.acquire(event.id(), "buyer-%06d".formatted(i), AllocationRequest.bestAvailable(event.id(), 1));
+      reservations.acquire(
+          event.id(), "buyer-%06d".formatted(i), AllocationRequest.bestAvailable(event.id(), 1));
     }
 
     // Eight simultaneous passes, as eight replicas would produce. The per-event advisory lock is
@@ -105,7 +111,8 @@ class OutboxRelayIntegrationTest extends IntegrationTestBase {
       assertThat(finished.await(1, TimeUnit.MINUTES)).isTrue();
     }
 
-    List<Long> sequences = new ArrayList<>(published.stream().map(OutboxRelay.PublishedEntry::sequenceNo).toList());
+    List<Long> sequences =
+        new ArrayList<>(published.stream().map(OutboxRelay.PublishedEntry::sequenceNo).toList());
     assertThat(sequences).doesNotHaveDuplicates();
     assertThat(sequences).hasSize(40);
   }
@@ -113,13 +120,15 @@ class OutboxRelayIntegrationTest extends IntegrationTestBase {
   @Test
   @DisplayName("each published entry carries the commit time, so propagation can be measured")
   void commitTimeIsCarried() {
-    reservations.acquire(event.id(), "buyer-000001", AllocationRequest.bestAvailable(event.id(), 1));
+    reservations.acquire(
+        event.id(), "buyer-000001", AllocationRequest.bestAvailable(event.id(), 1));
     scheduler.drain();
 
     assertThat(published).hasSize(1);
     assertThat(published.get(0).committedAt())
-        .as("without this, propagation could only be measured from the fan-out, which excludes "
-            + "the relay's own queueing")
+        .as(
+            "without this, propagation could only be measured from the fan-out, which excludes "
+                + "the relay's own queueing")
         .isNotNull();
   }
 
@@ -131,7 +140,8 @@ class OutboxRelayIntegrationTest extends IntegrationTestBase {
           throw new IllegalStateException("the fan-out is unhappy");
         });
 
-    reservations.acquire(event.id(), "buyer-000001", AllocationRequest.bestAvailable(event.id(), 2));
+    reservations.acquire(
+        event.id(), "buyer-000001", AllocationRequest.bestAvailable(event.id(), 2));
     int drained = scheduler.drain();
 
     // The entries are still marked published and the sequence still advanced: a client that
@@ -146,7 +156,8 @@ class OutboxRelayIntegrationTest extends IntegrationTestBase {
   @Test
   @DisplayName("nothing is published twice, even if the relay runs repeatedly")
   void publishingIsIdempotent() {
-    reservations.acquire(event.id(), "buyer-000001", AllocationRequest.bestAvailable(event.id(), 3));
+    reservations.acquire(
+        event.id(), "buyer-000001", AllocationRequest.bestAvailable(event.id(), 3));
 
     scheduler.drain();
     scheduler.drain();

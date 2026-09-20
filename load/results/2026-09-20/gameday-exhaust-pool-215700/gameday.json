@@ -1,0 +1,31 @@
+{
+  "scenario": "exhaust-pool",
+  "faultInjectedAt": "2026-09-20T21:57:40Z",
+  "k6ExitCode": 99,
+  "invariantsHeld": true,
+  "responsesByStatus": {
+    "200": 248,
+    "201": 12169,
+    "404": 0,
+    "409": 0,
+    "429": 0,
+    "500": 0,
+    "503": 4427
+  },
+  "counterSeriesResetByReplica": {},
+  "peakPoolPending": {
+    "value": 103.0,
+    "replica": "app1",
+    "atEpochSeconds": 1789941472
+  },
+  "load": {
+    "holdP99Ms": 2004.28586,
+    "holdMaxMs": 30001.300351,
+    "holdMedianMs": 15.496295,
+    "holdsGranted": 12221,
+    "holdsRefused": null,
+    "errorRate": 0.32109327259596687,
+    "requests": 18001,
+    "droppedIterations": 0
+  }
+}

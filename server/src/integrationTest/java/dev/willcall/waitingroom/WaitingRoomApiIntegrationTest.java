@@ -37,7 +37,11 @@ class WaitingRoomApiIntegrationTest extends HttpIntegrationTestBase {
   void setUp() {
     eventId = createEvent(10, 20, 120, 4);
     ResponseEntity<String> enabled =
-        post("/api/events/" + eventId + "/waiting-room?enabled=true&ratePerSecond=5", "", "buyer-organizer", null);
+        post(
+            "/api/events/" + eventId + "/waiting-room?enabled=true&ratePerSecond=5",
+            "",
+            "buyer-organizer",
+            null);
     assertThat(enabled.getStatusCode().value()).isEqualTo(204);
   }
 
@@ -85,7 +89,10 @@ class WaitingRoomApiIntegrationTest extends HttpIntegrationTestBase {
     // 403 — which is why the admission check happens before the idempotency layer.
     post("/api/events/" + eventId + "/queue/join", "", "buyer-00000009", null);
     admitter.admitAll();
-    String token = field(get("/api/events/" + eventId + "/queue/me", "buyer-00000009").getBody(), "admissionToken");
+    String token =
+        field(
+            get("/api/events/" + eventId + "/queue/me", "buyer-00000009").getBody(),
+            "admissionToken");
     headers.set("X-Willcall-Admission", token);
 
     ResponseEntity<String> retried =
@@ -101,9 +108,11 @@ class WaitingRoomApiIntegrationTest extends HttpIntegrationTestBase {
   @Test
   @DisplayName("joining reports a position, and joining again reports the same one")
   void joinIsIdempotent() {
-    ResponseEntity<String> first = post("/api/events/" + eventId + "/queue/join", "", "buyer-00000001", null);
+    ResponseEntity<String> first =
+        post("/api/events/" + eventId + "/queue/join", "", "buyer-00000001", null);
     post("/api/events/" + eventId + "/queue/join", "", "buyer-00000002", null);
-    ResponseEntity<String> again = post("/api/events/" + eventId + "/queue/join", "", "buyer-00000001", null);
+    ResponseEntity<String> again =
+        post("/api/events/" + eventId + "/queue/join", "", "buyer-00000001", null);
 
     assertThat(first.getStatusCode().value()).isEqualTo(200);
     assertThat(field(first.getBody(), "state")).isEqualTo("WAITING");
@@ -131,7 +140,10 @@ class WaitingRoomApiIntegrationTest extends HttpIntegrationTestBase {
   void tokenIsNotTransferable() {
     post("/api/events/" + eventId + "/queue/join", "", "buyer-00000004", null);
     admitter.admitAll();
-    String token = field(get("/api/events/" + eventId + "/queue/me", "buyer-00000004").getBody(), "admissionToken");
+    String token =
+        field(
+            get("/api/events/" + eventId + "/queue/me", "buyer-00000004").getBody(),
+            "admissionToken");
 
     assertThat(holdWithToken("buyer-00000005", token).getStatusCode().value()).isEqualTo(403);
   }
@@ -142,12 +154,21 @@ class WaitingRoomApiIntegrationTest extends HttpIntegrationTestBase {
     post("/api/events/" + eventId + "/queue/join", "", "buyer-00000006", null);
     post("/api/events/" + eventId + "/queue/join", "", "buyer-00000007", null);
 
-    assertThat(delete("/api/events/" + eventId + "/queue/me", "buyer-00000006").getStatusCode().value())
+    assertThat(
+            delete("/api/events/" + eventId + "/queue/me", "buyer-00000006")
+                .getStatusCode()
+                .value())
         .isEqualTo(204);
-    assertThat(delete("/api/events/" + eventId + "/queue/me", "buyer-00000006").getStatusCode().value())
+    assertThat(
+            delete("/api/events/" + eventId + "/queue/me", "buyer-00000006")
+                .getStatusCode()
+                .value())
         .isEqualTo(204);
 
-    assertThat(field(get("/api/events/" + eventId + "/queue/me", "buyer-00000007").getBody(), "position"))
+    assertThat(
+            field(
+                get("/api/events/" + eventId + "/queue/me", "buyer-00000007").getBody(),
+                "position"))
         .isEqualTo("1");
   }
 
@@ -155,15 +176,25 @@ class WaitingRoomApiIntegrationTest extends HttpIntegrationTestBase {
   @DisplayName("somebody queueing for seats that cannot exist is told so")
   void beyondInventoryIsSurfaced() {
     String tiny = createEvent(1, 2, 60, 2);
-    post("/api/events/" + tiny + "/waiting-room?enabled=true&ratePerSecond=1", "", "buyer-organizer", null);
+    post(
+        "/api/events/" + tiny + "/waiting-room?enabled=true&ratePerSecond=1",
+        "",
+        "buyer-organizer",
+        null);
 
     for (int i = 0; i < 5; i++) {
       post("/api/events/" + tiny + "/queue/join", "", "buyer-%08d".formatted(i), null);
     }
 
-    assertThat(field(get("/api/events/" + tiny + "/queue/me", "buyer-00000000").getBody(), "beyondInventory"))
+    assertThat(
+            field(
+                get("/api/events/" + tiny + "/queue/me", "buyer-00000000").getBody(),
+                "beyondInventory"))
         .isEqualTo("false");
-    assertThat(field(get("/api/events/" + tiny + "/queue/me", "buyer-00000004").getBody(), "beyondInventory"))
+    assertThat(
+            field(
+                get("/api/events/" + tiny + "/queue/me", "buyer-00000004").getBody(),
+                "beyondInventory"))
         .isEqualTo("true");
   }
 
@@ -172,7 +203,8 @@ class WaitingRoomApiIntegrationTest extends HttpIntegrationTestBase {
   void statsAreExposed() {
     post("/api/events/" + eventId + "/queue/join", "", "buyer-00000008", null);
 
-    ResponseEntity<String> stats = get("/api/events/" + eventId + "/queue/stats", "buyer-organizer");
+    ResponseEntity<String> stats =
+        get("/api/events/" + eventId + "/queue/stats", "buyer-organizer");
 
     assertThat(stats.getStatusCode().value()).isEqualTo(200);
     assertThat(field(stats.getBody(), "waiting")).isEqualTo("1");
@@ -202,7 +234,8 @@ class WaitingRoomApiIntegrationTest extends HttpIntegrationTestBase {
   @Test
   @DisplayName("the queue reports its own server time, so a client is not trusting its own clock")
   void serverTimeIsReported() {
-    ResponseEntity<String> response = post("/api/events/" + eventId + "/queue/join", "", "buyer-00000011", null);
+    ResponseEntity<String> response =
+        post("/api/events/" + eventId + "/queue/join", "", "buyer-00000011", null);
 
     assertThat(field(response.getBody(), "serverTime")).isNotBlank();
   }

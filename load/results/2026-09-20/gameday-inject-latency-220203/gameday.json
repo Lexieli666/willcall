@@ -1,0 +1,27 @@
+{
+  "scenario": "inject-latency",
+  "faultInjectedAt": "2026-09-20T22:02:44Z",
+  "k6ExitCode": 99,
+  "invariantsHeld": true,
+  "responsesByStatus": {
+    "200": 266,
+    "201": 16647,
+    "404": 0,
+    "409": 0,
+    "429": 0,
+    "500": 0,
+    "503": 1242
+  },
+  "counterResetsByReplica": {
+    "app1": 83,
+    "app2": 59,
+    "app3": 66
+  },
+  "load": {
+    "holdP99Ms": 2002.840934,
+    "holdMaxMs": 10411.23052,
+    "holdsGranted": 16763,
+    "holdsRefused": null,
+    "errorRate": null
+  }
+}

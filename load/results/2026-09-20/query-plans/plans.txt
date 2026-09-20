@@ -1,0 +1,293 @@
+Pager usage is off.
+Plans taken against event '7c9202e4-8512-4298-b8d3-a46b543473f6' with 40000 seats available
+================================================================
+Table sizes these plans were taken against
+================================================================
+        relname        | n_live_tup |  size   
+-----------------------+------------+---------
+ seed_users            |    1000000 | 109 MB
+ seed_orders           |    1000000 | 194 MB
+ outbox                |     193624 | 64 MB
+ holds                 |     119229 | 51 MB
+ idempotency_records   |     100031 | 84 MB
+ seats                 |     100000 | 32 MB
+ hold_groups           |      96812 | 31 MB
+ events                |      50008 | 10 MB
+ admissions            |      18790 | 4440 kB
+ orders                |       3680 | 1736 kB
+ order_lines           |       3331 | 1040 kB
+ seat_rows             |       1600 | 480 kB
+ venues                |          9 | 32 kB
+ price_tiers           |          8 | 48 kB
+ sections              |          8 | 48 kB
+ flyway_schema_history |          4 | 48 kB
+(16 rows)
+
+
+================================================================
+1. Claim any available seat  (the hot path of a flash sale)  [hot path]
+================================================================
+Predicted: an index scan on seats_by_event_status. Measured: an index scan on seats_pkey,
+because ORDER BY id LIMIT 4 lets the planner walk the primary key and stop after four
+matches instead of sorting. That is cheaper here and depends on an event s seats being
+clustered in id order, which holds while an event is created in one go; the buffer count
+is the thing to watch if that ever stops being true.
+                                                     QUERY PLAN                                                     
+--------------------------------------------------------------------------------------------------------------------
+ Limit (actual time=0.042..0.064 rows=4 loops=1)
+   Buffers: shared hit=17
+   ->  LockRows (actual time=0.042..0.063 rows=4 loops=1)
+         Buffers: shared hit=17
+         ->  Index Scan using seats_pkey on seats (actual time=0.026..0.039 rows=4 loops=1)
+               Filter: ((event_id = '7c9202e4-8512-4298-b8d3-a46b543473f6'::uuid) AND (status = 'AVAILABLE'::text))
+               Rows Removed by Filter: 3
+               Buffers: shared hit=10
+ Planning:
+   Buffers: shared hit=49 dirtied=1
+ Planning Time: 0.329 ms
+ Execution Time: 0.076 ms
+(12 rows)
+
+
+================================================================
+2. Find N contiguous free seats  (the SQL fallback for the segment tree)  [hot path]
+================================================================
+The window function is unavoidable; what matters is that the scan it feeds on is restricted
+by the partial predicate rather than reading every seat in the database.
+                                                           QUERY PLAN                                                           
+--------------------------------------------------------------------------------------------------------------------------------
+ Limit (actual time=26.708..26.709 rows=1 loops=1)
+   Buffers: shared hit=32241
+   ->  Sort (actual time=26.707..26.707 rows=1 loops=1)
+         Sort Key: (count(*)), seats.row_id, (min(seats.seat_number))
+         Sort Method: top-N heapsort  Memory: 25kB
+         Buffers: shared hit=32241
+         ->  HashAggregate (actual time=26.611..26.661 rows=400 loops=1)
+               Group Key: seats.row_id, (seats.seat_number - row_number() OVER (?))
+               Filter: (count(*) >= 3)
+               Batches: 1  Memory Usage: 273kB
+               Buffers: shared hit=32235
+               ->  WindowAgg (actual time=0.032..23.618 rows=40000 loops=1)
+                     Buffers: shared hit=32235
+                     ->  Index Scan using seats_row_id_seat_number_key on seats (actual time=0.030..18.304 rows=40000 loops=1)
+                           Filter: ((event_id = '7c9202e4-8512-4298-b8d3-a46b543473f6'::uuid) AND (status = 'AVAILABLE'::text))
+                           Rows Removed by Filter: 60000
+                           Buffers: shared hit=32235
+ Planning:
+   Buffers: shared hit=17
+ Planning Time: 0.107 ms
+ Execution Time: 26.816 ms
+(21 rows)
+
+
+================================================================
+3. The sweeper claiming expired holds  [hot path]
+================================================================
+Predicted: must use the partial index holds_active_by_expiry, because this runs four times a
+second on every replica. The prediction was wrong in a way a sequential-scan check could
+not catch - see 3b below, where the planner serves ORDER BY seat_id from a different index
+and filters, which is an index scan that reads everything. The query was changed; this
+section is kept because whichever plan the current query gets is worth seeing.
+                                                  QUERY PLAN                                                  
+--------------------------------------------------------------------------------------------------------------
+ Limit (actual time=0.014..0.014 rows=0 loops=1)
+   Buffers: shared hit=1
+   ->  LockRows (actual time=0.014..0.014 rows=0 loops=1)
+         Buffers: shared hit=1
+         ->  Index Scan using holds_single_active_per_seat on holds (actual time=0.014..0.014 rows=0 loops=1)
+               Filter: ((status = 'ACTIVE'::text) AND (expires_at <= now()))
+               Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=54 dirtied=8
+ Planning Time: 0.299 ms
+ Execution Time: 0.026 ms
+(11 rows)
+
+
+================================================================
+3b. The sweeper under an adverse ratio  [hot path]
+================================================================
+Query 3 above runs against whatever holds happen to exist, which after a load run is
+usually none at all - and a plan over an empty partial index says nothing. This section
+builds the population that matters (50,000 live holds of which 50 have expired: the steady
+state seconds after a sale opens) and measures both forms of the query against it. It runs
+inside a transaction that is rolled back, so nothing it inserts survives.
+BEGIN
+INSERT 0 50000
+ANALYZE
+
+--- 3b(i) one statement, ORDER BY seat_id: what the sweeper used to run ---
+                                                   QUERY PLAN                                                   
+----------------------------------------------------------------------------------------------------------------
+ Limit (actual time=0.062..11.732 rows=50 loops=1)
+   Buffers: shared hit=50109
+   ->  LockRows (actual time=0.061..11.725 rows=50 loops=1)
+         Buffers: shared hit=50109
+         ->  Index Scan using holds_single_active_per_seat on holds (actual time=0.060..11.676 rows=50 loops=1)
+               Filter: ((status = 'ACTIVE'::text) AND (expires_at <= now()))
+               Rows Removed by Filter: 49950
+               Buffers: shared hit=50059
+ Planning:
+   Buffers: shared hit=67
+ Planning Time: 0.292 ms
+ Execution Time: 11.756 ms
+(12 rows)
+
+
+--- 3b(ii) select by expiry, lock by seat_id: what it runs now ---
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ LockRows (actual time=0.160..0.168 rows=50 loops=1)
+   Buffers: shared hit=267
+   ->  Sort (actual time=0.159..0.160 rows=50 loops=1)
+         Sort Key: h.seat_id
+         Sort Method: quicksort  Memory: 33kB
+         Buffers: shared hit=217
+         ->  Nested Loop (actual time=0.021..0.141 rows=50 loops=1)
+               Buffers: shared hit=217
+               ->  Subquery Scan on due (actual time=0.013..0.032 rows=50 loops=1)
+                     Buffers: shared hit=17
+                     ->  Limit (actual time=0.009..0.023 rows=50 loops=1)
+                           Buffers: shared hit=17
+                           ->  Index Scan using holds_active_by_expiry on holds (actual time=0.008..0.021 rows=50 loops=1)
+                                 Index Cond: (expires_at <= now())
+                                 Buffers: shared hit=17
+               ->  Index Scan using holds_pkey on holds h (actual time=0.002..0.002 rows=1 loops=50)
+                     Index Cond: (id = due.id)
+                     Filter: ((status = 'ACTIVE'::text) AND (expires_at <= now()))
+                     Buffers: shared hit=200
+ Planning:
+   Buffers: shared hit=24
+ Planning Time: 0.239 ms
+ Execution Time: 0.236 ms
+(23 rows)
+
+ROLLBACK
+
+================================================================
+4. Idempotency lookup  [hot path]
+================================================================
+A primary-key lookup. It is here because it runs on every mutating request, so a plan
+regression would be felt everywhere at once.
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idempotency_records_pkey on idempotency_records (actual time=0.014..0.014 rows=0 loops=1)
+   Index Cond: ((user_ref = 'buyer-000000001'::text) AND (endpoint = 'POST /api/orders'::text) AND (idempotency_key = 'x'::text))
+   Buffers: shared hit=3
+ Planning:
+   Buffers: shared hit=25
+ Planning Time: 0.194 ms
+ Execution Time: 0.034 ms
+(7 rows)
+
+
+================================================================
+5. A buyer's order history  (the skewed join)  [hot path]
+================================================================
+One buyer against a million orders. This is where the skew matters: the planner has to
+choose between the user index and the event index, and the right answer depends on
+statistics that only exist at this size.
+                                              QUERY PLAN                                               
+-------------------------------------------------------------------------------------------------------
+ Limit (actual time=0.029..0.036 rows=2 loops=1)
+   Buffers: shared hit=5
+   ->  Index Scan using seed_orders_by_user on seed_orders o (actual time=0.028..0.035 rows=2 loops=1)
+         Index Cond: (user_ref = 'buyer-000000001'::text)
+         Buffers: shared hit=5
+ Planning:
+   Buffers: shared hit=29
+ Planning Time: 0.147 ms
+ Execution Time: 0.045 ms
+(9 rows)
+
+
+================================================================
+6. Orders for a popular event  (the other side of the skew)  [analytical]
+================================================================
+                                                                        QUERY PLAN                                                                        
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize Aggregate (actual time=66.591..68.411 rows=1 loops=1)
+   Buffers: shared hit=16296
+   InitPlan 1 (returns $1)
+     ->  Limit (actual time=33.075..33.133 rows=1 loops=1)
+           Buffers: shared hit=4932
+           ->  Sort (actual time=33.075..33.132 rows=1 loops=1)
+                 Sort Key: (count(*)) DESC
+                 Sort Method: quicksort  Memory: 25kB
+                 Buffers: shared hit=4932
+                 ->  Finalize GroupAggregate (actual time=33.070..33.127 rows=1 loops=1)
+                       Group Key: seed_orders.event_id
+                       Buffers: shared hit=4932
+                       ->  Gather Merge (actual time=33.065..33.122 rows=3 loops=1)
+                             Workers Planned: 2
+                             Workers Launched: 2
+                             Buffers: shared hit=4932
+                             ->  Partial GroupAggregate (actual time=30.668..30.669 rows=1 loops=3)
+                                   Group Key: seed_orders.event_id
+                                   Buffers: shared hit=4932
+                                   ->  Parallel Index Only Scan using seed_orders_by_event on seed_orders (actual time=0.020..19.241 rows=333333 loops=3)
+                                         Heap Fetches: 0
+                                         Buffers: shared hit=4932
+   ->  Gather (actual time=66.499..68.348 rows=3 loops=1)
+         Workers Planned: 2
+         Params Evaluated: $1
+         Workers Launched: 2
+         Buffers: shared hit=13165
+         ->  Partial Aggregate (actual time=31.311..31.312 rows=1 loops=3)
+               Buffers: shared hit=11364
+               ->  Parallel Seq Scan on seed_orders o (actual time=0.007..22.253 rows=309972 loops=3)
+                     Filter: ((event_id = $1) AND (status = 'CONFIRMED'::text))
+                     Rows Removed by Filter: 23362
+                     Buffers: shared hit=11364
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.068 ms
+ Execution Time: 68.480 ms
+(37 rows)
+
+
+================================================================
+7. Outbox relay: unpublished entries for an event  [hot path]
+================================================================
+Runs forty times a second per event. The partial index outbox_unpublished is what keeps it
+from reading published history that will never be selected again.
+                                          QUERY PLAN                                           
+-----------------------------------------------------------------------------------------------
+ Limit (actual time=0.006..0.006 rows=0 loops=1)
+   Buffers: shared hit=1
+   ->  Index Scan using outbox_unpublished on outbox (actual time=0.005..0.005 rows=0 loops=1)
+         Index Cond: (event_id = '7c9202e4-8512-4298-b8d3-a46b543473f6'::uuid)
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=31
+ Planning Time: 0.197 ms
+ Execution Time: 0.016 ms
+(9 rows)
+
+
+================================================================
+8. The capacity invariant check  [analytical]
+================================================================
+Runs in CI and after every load test, over every event in the database.
+                                                       QUERY PLAN                                                       
+------------------------------------------------------------------------------------------------------------------------
+ Nested Loop (actual time=87.208..87.208 rows=0 loops=1)
+   Buffers: shared hit=152957
+   ->  Seq Scan on events e (actual time=45.229..47.875 rows=50008 loops=1)
+         Buffers: shared hit=963
+   ->  Subquery Scan on counts (actual time=0.001..0.001 rows=0 loops=50008)
+         Filter: ((counts.confirmed + counts.held) > e.capacity)
+         Rows Removed by Filter: 1
+         Buffers: shared hit=151994
+         ->  Aggregate (actual time=0.001..0.001 rows=1 loops=50008)
+               Buffers: shared hit=151994
+               ->  Index Only Scan using seats_by_event_status on seats s (actual time=0.000..0.000 rows=2 loops=50008)
+                     Index Cond: (event_id = e.id)
+                     Heap Fetches: 39553
+                     Buffers: shared hit=151994
+ Planning:
+   Buffers: shared hit=7
+ Planning Time: 0.089 ms
+ Execution Time: 101.313 ms
+(18 rows)
+

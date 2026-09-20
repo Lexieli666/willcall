@@ -1,0 +1,4 @@
+2026-09-20T21:55:09Z  INJECTING: kill-replica
+2026-09-20T21:55:09Z  app2 killed
+2026-09-20T21:55:50Z  app2 restarted
+2026-09-20T21:55:50Z  fault window closed; waiting for the load to finish

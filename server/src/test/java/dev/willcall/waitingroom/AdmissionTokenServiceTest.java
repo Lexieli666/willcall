@@ -59,7 +59,8 @@ class AdmissionTokenServiceTest {
     AdmissionTokenService issuer = service("k", Duration.ofMinutes(10), NOW);
     String token = issuer.issue(eventId, "buyer-00000001");
 
-    AdmissionTokenService later = service("k", Duration.ofMinutes(10), NOW.plus(Duration.ofMinutes(11)));
+    AdmissionTokenService later =
+        service("k", Duration.ofMinutes(10), NOW.plus(Duration.ofMinutes(11)));
 
     assertThat(later.verify(token, eventId, "buyer-00000001")).isEmpty();
   }
@@ -70,7 +71,9 @@ class AdmissionTokenServiceTest {
     String eventId = UUID.randomUUID().toString();
     String token = service("one-key", Duration.ofMinutes(10), NOW).issue(eventId, "buyer-00000001");
 
-    assertThat(service("another-key", Duration.ofMinutes(10), NOW).verify(token, eventId, "buyer-00000001"))
+    assertThat(
+            service("another-key", Duration.ofMinutes(10), NOW)
+                .verify(token, eventId, "buyer-00000001"))
         .isEmpty();
   }
 
@@ -93,7 +96,8 @@ class AdmissionTokenServiceTest {
     String eventId = UUID.randomUUID().toString();
     String token = service("shared", Duration.ofMinutes(10), NOW).issue(eventId, "buyer-00000001");
 
-    assertThat(service("shared", Duration.ofMinutes(10), NOW).verify(token, eventId, "buyer-00000001"))
+    assertThat(
+            service("shared", Duration.ofMinutes(10), NOW).verify(token, eventId, "buyer-00000001"))
         .isPresent();
   }
 
@@ -103,7 +107,10 @@ class AdmissionTokenServiceTest {
     AdmissionTokenService tokens = service("k", Duration.ofMinutes(10), NOW);
     String eventId = UUID.randomUUID().toString();
 
-    AdmissionToken token = tokens.verify(tokens.issue(eventId, "buyer-00000001"), eventId, "buyer-00000001").orElseThrow();
+    AdmissionToken token =
+        tokens
+            .verify(tokens.issue(eventId, "buyer-00000001"), eventId, "buyer-00000001")
+            .orElseThrow();
 
     assertThat(token.expiresAt()).isEqualTo(NOW.plus(Duration.ofMinutes(10)));
     assertThat(token.isExpiredAt(NOW)).isFalse();

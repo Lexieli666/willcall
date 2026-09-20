@@ -1,0 +1,5 @@
+2026-09-20T22:02:44Z  INJECTING: inject-latency
+2026-09-20T22:02:44Z  tc unavailable (needs NET_ADMIN); pausing PostgreSQL instead, which is a
+        different fault with a similar shape and is recorded as such
+2026-09-20T22:02:54Z  PostgreSQL unpaused
+2026-09-20T22:03:34Z  fault window closed; waiting for the load to finish

@@ -1,0 +1,20 @@
+         table         | live_rows | total_size 
+-----------------------+-----------+------------
+ seed_users            | 1,000,000 | 109 MB
+ seed_orders           | 1,000,000 | 194 MB
+ outbox                | 193,624   | 64 MB
+ idempotency_records   | 100,031   | 84 MB
+ seats                 | 100,000   | 32 MB
+ hold_groups           | 96,812    | 31 MB
+ holds                 | 96,812    | 39 MB
+ events                | 50,008    | 10 MB
+ admissions            | 18,790    | 4440 kB
+ orders                | 3,680     | 1736 kB
+ order_lines           | 3,331     | 1040 kB
+ seat_rows             | 1,600     | 480 kB
+ venues                | 9         | 32 kB
+ price_tiers           | 8         | 48 kB
+ sections              | 8         | 48 kB
+ flyway_schema_history | 4         | 48 kB
+(16 rows)
+

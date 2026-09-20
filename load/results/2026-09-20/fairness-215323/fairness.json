@@ -1,0 +1,16 @@
+{
+  "events": [
+    {
+      "eventId": "41ad48f8-5cf4-4d4f-8fcc-2776aa18cded",
+      "admittedCount": 18495,
+      "inversions": 5,
+      "inversionRatePercent": 0.0
+    }
+  ],
+  "headline": {
+    "eventId": "41ad48f8-5cf4-4d4f-8fcc-2776aa18cded",
+    "admittedCount": 18495,
+    "inversions": 5,
+    "inversionRatePercent": 0.0
+  }
+}

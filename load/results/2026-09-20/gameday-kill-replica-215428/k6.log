@@ -1,0 +1,4 @@
+time="2026-09-20T14:54:29-07:00" level=info msg="holds scenario using the caller's event 09b821fb-34d3-40fc-9c91-99239faa1be5" source=console
+
+thresholds: PASS willcall_hold_duration: p(99)<150
+            PASS willcall_hold_errors: rate<0.001
