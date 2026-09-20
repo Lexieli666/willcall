@@ -233,6 +233,7 @@ open http://127.0.0.1:3000     # Grafana, dashboards provisioned
 | [docs/adr/](docs/adr/) | Thirteen decisions, including the product ones and the one the game day forced |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | The three rules this repository is built under |
 | [PROGRESS.md](PROGRESS.md) | Current state, including everything that is blocked and why |
+| [CHANGELOG.md](CHANGELOG.md) | What v1.0 is, what it measures, and what it misses |
 
 ---
 

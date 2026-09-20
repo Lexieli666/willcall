@@ -144,3 +144,46 @@ watcher   [  77% ] 1 VUs            30.6s/40s
 running (0m31.9s), 00001/02463 VUs, 19432 complete and 0 interrupted iterations
 flash   ✓ [ 100% ] 00000/02462 VUs  30s  0005.00 iters/s
 watcher   [  79% ] 1 VUs            31.6s/40s
+
+running (0m32.9s), 00001/02463 VUs, 19433 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02462 VUs  30s  0005.00 iters/s
+watcher   [  82% ] 1 VUs            32.6s/40s
+
+running (0m33.9s), 00001/02463 VUs, 19434 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02462 VUs  30s  0005.00 iters/s
+watcher   [  84% ] 1 VUs            33.6s/40s
+
+running (0m34.9s), 00001/02463 VUs, 19435 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02462 VUs  30s  0005.00 iters/s
+watcher   [  87% ] 1 VUs            34.6s/40s
+
+running (0m35.9s), 00001/02463 VUs, 19436 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02462 VUs  30s  0005.00 iters/s
+watcher   [  89% ] 1 VUs            35.6s/40s
+
+running (0m36.9s), 00001/02463 VUs, 19437 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02462 VUs  30s  0005.00 iters/s
+watcher   [  92% ] 1 VUs            36.6s/40s
+
+running (0m37.9s), 00001/02463 VUs, 19438 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02462 VUs  30s  0005.00 iters/s
+watcher   [  94% ] 1 VUs            37.6s/40s
+
+running (0m38.9s), 00001/02463 VUs, 19439 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02462 VUs  30s  0005.00 iters/s
+watcher   [  97% ] 1 VUs            38.6s/40s
+
+running (0m39.9s), 00001/02463 VUs, 19440 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02462 VUs  30s  0005.00 iters/s
+watcher   [  99% ] 1 VUs            39.6s/40s
+time="2026-09-20T15:59:20-07:00" level=info msg="invariants after the flash sale: PASS" source=console
+time="2026-09-20T15:59:20-07:00" level=info msg="final tally for event b2d0abe0-351f-4468-a212-01b5cac4e516 (capacity 5000): 3327 sold, 0 held, 1673 available" source=console
+
+thresholds: PASS willcall_invariants_held: rate==1
+            PASS willcall_flash_hold_duration: p(99)<5000
+            PASS willcall_flash_server_errors: count==0
+            PASS willcall_flash_errors: rate<0.001
+
+running (0m40.6s), 00000/02463 VUs, 19441 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02462 VUs  30s  0005.00 iters/s
+watcher ✓ [ 100% ] 1 VUs            40s 
