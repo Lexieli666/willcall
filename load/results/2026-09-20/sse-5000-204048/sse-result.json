@@ -1,0 +1,55 @@
+{
+  "baseUrl": "http://127.0.0.1:8080",
+  "eventId": "22d95fd0-5d80-408f-8d86-d87f3ec36074",
+  "requestedConnections": 5000,
+  "establishedConnections": 5000,
+  "failedConnections": 0,
+  "serverConnectionsBefore": {
+    "app1": 0,
+    "app2": 0,
+    "app3": 0
+  },
+  "serverConnectionsDuring": {
+    "app1": 1667,
+    "app2": 1667,
+    "app3": 1666
+  },
+  "seatChangesDriven": 1760,
+  "holdSeconds": 90,
+  "counters": {
+    "connected": 5000,
+    "failed": 0,
+    "snapshots": 5000,
+    "deltas": 896673,
+    "changes": 15000000,
+    "gaps": 0,
+    "resyncs": 0,
+    "disconnects": 0,
+    "heartbeats": 38081
+  },
+  "propagationMs": {
+    "count": 15000000,
+    "min": 8,
+    "p50": 123,
+    "p90": 195,
+    "p95": 214,
+    "p99": 254,
+    "max": 366,
+    "mean": 123.47625866666667
+  },
+  "errors": {},
+  "retainedHeap": {
+    "beforeBytes": 90441872,
+    "withConnectionsBytes": 692760640,
+    "afterCloseBytes": 229475928,
+    "perConnectionBytes": 92657,
+    "method": "Heap retained after an explicit collection, with the connections open, minus the same figure after they were closed, divided by the number established. This isolates what a connection costs from the garbage produced by delivering the messages. System.gc() is a request rather than a command, so it remains an estimate - but an estimate of the right quantity, unlike a resident-set delta taken during the run."
+  },
+  "memory": {
+    "applicationResidentBeforeBytes": 854589439,
+    "applicationResidentPeakBytes": 1945108480,
+    "differenceBytes": 1090519041,
+    "perConnectionBytes": 218104,
+    "method": "Sum of the resident set of every application replica, sampled every five seconds while the connections were open, minus the same figure taken before they were opened, divided by the number established. This attributes all growth during the window to the connections, which slightly overstates them: JIT compilation and heap growth from the seat-change traffic land in the same figure. It is an upper bound, and is reported as one rather than as a precise cost."
+  }
+}

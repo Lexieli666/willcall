@@ -1,0 +1,16 @@
+event 93cfb327-b212-4181-9506-e6181a2fbe75 with 2000 available seats
+opening 5000 connections over 45000 ms
+server-side connections before: {"app1":0,"app2":0,"app3":0}
+retained heap before: 86.5 MiB
+client-side connections established: 5000, failed: 0
+server-side connections during: {"app1":1668,"app2":1666,"app3":1666}
+retained heap with 5000 connections: 572.2 MiB
+
+connections established : 5000 of 5000 requested
+seat changes driven     : 1760
+delta frames received   : 876670 (15000000 seat changes)
+gaps detected           : 0
+resyncs requested       : 0
+propagation commit→client (ms): n=15000000 p50=129 p90=204 p95=222 p99=252 max=381
+written to load/results/2026-09-20/sse-5000-204654/sse-result.json
+retained heap after close: 211.1 MiB → 73.9 KiB retained per connection

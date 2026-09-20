@@ -45,6 +45,14 @@ export interface SeatChange {
   id: string
   status: SeatStatus
   version: number
+  /**
+   * When the transaction that changed this seat committed.
+   *
+   * <p>The browser does not use it; the load generator does, to measure propagation from the
+   * commit rather than from whenever the fan-out ran. It is typed here so a change to the field
+   * cannot silently break that measurement.
+   */
+  committedAt?: string | null
 }
 
 export interface SnapshotMessage {
@@ -106,6 +114,17 @@ export interface OrderResponse {
   seatIds: string[]
   paymentReference: string | null
   confirmedAt: string | null
+}
+
+/** A buyer's own place in the waiting room, pushed on the same stream as the seat map. */
+export interface QueueFrame {
+  state: 'WAITING' | 'ADMITTED' | 'DEGRADED_OPEN' | 'NOT_QUEUED'
+  position: number
+  queueLength: number
+  estimatedWaitSeconds: number | null
+  beyondInventory: boolean
+  admissionToken: string | null
+  serverTime: string
 }
 
 export interface BuyerState {

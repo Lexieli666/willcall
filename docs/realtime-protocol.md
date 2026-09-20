@@ -79,7 +79,7 @@ id: 4714
 data: {
   "fromSequence": 4712,
   "sequence": 4714,
-  "changes": [ {"id": "…", "status": "HELD", "version": 13}, … ],
+  "changes": [ {"id": "…", "status": "HELD", "version": 13, "committedAt": "2026-09-20T18:31:00.412Z"}, … ],
   "counts": {"available": 3820, "held": 95, "sold": 1085}
 }
 ```
@@ -93,6 +93,12 @@ therefore carries the range it accounts for, and the client checks the low end.
 
 One delta message may carry many seat changes: that is the coalescing window at work, not a
 convenience.
+
+`committedAt` is when the transaction that changed the seat committed, stamped by PostgreSQL.
+It exists so propagation can be measured from the commit to the browser, which is what the budget
+in section 5 is about. Measuring from when the fan-out picked the change up would quietly exclude
+the relay's own queueing — time a buyer genuinely waits — and would make every published
+percentile smaller than the truth.
 
 `counts` is **nullable on a delta** and always present on a snapshot. The server sends it when it
 has it cheaply and sends `null` otherwise; when it is null the client recomputes the totals from
@@ -113,7 +119,38 @@ Sent when the client's `Last-Event-ID` is older than the retained history, when 
 per-connection buffer overflows, or after a replica restart with no shared history. The client
 must re-fetch the seat map and reconnect without `Last-Event-ID`.
 
-### 3.4 `:heartbeat` — an SSE comment, every 15 seconds
+### 3.4 `queue` — this buyer's place in the waiting room
+
+```
+event: queue
+data: {
+  "state": "WAITING",
+  "position": 412,
+  "queueLength": 9310,
+  "estimatedWaitSeconds": 21,
+  "beyondInventory": false,
+  "admissionToken": null,
+  "serverTime": "2026-09-20T18:31:02Z"
+}
+```
+
+**Carries no `id:` and is outside the seat sequence entirely.** Queue position is personal, so it
+cannot ride the coalescer, which exists to send one identical frame to everybody. Giving these
+frames a sequence number would corrupt the client's seat cursor, because the numbers would not be
+contiguous from that client's point of view — every other buyer's position update would look like
+a lost seat delta.
+
+`state` is `WAITING`, `ADMITTED` or `DEGRADED_OPEN`. On `ADMITTED` the frame carries the signed
+`admissionToken` the buyer then sends as `X-Willcall-Admission` when holding seats.
+
+`beyondInventory` is true when more people are ahead than there are seats left. Showing it is the
+difference between a queue and a waiting trap.
+
+The frame is pushed every two seconds rather than polled. Ten thousand people asking for their
+position every two seconds is five thousand requests per second of pure overhead competing with
+the hold path for the same connection pool, at exactly the moment the hold path is busiest.
+
+### 3.5 `:heartbeat` — an SSE comment, every 15 seconds
 
 ```
 :heartbeat 2026-09-20T18:31:15Z

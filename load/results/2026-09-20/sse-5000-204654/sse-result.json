@@ -1,0 +1,55 @@
+{
+  "baseUrl": "http://127.0.0.1:8080",
+  "eventId": "93cfb327-b212-4181-9506-e6181a2fbe75",
+  "requestedConnections": 5000,
+  "establishedConnections": 5000,
+  "failedConnections": 0,
+  "serverConnectionsBefore": {
+    "app1": 0,
+    "app2": 0,
+    "app3": 0
+  },
+  "serverConnectionsDuring": {
+    "app1": 1668,
+    "app2": 1666,
+    "app3": 1666
+  },
+  "seatChangesDriven": 1760,
+  "holdSeconds": 90,
+  "counters": {
+    "connected": 5000,
+    "failed": 0,
+    "snapshots": 5000,
+    "deltas": 876670,
+    "changes": 15000000,
+    "gaps": 0,
+    "resyncs": 0,
+    "disconnects": 0,
+    "heartbeats": 37481
+  },
+  "propagationMs": {
+    "count": 15000000,
+    "min": 9,
+    "p50": 129,
+    "p90": 204,
+    "p95": 222,
+    "p99": 252,
+    "max": 381,
+    "mean": 129.3851616
+  },
+  "errors": {},
+  "retainedHeap": {
+    "beforeBytes": 90686056,
+    "withConnectionsBytes": 599944624,
+    "afterCloseBytes": 221342936,
+    "perConnectionBytes": 75720,
+    "method": "Heap retained after an explicit collection, with the connections open, minus the same figure after they were closed, divided by the number established. This isolates what a connection costs from the garbage produced by delivering the messages. System.gc() is a request rather than a command, so it remains an estimate - but an estimate of the right quantity, unlike a resident-set delta taken during the run."
+  },
+  "memory": {
+    "applicationResidentBeforeBytes": 898629632,
+    "applicationResidentPeakBytes": 1811939328,
+    "differenceBytes": 913309696,
+    "perConnectionBytes": 182662,
+    "method": "Sum of the resident set of every application replica, sampled every five seconds while the connections were open, minus the same figure taken before they were opened, divided by the number established. This attributes all growth during the window to the connections, which slightly overstates them: JIT compilation and heap growth from the seat-change traffic land in the same figure. It is an upper bound, and is reported as one rather than as a precise cost."
+  }
+}

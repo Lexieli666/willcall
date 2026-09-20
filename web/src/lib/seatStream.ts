@@ -1,5 +1,6 @@
 import type {
   DeltaMessage,
+  QueueFrame,
   ResyncMessage,
   SeatChange,
   SeatCounts,
@@ -29,9 +30,13 @@ export interface SeatStreamCallbacks {
   onDelta: (changes: SeatChange[], counts: SeatCounts | null, sequence: number) => void
   onResyncRequired: (reason: string) => void
   onStatusChange: (status: StreamStatus) => void
+  /** The buyer's own place in the waiting room. Outside the seat sequence entirely. */
+  onQueue?: (frame: QueueFrame) => void
 }
 
 export interface SeatStreamOptions {
+  /** The buyer this stream belongs to, so the waiting room can push their position. */
+  userRef?: string
   /** Milliseconds without a heartbeat or message before the connection is treated as dead. */
   livenessTimeoutMs?: number
   /** Overridable so tests do not have to wait real seconds. */
@@ -50,8 +55,11 @@ const DEFAULTS = {
 
 export class SeatStream {
   private readonly eventId: string
+  private readonly userRef: string | undefined
   private readonly callbacks: SeatStreamCallbacks
-  private readonly options: Required<Omit<SeatStreamOptions, 'eventSourceFactory' | 'now'>> & {
+  private readonly options: Required<
+    Omit<SeatStreamOptions, 'eventSourceFactory' | 'now' | 'userRef'>
+  > & {
     eventSourceFactory: (url: string) => EventSource
     now: () => number
   }
@@ -65,10 +73,19 @@ export class SeatStream {
   private stopped = false
 
   /** Counters the diagnostics panel and the e2e tests read. */
-  readonly stats = { snapshots: 0, deltas: 0, gaps: 0, resyncs: 0, reconnects: 0, staleDrops: 0 }
+  readonly stats = {
+    snapshots: 0,
+    deltas: 0,
+    gaps: 0,
+    resyncs: 0,
+    reconnects: 0,
+    staleDrops: 0,
+    queueFrames: 0,
+  }
 
   constructor(eventId: string, callbacks: SeatStreamCallbacks, options: SeatStreamOptions = {}) {
     this.eventId = eventId
+    this.userRef = options.userRef
     this.callbacks = callbacks
     this.options = {
       livenessTimeoutMs: options.livenessTimeoutMs ?? DEFAULTS.livenessTimeoutMs,
@@ -114,10 +131,13 @@ export class SeatStream {
     // The cursor is passed as a query parameter as well as relying on EventSource's own
     // Last-Event-ID header: the header is only sent on an automatic reconnect, and this class
     // reconnects deliberately.
-    const url =
-      this.cursor === null
-        ? `/api/events/${this.eventId}/stream`
-        : `/api/events/${this.eventId}/stream?lastEventId=${this.cursor}`
+    // The buyer reference goes in the query string because EventSource cannot set headers. The
+    // server needs it to push this buyer their own queue position.
+    const params = new URLSearchParams()
+    if (this.cursor !== null) params.set('lastEventId', String(this.cursor))
+    if (this.userRef) params.set('userRef', this.userRef)
+    const query = params.toString()
+    const url = `/api/events/${this.eventId}/stream${query ? `?${query}` : ''}`
 
     const source = this.options.eventSourceFactory(url)
     this.source = source
@@ -142,6 +162,16 @@ export class SeatStream {
       this.lastMessageAt = this.options.now()
       const message = JSON.parse((event as MessageEvent<string>).data) as DeltaMessage
       this.applyDelta(message)
+    })
+
+    source.addEventListener('queue', (event) => {
+      this.lastMessageAt = this.options.now()
+      // Queue frames carry no sequence id and must not touch the cursor. They are personal to
+      // this buyer, so numbering them would make every other buyer's update look to this client
+      // like a lost seat delta.
+      const frame = JSON.parse((event as MessageEvent<string>).data) as QueueFrame
+      this.stats.queueFrames += 1
+      this.callbacks.onQueue?.(frame)
     })
 
     source.addEventListener('resync', (event) => {

@@ -1,0 +1,13 @@
+event 735fcc1d-1112-41e1-86b1-5cd35e72882f with 2000 available seats
+opening 200 connections over 3000 ms
+server-side connections before: {"app1":0,"app2":0,"app3":0}
+client-side connections established: 200, failed: 0
+server-side connections during: {"app1":65,"app2":63,"app3":72}
+
+connections established : 200 of 200 requested
+seat changes driven     : 300
+delta frames received   : 4807 (60000 seat changes)
+gaps detected           : 0
+resyncs requested       : 0
+propagation commit→client (ms): n=60000 p50=68 p90=106 p95=118 p99=143 max=181
+written to load/results/2026-09-20/sse-200-203432/sse-result.json

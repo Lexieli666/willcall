@@ -1,0 +1,48 @@
+{
+  "baseUrl": "http://127.0.0.1:8080",
+  "eventId": "5d2bf575-41c3-4e21-b4f3-034b48e2bf8b",
+  "requestedConnections": 5000,
+  "establishedConnections": 5000,
+  "failedConnections": 0,
+  "serverConnectionsBefore": {
+    "app1": 0,
+    "app2": 0,
+    "app3": 0
+  },
+  "serverConnectionsDuring": {
+    "app1": 1665,
+    "app2": 1667,
+    "app3": 1668
+  },
+  "seatChangesDriven": 1760,
+  "holdSeconds": 90,
+  "counters": {
+    "connected": 5000,
+    "failed": 0,
+    "snapshots": 5000,
+    "deltas": 953320,
+    "changes": 14900000,
+    "gaps": 0,
+    "resyncs": 0,
+    "disconnects": 0,
+    "heartbeats": 41181
+  },
+  "propagationMs": {
+    "count": 14900000,
+    "min": 6,
+    "p50": 145,
+    "p90": 229,
+    "p95": 255,
+    "p99": 305,
+    "max": 425,
+    "mean": 146.93929919463088
+  },
+  "errors": {},
+  "memory": {
+    "applicationResidentBeforeBytes": 868220928,
+    "applicationResidentPeakBytes": 1956642816,
+    "differenceBytes": 1088421888,
+    "perConnectionBytes": 217684,
+    "method": "Sum of the resident set of every application replica, sampled every five seconds while the connections were open, minus the same figure taken before they were opened, divided by the number established. This attributes all growth during the window to the connections, which slightly overstates them: JIT compilation and heap growth from the seat-change traffic land in the same figure. It is an upper bound, and is reported as one rather than as a precise cost."
+  }
+}

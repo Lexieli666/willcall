@@ -1,0 +1,17 @@
+{
+  "name": "willcall-sse-load",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Holds thousands of Server-Sent Events connections open and measures propagation latency.",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "typecheck": "tsc --noEmit --outDir /tmp/willcall-sse-typecheck",
+    "build": "tsc",
+    "start": "npm run build && node dist/main.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.18.1",
+    "typescript": "~5.9.2"
+  }
+}

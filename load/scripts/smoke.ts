@@ -7,6 +7,7 @@ import { check, sleep } from 'k6'
 import { Rate } from 'k6/metrics'
 import type { Options } from 'k6/options'
 import { BASE_URL, json, type SystemStatus } from './lib/common.ts'
+import { summaryFile, type K6Summary } from './lib/summary.ts'
 
 const errorRate = new Rate('willcall_errors')
 
@@ -38,4 +39,13 @@ export default function smoke(): void {
   errorRate.add(!check(ready, { 'ready 200': (r) => r.status === 200 }))
 
   sleep(1)
+}
+
+/**
+ * k6 calls this at the end. It writes a second summary carrying the scenario name and each
+ * threshold's verdict, so RESULTS_SUMMARY.md can be generated from raw output rather than
+ * assembled by hand.
+ */
+export function handleSummary(data: K6Summary): Record<string, string> {
+  return summaryFile('smoke', data)
 }
