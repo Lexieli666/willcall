@@ -1,0 +1,79 @@
+spring:
+  application:
+    name: willcall
+  datasource:
+    url: ${WILLCALL_DB_URL:jdbc:postgresql://localhost:5432/willcall}
+    username: ${WILLCALL_DB_USER:willcall}
+    password: ${WILLCALL_DB_PASSWORD:willcall}
+    hikari:
+      # Sized deliberately: see docs/capacity-model.md. Pool exhaustion is a game-day
+      # scenario, so the pool is small enough that the failure mode is reachable.
+      maximum-pool-size: ${WILLCALL_DB_POOL_MAX:20}
+      minimum-idle: ${WILLCALL_DB_POOL_MIN:5}
+      connection-timeout: ${WILLCALL_DB_POOL_TIMEOUT_MS:2000}
+      pool-name: willcall-pool
+  data:
+    redis:
+      url: ${WILLCALL_REDIS_URL:redis://localhost:6379}
+      timeout: 1s
+      lettuce:
+        pool:
+          enabled: true
+          max-active: 32
+          max-idle: 16
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+  threads:
+    virtual:
+      # Long-lived SSE connections are the reason: one platform thread per connection caps
+      # a replica in the low thousands. Measured in load/results/.
+      enabled: true
+  mvc:
+    async:
+      request-timeout: -1
+
+server:
+  port: ${WILLCALL_PORT:8080}
+  shutdown: graceful
+  tomcat:
+    threads:
+      max: ${WILLCALL_TOMCAT_MAX_THREADS:200}
+    max-connections: ${WILLCALL_TOMCAT_MAX_CONNECTIONS:20000}
+    accept-count: 500
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+  metrics:
+    tags:
+      application: willcall
+      replica: ${WILLCALL_REPLICA_ID:local}
+  tracing:
+    sampling:
+      probability: ${WILLCALL_TRACE_SAMPLE:0.05}
+  otlp:
+    tracing:
+      # Spans are always produced, so traceId/spanId appear in every log line. Export is off
+      # unless a collector is configured: an unreachable exporter retries in a loop and the
+      # retries are the loudest thing in the log during a load test.
+      export:
+        enabled: ${WILLCALL_OTLP_ENABLED:false}
+      endpoint: ${WILLCALL_OTLP_ENDPOINT:http://localhost:4318/v1/traces}
+
+willcall:
+  replica-id: ${WILLCALL_REPLICA_ID:local}
+
+logging:
+  level:
+    root: INFO
+    dev.willcall: ${WILLCALL_LOG_LEVEL:INFO}
+    org.springframework.web: WARN

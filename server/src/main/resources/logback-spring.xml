@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Structured JSON logs on stdout. A container platform is the log shipper; the application
+  never writes files. The replica id is on every line so a load-test trace can be attributed
+  to the replica that served it.
+-->
+<configuration>
+  <springProperty scope="context" name="replicaId" source="willcall.replica-id" defaultValue="local"/>
+  <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="willcall"/>
+
+  <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+      <includeMdcKeyName>traceId</includeMdcKeyName>
+      <includeMdcKeyName>spanId</includeMdcKeyName>
+      <includeMdcKeyName>eventId</includeMdcKeyName>
+      <includeMdcKeyName>userRef</includeMdcKeyName>
+      <includeMdcKeyName>idempotencyKey</includeMdcKeyName>
+      <customFields>{"app":"${appName}","replica":"${replicaId}"}</customFields>
+      <fieldNames>
+        <timestamp>ts</timestamp>
+        <message>msg</message>
+        <levelValue>[ignore]</levelValue>
+      </fieldNames>
+    </encoder>
+  </appender>
+
+  <appender name="PLAIN" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <springProfile name="!local">
+    <root level="INFO"><appender-ref ref="JSON"/></root>
+  </springProfile>
+  <springProfile name="local">
+    <root level="INFO"><appender-ref ref="PLAIN"/></root>
+  </springProfile>
+</configuration>
