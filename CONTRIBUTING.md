@@ -41,6 +41,17 @@ paired with the concurrency test that fails the build if an oversell occurs.
 purchase with key events only. If you cannot name the falsifier, the claim is an
 intention and belongs in `PROGRESS.md`, not `README.md`.
 
+**And the falsifier itself needs a test that makes it fail.** A check that has never
+been seen failing may not be capable of it. Four instruments in this project have
+reported a pass while measuring nothing — the invariant script twice, a fault
+injection that injected nothing, and a plan check that flagged three scans that were
+not there. Every one would have been caught by asking it to fail once, and none was
+caught by reading it carefully. So `verify-invariants.sh` is run against a planted
+violation and against an unreachable database and must exit 1 and 2; the invariant
+monitor has an integration test that writes a seat into two states at once past every
+service; the game-day fixes were verified by re-running the scenario that found the
+problem until it stopped reproducing.
+
 ## Workflow: tests and load scripts before implementation
 
 For anything with a correctness or capacity claim attached:
