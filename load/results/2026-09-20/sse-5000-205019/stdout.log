@@ -1,0 +1,6 @@
+event bbbd3c23-f0ba-480f-a014-d1224d9c6064 with 2000 available seats
+opening 5000 connections over 45000 ms
+server-side connections before: {"app1":0,"app2":0,"app3":0}
+retained heap before: 184.1 MiB
+client-side connections established: 5000, failed: 0
+server-side connections during: {"app1":1666,"app2":1667,"app3":1667}

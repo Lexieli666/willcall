@@ -93,6 +93,58 @@ async function retainedHeapBytes() {
     }
     return total;
 }
+/**
+ * Reads the server's own view of where the time goes.
+ *
+ * <p>Without this the report can say the propagation p99 and nothing about why. The flush timer
+ * says how long the server spent building and queueing a frame; anything left over between that
+ * and the measured propagation is socket time plus this generator's own parsing — and a
+ * single-threaded Node process parsing well over a hundred thousand frames a second is a
+ * plausible part of the tail, which a reader deserves to be able to check.
+ */
+async function serverMetrics() {
+    const wanted = [
+        'willcall_sse_flush_duration_seconds',
+        'willcall_sse_frames_sent_total',
+        'willcall_sse_frames_dropped_total',
+        'willcall_sse_resyncs_sent_total',
+        'willcall_bus_published_total',
+        'willcall_bus_received_total',
+        'willcall_outbox_published_total',
+    ];
+    const collected = {};
+    for (const port of REPLICA_PORTS) {
+        try {
+            const response = await fetch(`http://127.0.0.1:${port}/actuator/prometheus`);
+            if (!response.ok)
+                continue;
+            const text = await response.text();
+            for (const line of text.split('\n')) {
+                if (line.startsWith('#'))
+                    continue;
+                for (const metric of wanted) {
+                    if (!line.startsWith(metric))
+                        continue;
+                    const quantile = /quantile="([0-9.]+)"/.exec(line)?.[1];
+                    const value = Number(line.slice(line.lastIndexOf(' ') + 1));
+                    if (!Number.isFinite(value))
+                        continue;
+                    const key = quantile ? `${metric}{quantile=${quantile}}` : metric;
+                    collected[key] = (collected[key] ?? 0) + (quantile ? value : value);
+                }
+            }
+        }
+        catch {
+            // A replica that is not listening contributes nothing.
+        }
+    }
+    // Quantiles were summed across replicas above; average them so the figure means something.
+    for (const key of Object.keys(collected)) {
+        if (key.includes('quantile='))
+            collected[key] = collected[key] / REPLICA_PORTS.length;
+    }
+    return collected;
+}
 /** The application's own view of how many streams it is holding, per replica. */
 async function serverConnectionCounts() {
     const counts = {};
@@ -171,6 +223,7 @@ async function main() {
     }
     // Everything in flight has had a second to arrive.
     await delay(2_000);
+    const metricsDuring = await serverMetrics();
     // Heap retained while the connections are still open.
     const heapWithConnections = await retainedHeapBytes();
     console.log(`retained heap with ${peak} connections: ${(heapWithConnections / 1024 / 1024).toFixed(1)} MiB`);
@@ -186,6 +239,7 @@ async function main() {
         seatChangesDriven: driven,
         holdSeconds: HOLD_SECONDS,
         counters: { ...counters },
+        serverMetrics: metricsDuring,
         propagationMs: summary,
         errors: Object.fromEntries(errors),
     };
@@ -198,6 +252,10 @@ async function main() {
     console.log(`resyncs requested       : ${counters.resyncs}`);
     console.log(`propagation commit→client (ms): n=${summary.count} p50=${summary.p50} p90=${summary.p90} ` +
         `p95=${summary.p95} p99=${summary.p99} max=${summary.max}`);
+    const flushP99 = metricsDuring['willcall_sse_flush_duration_seconds{quantile=0.99}'];
+    if (flushP99 !== undefined) {
+        console.log(`server flush p99        : ${(flushP99 * 1000).toFixed(1)} ms`);
+    }
     if (errors.size > 0)
         console.log(`errors: ${JSON.stringify(Object.fromEntries(errors))}`);
     console.log(`written to ${OUT}`);
