@@ -81,3 +81,55 @@ invariant check, and by a backend coverage drop below the configured floor.
 - Java 21, formatted by Spotless (`make format`). Error Prone runs at build time.
 - TypeScript 5 in `strict` mode. No `any` without a comment naming what is unknown.
 - SQL migrations are append-only. Never edit a migration that has been applied.
+
+## What these rules caught
+
+The rules above are not aspirational. Each one has failed something real during this build, and
+listing the failures is more use than restating the rules.
+
+**No unmeasured numbers.** Three published figures were wrong because the *measurement* was wrong,
+not the code:
+
+- Memory per SSE connection, first reported at 212 KiB by sampling resident set before and during
+  a run — which attributed the garbage from fifteen million delivered messages to the connections.
+  Measured properly, the same code retained 90.5 KiB.
+- The seat map's render time was over budget at 126 ms, and the cause was `Intl.NumberFormat` being
+  constructed once per seat inside an accessible name. Nothing in the code looked expensive.
+- The flash sale's sell-out watcher polled the full seat map four times a second, serialising five
+  thousand rows into the middle of the burst it was observing — and the run it was measuring
+  stopped selling out.
+
+The rule that saved each of these is the same one: the raw file has to exist, and somebody has to
+be able to re-derive the number from it. `scripts/build-results-summary.sh` now generates both the
+summary and the README's headline table from those files, so a published figure cannot drift from
+its source.
+
+**The commit history is an artifact.** Two invariant-checker bugs were found by writing the commit
+message. Explaining *why* a change was safe is where "wait, does that actually run?" tends to
+surface.
+
+**Every claim has a falsifier.** The checker that verifies the central invariant passed silently
+twice — once because a shell function shadowed the `psql` it was looking for, once because
+`docker run` without `-i` never received the query. Both times it reported seven checks passing
+over nothing. The fix was structural rather than another careful line: the query now returns a
+sentinel row, and the script fails if the sentinel does not come back. A checker that cannot tell
+"no violations" from "no data" is worse than no checker, because it is believed.
+
+## Measuring before claiming
+
+If a change is meant to make something faster, smaller or more reliable:
+
+1. Measure it first and commit the raw file.
+2. Make the change.
+3. Measure again and commit that file too.
+4. Put both numbers in the commit message.
+
+"Reduced the relay tick to 25 ms" is a description. "Reduced the relay tick from 100 ms to 25 ms,
+taking propagation p99 from 305 ms to 252 ms" is a result, and the next person can check it.
+
+## Where the untrustworthy results went
+
+A set of flash-sale results was deleted from this repository rather than kept, because they were
+validated by the invariant checker during the window when it could not fail. Keeping raw files
+whose central claim is unfounded would defeat the purpose of committing raw files at all. The
+deletion is in the history with its reason.
