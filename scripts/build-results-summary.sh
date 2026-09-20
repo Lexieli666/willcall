@@ -73,8 +73,19 @@ if correctness:
 
 # ---------------------------------------------------------------- flash sale
 
-flash_dir = latest('load/results/*/flash-suite-*', 'flash-suite.json')
-flash = load(f'{flash_dir}/flash-suite.json') if flash_dir else None
+# The run of record is the suite with the most completed runs, not the most recent one. A short
+# confirmation run at a later commit is evidence that the long one still describes the code; it is
+# not a replacement for it, and letting recency win would quietly restate "50 runs" as "5".
+flash_candidates = []
+for directory in sorted(glob.glob('load/results/*/flash-suite-*')):
+    report = load(f'{directory}/flash-suite.json')
+    if report and report.get('runs'):
+        flash_candidates.append((directory, report))
+flash_dir, flash = max(flash_candidates, key=lambda c: (c[1]['runs'], c[0]), default=(None, None))
+# Anything run after it, at a later commit, is a confirmation.
+flash_confirmations = [
+    (d, r) for d, r in flash_candidates if flash_dir and d > flash_dir
+]
 if flash:
     src = f'`{flash_dir}/flash-suite.json`'
     row('Flash sale: 10,000 buyers in 10 s for 5,000 seats',
@@ -99,6 +110,16 @@ if flash:
             f"{fmt(sold_out['min'], digits=1)} / {fmt(median, digits=1)} / "
             f"{fmt(sold_out['max'], digits=1)} s (min/median/max)",
             '8–45 s', src, verdict)
+    if flash_confirmations:
+        latest_dir, latest_report = flash_confirmations[-1]
+        row('Flash sale re-run at the shipped commit',
+            f"{latest_report['runsWithInvariantsHeld']}/{latest_report['runs']} runs with "
+            f"invariants intact, {fmt(latest_report['oversells'])} oversells, "
+            f"{fmt(latest_report['totalServerErrors'])} server errors",
+            'the long suite above still describes this code',
+            f'`{latest_dir}/flash-suite.json`',
+            'met' if latest_report['oversells'] == 0
+            and latest_report['runsWithInvariantsHeld'] == latest_report['runs'] else 'MISSED')
     hold = flash.get('holdP99Ms', {})
     if hold.get('median') is not None:
         row('Hold p99 during an unpaced burst',
