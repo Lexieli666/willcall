@@ -134,8 +134,10 @@ tasks.check { dependsOn(integrationTest) }
 jacoco { toolVersion = "0.8.13" }
 
 tasks.jacocoTestReport {
+    // Coverage is reported across both suites: the reservation core's hardest paths only run
+    // under Testcontainers, and a figure that counted only the fast suite would understate them.
     executionData.setFrom(fileTree(layout.buildDirectory).include("jacoco/*.exec"))
-    dependsOn(tasks.test)
+    dependsOn(tasks.test, integrationTest)
     reports {
         xml.required = true
         html.required = true

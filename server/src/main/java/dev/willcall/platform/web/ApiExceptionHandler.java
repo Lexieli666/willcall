@@ -15,6 +15,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
  * Turns every failure into RFC 9457 {@code application/problem+json} with a stable {@code code}
@@ -71,6 +73,26 @@ public class ApiExceptionHandler {
           default -> ErrorCode.INVALID_REQUEST.defaultDetail();
         };
     return ResponseEntity.badRequest().body(problem(ErrorCode.INVALID_REQUEST, detail, request));
+  }
+
+  /**
+   * An unknown path is a 404, not a 500.
+   *
+   * <p>Spring raises {@code NoResourceFoundException} when nothing handles a request and the
+   * static-resource handler cannot find a file either. Without this, the catch-all below turned
+   * every typo'd URL into a 500 with an error-level log line and a stack trace — noise that would
+   * have made a real 500 invisible during a load test.
+   */
+  @ExceptionHandler({NoResourceFoundException.class, NoHandlerFoundException.class})
+  public ResponseEntity<ProblemDetail> handleNotFound(Exception e, HttpServletRequest request) {
+    log.debug("no handler for {} {}", request.getMethod(), request.getRequestURI());
+    ProblemDetail problem =
+        ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "No such endpoint");
+    problem.setType(PROBLEM_BASE.resolve("not_found"));
+    problem.setTitle("Not found");
+    problem.setInstance(URI.create(request.getRequestURI()));
+    problem.setProperty("code", "not_found");
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problem);
   }
 
   @ExceptionHandler(Exception.class)
