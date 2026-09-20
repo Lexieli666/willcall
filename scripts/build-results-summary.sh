@@ -13,9 +13,16 @@ cd "$REPO_ROOT"
 python3 - <<'PY'
 import collections, glob, json, os, re
 
-def latest(pattern):
-    """The most recent directory matching a pattern, or None."""
+def latest(pattern, containing=None):
+    """The most recent directory matching a pattern, or None.
+
+    With `containing`, the most recent one that holds that file. A run still in progress has a
+    directory but no aggregate yet, and picking it made the flash-sale row read "not measured"
+    while fifty completed runs sat in the directory next to it.
+    """
     matches = sorted(glob.glob(pattern))
+    if containing:
+        matches = [m for m in matches if os.path.exists(os.path.join(m, containing))]
     return matches[-1] if matches else None
 
 def load(path):
@@ -41,7 +48,7 @@ def row(name, measured, target, source, verdict=None):
 
 # ---------------------------------------------------------------- correctness
 
-correctness_dir = latest('load/results/*/phase*-correctness')
+correctness_dir = latest('load/results/*/phase*-correctness', 'test-results.json')
 correctness = load(f'{correctness_dir}/test-results.json') if correctness_dir else None
 if correctness:
     src = f'`{correctness_dir}/test-results.json`'
@@ -66,7 +73,7 @@ if correctness:
 
 # ---------------------------------------------------------------- flash sale
 
-flash_dir = latest('load/results/*/flash-suite-*')
+flash_dir = latest('load/results/*/flash-suite-*', 'flash-suite.json')
 flash = load(f'{flash_dir}/flash-suite.json') if flash_dir else None
 if flash:
     src = f'`{flash_dir}/flash-suite.json`'
@@ -100,7 +107,7 @@ if flash:
 
 # ---------------------------------------------------------------- sustained holds
 
-holds_dir = latest('load/results/*/holds-*')
+holds_dir = latest('load/results/*/holds-*', 'summary.json')
 # summary.json, not k6-summary.json: --summary-export flattens each metric to {p(99): ...}, while
 # handleSummary's copy nests them under `values`. Reading the wrong one returns None for every
 # percentile and the row silently disappears, which is how this went unnoticed.
@@ -119,7 +126,7 @@ if holds:
 
 # ---------------------------------------------------------------- capacity
 
-sweep_dir = latest('load/results/*/capacity-sweep-*')
+sweep_dir = latest('load/results/*/capacity-sweep-*', 'capacity-sweep.json')
 sweep = load(f'{sweep_dir}/capacity-sweep.json') if sweep_dir else None
 if sweep:
     src = f'`{sweep_dir}/capacity-sweep.json`'
@@ -141,7 +148,7 @@ if sweep:
 
 # ---------------------------------------------------------------- real time
 
-sse_dir = latest('load/results/*/sse-5000-*')
+sse_dir = latest('load/results/*/sse-5000-*', 'sse-result.json')
 sse = load(f'{sse_dir}/sse-result.json') if sse_dir else None
 if sse:
     src = f'`{sse_dir}/sse-result.json`'
@@ -168,7 +175,7 @@ if sse:
 
 # ---------------------------------------------------------------- fairness
 
-fairness_dir = latest('load/results/*/fairness-*')
+fairness_dir = latest('load/results/*/fairness-*', 'fairness.json')
 fairness = load(f'{fairness_dir}/fairness.json') if fairness_dir else None
 if fairness and fairness.get('headline'):
     src = f'`{fairness_dir}/fairness.json`'
@@ -196,7 +203,7 @@ if fairness and fairness.get('headline'):
 
 # ---------------------------------------------------------------- rate limiting
 
-rl_dir = latest('load/results/*/ratelimit-*')
+rl_dir = latest('load/results/*/ratelimit-*', 'k6-summary.json')
 rl = load(f'{rl_dir}/k6-summary.json') if rl_dir else None
 if rl:
     src = f'`{rl_dir}/k6-summary.json`'
@@ -239,7 +246,7 @@ if gameday:
 
 # ---------------------------------------------------------------- seeded dataset
 
-seed_dir = latest('load/results/*/query-plans')
+seed_dir = latest('load/results/*/query-plans', 'seed.json')
 seed = load(f'{seed_dir}/seed.json') if seed_dir else None
 if seed:
     src = f'`{seed_dir}/seed.json`'
@@ -266,7 +273,7 @@ if seed:
 
 # ---------------------------------------------------------------- front end
 
-fe_dir = latest('load/results/*/phase*-frontend')
+fe_dir = latest('load/results/*/phase*-frontend', 'frontend-results.json')
 fe = load(f'{fe_dir}/frontend-results.json') if fe_dir else None
 if fe:
     src = f'`{fe_dir}/frontend-results.json`'
@@ -349,6 +356,96 @@ def replace_between(path, begin, end, body):
         handle.write(content[:start] + '\n' + body + '\n' + content[finish:])
 
 replace_between('load/RESULTS_SUMMARY.md', '<!-- GENERATED:BEGIN -->', '<!-- GENERATED:END -->', table)
+
+# The four resume bullets from the project plan, with every figure replaced by the measured one.
+# Generated rather than written, because the whole point of the exercise is that these sentences
+# and the raw files cannot disagree - and a bullet is the last place a stale number should survive.
+# The p99 at the rate the sweep calls sustainable, so the sentence below quotes a step that exists.
+sustainable_p99 = 'an unmeasured rate'
+if sweep and sweep.get('sustainableRatePerSecond'):
+    for step in sweep['steps']:
+        if step['offeredRatePerSecond'] == sweep['sustainableRatePerSecond']:
+            sustainable_p99 = f"{step['holdP99Ms']:.0f} ms p99"
+
+
+def measured(name, default='not measured'):
+    for row_name, value, _, _, _ in rows:
+        if row_name == name:
+            return value
+    return default
+
+bullets = []
+bullets.append(
+    '### 1. Scope and deployment\n\n'
+    '> Built a seat-reservation service in Java and TypeScript (Spring Boot, PostgreSQL, Redis, '
+    'React) and deployed it on AWS with Terraform; GitHub Actions deploys every merge.\n\n'
+    '- The service exists and is built as described.\n'
+    '- **Not supported: "deployed it on AWS".** There are no credentials on the build host. The '
+    'Terraform is written and passes `terraform fmt -check` and `terraform validate`; '
+    '`terraform plan` has never run. The deploy workflow exists and skips rather than fails when '
+    'no cloud role is configured.\n'
+    '- **Usable form:** "…and packaged it for AWS with Terraform, validated in CI; GitHub Actions '
+    'runs the full suite on every merge."')
+
+flash_row = measured('Flash sale: 10,000 buyers in 10 s for 5,000 seats')
+sse_row = measured('Delta propagation, commit → client, p99')
+conn_row = measured('Concurrent SSE connections')
+sustainable = measured('Sustainable hold rate')
+bullets.append(
+    '### 2. Load and correctness\n\n'
+    '> Sold 5,000 seats to 10,000 buyers arriving within 10 seconds with zero oversells across 50 '
+    'load runs; hold requests held 121 ms p99 at 1,000 req/s and live seat updates reached 5,000 '
+    'SSE clients at 180 ms p99.\n\n'
+    f'- **Flash sale:** {flash_row}.\n'
+    f'- **SSE:** {conn_row}; propagation {sse_row}. The plan guessed 180 ms; the measurement is '
+    'what it is and the target band was 80–250 ms.\n'
+    f'- **Not supported: "121 ms p99 at 1,000 req/s".** Measured sustainable rate on this hardware '
+    f'is {sustainable}. At 1,000 requests/s the p99 is '
+    f"{measured('Hold p99 at 1,000 requests/s, the rate the plan assumed')}.\n"
+    f'- **Usable form:** "…zero oversells across {flash["runs"] if flash else 50} load runs; holds '
+    f'answered at {sustainable_p99} at the measured sustainable rate of '
+    f'{sweep.get("sustainableRatePerSecond") if sweep else "?"} req/s on three 2-vCPU replicas, '
+    f'and live seat updates reached {sse.get("establishedConnections", 0):,} SSE clients at '
+    f'{sse.get("propagationMs", {}).get("p99")} ms p99."')
+
+bullets.append(
+    '### 3. Accessibility\n\n'
+    '> Made the seat map operable by keyboard and screen reader; CI blocks any merge with an axe '
+    'violation or a Lighthouse accessibility score below 100.\n\n'
+    f"- **Lighthouse accessibility:** {measured('Lighthouse accessibility')}, enforced as a budget "
+    'in CI. axe runs on every route and state in the end-to-end suite and CI fails on a violation.\n'
+    '- A Playwright test completes a whole purchase using only key events, including '
+    'two-dimensional arrow navigation of the seat grid. There is no `click()` in that spec.\n'
+    '- **Not supported: "operable by screen reader".** That is a claim about whether announcements '
+    'are *useful*, which axe cannot decide. The manual NVDA and VoiceOver passes are listed as not '
+    'done in `docs/accessibility.md`.\n'
+    '- **Usable form:** "…operable by keyboard, with an ARIA grid and live regions built for screen '
+    'readers; CI blocks any merge with an axe violation or a Lighthouse accessibility score below '
+    '100."')
+
+tests_backend = measured('Backend tests')
+tests_e2e = measured('End-to-end tests')
+coverage = measured('Backend line coverage')
+bullets.append(
+    '### 4. Operations and reach\n\n'
+    '> Ran a game day against the live service, published the postmortem of a connection-pool '
+    'outage, and shipped to 40 real users in a public demo; 310 tests, 82% backend coverage.\n\n'
+    f"- **Game day:** {measured('Game day: faults injected while traffic flowed')}.\n"
+    '- **The connection-pool postmortem exists** and is the most substantial of the four: the '
+    'application shed correctly and the edge proxy turned that into nine seconds of `502`. Its '
+    'fixes were verified by re-running the scenario.\n'
+    f'- **Coverage:** {coverage}.\n'
+    f'- **Tests:** {tests_backend} on the backend, {tests_e2e} end to end, plus the frontend unit '
+    'suite. The combined figure is below 310 and the exact count is in the table above.\n'
+    '- **Not supported: "shipped to 40 real users in a public demo".** It has not happened. That '
+    'also leaves [ADR 0012](../docs/adr/0012-hold-ttl.md) at `proposed` and the hold TTL an '
+    'unvalidated default.\n'
+    '- **Usable form:** "Ran a game day against the running service and published four '
+    'postmortems, including a connection-pool outage where the proxy turned graceful load '
+    'shedding into a total outage; fixes verified by re-running the scenario."')
+
+replace_between('load/RESULTS_SUMMARY.md', '<!-- BULLETS:BEGIN -->', '<!-- BULLETS:END -->',
+                '\n\n'.join(bullets))
 
 # The README carries the headline figures. Generated from the same rows, so the two cannot
 # disagree — a README number that has drifted from the summary is the failure mode this prevents.

@@ -96,3 +96,94 @@ watcher   [  47% ] 1 VUs            18.6s/40s
 running (0m19.9s), 00003/02673 VUs, 16399 complete and 0 interrupted iterations
 flash     [  65% ] 00002/02672 VUs  19.6s/30s  0520.53 iters/s
 watcher   [  49% ] 1 VUs            19.6s/40s 
+
+running (0m20.9s), 00003/02673 VUs, 16896 complete and 0 interrupted iterations
+flash     [  69% ] 00002/02672 VUs  20.6s/30s  0470.48 iters/s
+watcher   [  52% ] 1 VUs            20.6s/40s 
+
+running (0m21.9s), 00003/02673 VUs, 17342 complete and 0 interrupted iterations
+flash     [  72% ] 00002/02672 VUs  21.6s/30s  0420.54 iters/s
+watcher   [  54% ] 1 VUs            21.6s/40s 
+
+running (0m22.9s), 00002/02673 VUs, 17740 complete and 0 interrupted iterations
+flash     [  75% ] 00001/02672 VUs  22.6s/30s  0370.47 iters/s
+watcher   [  57% ] 1 VUs            22.6s/40s 
+
+running (0m23.9s), 00002/02673 VUs, 18086 complete and 0 interrupted iterations
+flash     [  79% ] 00001/02672 VUs  23.6s/30s  0320.55 iters/s
+watcher   [  59% ] 1 VUs            23.6s/40s 
+
+running (0m24.9s), 00003/02673 VUs, 18382 complete and 0 interrupted iterations
+flash     [  82% ] 00002/02672 VUs  24.6s/30s  0270.46 iters/s
+watcher   [  62% ] 1 VUs            24.6s/40s 
+
+running (0m25.9s), 00002/02673 VUs, 18629 complete and 0 interrupted iterations
+flash     [  85% ] 00001/02672 VUs  25.6s/30s  0220.57 iters/s
+watcher   [  64% ] 1 VUs            25.6s/40s 
+
+running (0m26.9s), 00002/02673 VUs, 18826 complete and 0 interrupted iterations
+flash     [  89% ] 00001/02672 VUs  26.6s/30s  0170.44 iters/s
+watcher   [  67% ] 1 VUs            26.6s/40s 
+
+running (0m27.9s), 00001/02673 VUs, 18973 complete and 0 interrupted iterations
+flash     [  92% ] 00000/02672 VUs  27.6s/30s  0120.62 iters/s
+watcher   [  69% ] 1 VUs            27.6s/40s 
+
+running (0m28.9s), 00002/02673 VUs, 19069 complete and 0 interrupted iterations
+flash     [  95% ] 00001/02672 VUs  28.6s/30s  0070.36 iters/s
+watcher   [  72% ] 1 VUs            28.6s/40s 
+
+running (0m29.9s), 00001/02673 VUs, 19116 complete and 0 interrupted iterations
+flash     [  99% ] 00000/02672 VUs  29.6s/30s  0021.18 iters/s
+watcher   [  74% ] 1 VUs            29.6s/40s 
+
+running (0m30.9s), 00001/02673 VUs, 19121 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02672 VUs  30s  0005.00 iters/s
+watcher   [  77% ] 1 VUs            30.6s/40s
+
+running (0m31.9s), 00001/02673 VUs, 19122 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02672 VUs  30s  0005.00 iters/s
+watcher   [  79% ] 1 VUs            31.6s/40s
+
+running (0m32.9s), 00001/02673 VUs, 19123 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02672 VUs  30s  0005.00 iters/s
+watcher   [  82% ] 1 VUs            32.6s/40s
+
+running (0m33.9s), 00001/02673 VUs, 19124 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02672 VUs  30s  0005.00 iters/s
+watcher   [  84% ] 1 VUs            33.6s/40s
+
+running (0m34.9s), 00001/02673 VUs, 19125 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02672 VUs  30s  0005.00 iters/s
+watcher   [  87% ] 1 VUs            34.6s/40s
+
+running (0m35.9s), 00001/02673 VUs, 19126 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02672 VUs  30s  0005.00 iters/s
+watcher   [  89% ] 1 VUs            35.6s/40s
+
+running (0m36.9s), 00001/02673 VUs, 19127 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02672 VUs  30s  0005.00 iters/s
+watcher   [  92% ] 1 VUs            36.6s/40s
+
+running (0m37.9s), 00001/02673 VUs, 19128 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02672 VUs  30s  0005.00 iters/s
+watcher   [  94% ] 1 VUs            37.6s/40s
+
+running (0m38.9s), 00001/02673 VUs, 19129 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02672 VUs  30s  0005.00 iters/s
+watcher   [  97% ] 1 VUs            38.6s/40s
+
+running (0m39.9s), 00001/02673 VUs, 19130 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02672 VUs  30s  0005.00 iters/s
+watcher   [  99% ] 1 VUs            39.6s/40s
+time="2026-09-20T15:45:57-07:00" level=info msg="invariants after the flash sale: PASS" source=console
+time="2026-09-20T15:45:57-07:00" level=info msg="final tally for event 720c3574-541f-4a3b-871f-1fa21c49d0c0 (capacity 5000): 2612 sold, 0 held, 2388 available" source=console
+
+thresholds: PASS willcall_flash_server_errors: count==0
+            PASS willcall_flash_hold_duration: p(99)<5000
+            PASS willcall_flash_errors: rate<0.001
+            PASS willcall_invariants_held: rate==1
+
+running (0m40.4s), 00000/02673 VUs, 19131 complete and 0 interrupted iterations
+flash   ✓ [ 100% ] 00000/02672 VUs  30s  0005.00 iters/s
+watcher ✓ [ 100% ] 1 VUs            40s 
