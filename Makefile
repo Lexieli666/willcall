@@ -146,6 +146,10 @@ diagnose: ## Run the rate that breaks while sampling what the replicas say about
 game-day: ## One failure rehearsal: make game-day SCENARIO=kill-replica
 	./scripts/run-game-day.sh $(SCENARIO)
 
+.PHONY: dashboards
+dashboards: ## Capture Grafana screenshots with real data on them, into docs/images/
+	./scripts/capture-dashboards.sh
+
 .PHONY: seed
 seed: ## Seed the large dataset used for query-plan checks
 	./scripts/seed-large-dataset.sh
