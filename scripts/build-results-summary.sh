@@ -435,6 +435,32 @@ if capacity:
         f'  {heap_gb:,.0f} GB of retained heap for connection state alone (extrapolated from\n'
         f'  {retained / 1024:,.1f} KiB per connection).')
 
+# The sweep table in the capacity model, generated from the same file the summary row reads.
+if sweep and sweep.get('steps'):
+    sweep_lines = [
+        f"Run of record: `{sweep_dir}/capacity-sweep.json`, "
+        f"{sweep['stepSeconds']:.0f} s per step, three replicas.",
+        '',
+        '| Offered req/s | Achieved req/s | Holds granted/s | Shed | Hold p50 | Hold p99 |',
+        '|---|---|---|---|---|---|',
+    ]
+    for step in sweep['steps']:
+        sweep_lines.append(
+            f"| {fmt(step['offeredRatePerSecond'])} | {fmt(step['achievedRatePerSecond'])} | "
+            f"**{fmt(step['grantedPerSecond'])}** | {(step['shedFraction'] or 0) * 100:.1f}% | "
+            f"{fmt(step['holdP50Ms'])} ms | {fmt(step['holdP99Ms'])} ms |")
+    sustainable = sweep.get('sustainableRatePerSecond')
+    if sustainable:
+        sweep_lines += [
+            '',
+            f"**Sustainable: {fmt(sustainable)} requests/s "
+            f"({sweep['sustainableRatePerReplica']:.0f} per replica)** — the highest step that shed "
+            f"under 1% and kept p99 at or below 150 ms. Against a plan that assumed 1,000, that is "
+            f"a miss by a factor of {1000 / sustainable:.0f}.",
+        ]
+    replace_between('docs/capacity-model.md', '<!-- SWEEP:BEGIN -->', '<!-- SWEEP:END -->',
+                    '\n'.join(sweep_lines))
+
 reservation = []
 if correctness and correctness.get('concurrency'):
     c = correctness['concurrency']

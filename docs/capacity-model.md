@@ -124,29 +124,83 @@ Run of record: `load/results/2026-09-20/phase2-correctness/test-results.json`.
 Figures for sustained hold latency, flash-sale time-to-sell-out and the FIFO inversion rate are in
 `load/RESULTS_SUMMARY.md`, each against its target.
 
+## Measured: the hold ceiling
+
+The plan assumed about 1,000 hold requests a second. The first attempt at that rate shed 65.7% of
+its traffic and returned a p99 of 4.6 seconds, which answers "does it hold up at 1,000" — no — and
+says nothing about where the ceiling is. The sweep walks the rate up instead.
+
+<!-- SWEEP:BEGIN -->
+Run of record: `load/results/2026-09-20/capacity-sweep-223133/capacity-sweep.json`, 45 s per step, three replicas.
+
+| Offered req/s | Achieved req/s | Holds granted/s | Shed | Hold p50 | Hold p99 |
+|---|---|---|---|---|---|
+| 100 | 96 | **100** | 0.0% | 16 ms | 22 ms |
+| 200 | 191 | **200** | 0.0% | 16 ms | 24 ms |
+| 300 | 271 | **191** | 35.2% | 2,001 ms | 4,884 ms |
+| 400 | 355 | **228** | 41.6% | 2,001 ms | 5,101 ms |
+| 600 | 526 | **242** | 58.2% | 2,001 ms | 5,175 ms |
+| 800 | 691 | **168** | 78.1% | 2,001 ms | 6,076 ms |
+| 1,000 | 852 | **162** | 82.9% | 2,001 ms | 6,072 ms |
+
+**Sustainable: 200 requests/s (67 per replica)** — the highest step that shed under 1% and kept p99 at or below 150 ms. Against a plan that assumed 1,000, that is a miss by a factor of 5.
+<!-- SWEEP:END -->
+
+Two things in that table matter more than the headline.
+
+**p50 is exactly 2,001 ms from 300 requests/s onward.** That is HikariCP's `connection-timeout`,
+visible as a measurement: past the knee, the median request spends its whole life waiting for a
+connection that never comes and is then shed. It is not a latency distribution at that point, it is
+a timeout.
+
+**Goodput falls as offered load rises.** Holds actually granted peak at 242 a second with 600
+offered, then drop to 168 at 800 and 162 at 1,000. Offering 67% more load gets 33% less work done.
+This is worth stating plainly because the instinct when a service is shedding is to push harder,
+and the measurement says that makes it worse — which is the whole argument for the waiting room
+being a queue in front of the service rather than a retry loop inside the client.
+
 ## The bottleneck
 
-**PostgreSQL row-lock contention on the seat table, reached through a 20-connection pool per
+**PostgreSQL row-lock contention on the seat table, reached through a 40-connection pool per
 replica.**
 
-The evidence is in the shape of the concurrency result rather than in a single number: 10,000
-simultaneous acquisitions resolve in about 600 ms on a 500-seat event, which is roughly 17,000
-attempted acquisitions per second arriving at a database that grants 500 of them. `SKIP LOCKED` is
-what keeps the 9,500 failures cheap — without it they would queue behind the row locks instead of
-stepping over them — but the successful ones still serialise on the rows they touch.
+The evidence is in three places rather than one number:
+
+- **The shape of the concurrency result.** 10,000 simultaneous acquisitions resolve in about 600 ms
+  on a 500-seat event — roughly 17,000 attempted acquisitions per second arriving at a database
+  that grants 500 of them. `SKIP LOCKED` keeps the 9,500 failures cheap; without it they would
+  queue behind the row locks instead of stepping over them. The successful ones still serialise on
+  the rows they touch.
+- **The knee in the sweep.** Nothing is shed at 200 requests/s and a third is shed at 300, with the
+  median pinned to the pool timeout from there on. Whatever the constraint is, requests reach it by
+  failing to get a connection.
+- **The game day.** Blocking the seat table filled the pool in two seconds at 150 requests/s and
+  `hikaricp_connections_pending` peaked at 304 across three replicas. The pool is reachable, which
+  is the property it was sized for.
 
 Three consequences follow, and they are why the system is built the way it is:
 
 - **Adding replicas does not add reservation throughput.** It adds fan-out capacity and connection
   capacity. The queue's admission rate is therefore a property of the database, not of the replica
   count, which is why it is stored per event and measured rather than configured.
-- **The connection pool is deliberately small** (20 per replica, 60 total against a 300-connection
+- **The connection pool is deliberately small** (40 per replica, 120 total against a 300-connection
   PostgreSQL). A larger pool would not make the database faster; it would let more requests wait
   inside it, converting a fast rejection into a slow one. Pool exhaustion is a game-day scenario
   precisely because the pool is sized to be reachable.
 - **The waiting room exists to keep arrivals below this ceiling**, not to make the ceiling higher.
+  200 requests/s is the number the admission rate should be set from on hardware like this.
 
-## Extrapolation to one million users
+### What the sweep does not settle
+
+It says where the ceiling is, not what puts it there. A 120-connection pool serving 16 ms requests
+should manage far more than 200 a second, so something holds a connection for much longer than a
+hold takes. Candidates, none of them yet distinguished by measurement: the expiry sweeper, whose
+own p99 sits at the 2 s lock timeout under load; the outbox relay running forty times a second on
+every replica; or simple CPU contention with a load generator sharing the host. `make diagnose`
+runs the rate that breaks while sampling pool occupancy, acquisition time, connection hold time,
+sweeper duration and `pg_stat_activity`, which is the measurement that would separate them.
+
+## Extrapolation to one million users## Extrapolation to one million users
 
 > **Extrapolated, not measured.** Everything in this section is arithmetic on the figures above, and
 > arithmetic is not evidence.

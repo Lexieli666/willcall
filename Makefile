@@ -134,6 +134,14 @@ load-fairness: ## Measure the FIFO inversion rate under a burst
 flash-suite: ## The flash sale, 50 times, with the invariant checked after each
 	./scripts/run-flash-suite.sh 50
 
+.PHONY: capacity-sweep
+capacity-sweep: ## Find the sustainable hold rate by measuring several of them
+	./scripts/run-capacity-sweep.sh
+
+.PHONY: diagnose
+diagnose: ## Run the rate that breaks while sampling what the replicas say about themselves
+	./scripts/diagnose-ceiling.sh
+
 .PHONY: game-day
 game-day: ## One failure rehearsal: make game-day SCENARIO=kill-replica
 	./scripts/run-game-day.sh $(SCENARIO)
