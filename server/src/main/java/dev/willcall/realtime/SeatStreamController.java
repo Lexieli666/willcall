@@ -43,18 +43,23 @@ public class SeatStreamController {
   public ResponseEntity<SseEmitter> stream(
       @PathVariable UUID eventId,
       @RequestHeader(value = "Last-Event-ID", required = false) Long lastEventIdHeader,
-      @RequestParam(value = "lastEventId", required = false) Long lastEventIdParam) {
+      @RequestParam(value = "lastEventId", required = false) Long lastEventIdParam,
+      @RequestHeader(value = "X-Willcall-User", required = false) String userHeader,
+      @RequestParam(value = "userRef", required = false) String userParam) {
 
-    // EventSource sends the header automatically on reconnect. The query parameter exists for k6
-    // and for curl, neither of which is an EventSource.
+    // EventSource sends the header automatically on reconnect. The query parameters exist for k6
+    // and for curl, neither of which is an EventSource and neither of which can set headers on
+    // one. EventSource also cannot set X-Willcall-User, which is why the buyer reference is
+    // accepted as a parameter here and only here.
     Long lastEventId = lastEventIdHeader != null ? lastEventIdHeader : lastEventIdParam;
+    String userRef = userHeader != null ? userHeader : userParam;
 
     return ResponseEntity.ok()
         .header(HttpHeaders.CACHE_CONTROL, "no-cache, no-transform")
         .header(HttpHeaders.CONNECTION, "keep-alive")
         .header("X-Accel-Buffering", "no")
         .contentType(MediaType.TEXT_EVENT_STREAM)
-        .body(streams.open(eventId, lastEventId));
+        .body(streams.open(eventId, lastEventId, userRef));
   }
 
   /** The snapshot on its own, for a client that wants to resync without reconnecting. */

@@ -33,13 +33,14 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * traffic keeps flowing throughout, Redis comes back, and the full invariant suite is then run
  * against the resulting database.
  *
- * <p>The assertion is deliberately not "nothing failed". Some requests may fail while Redis is
- * down — that is a degradation, and an honest one. What must never happen is a seat sold twice, a
- * hold that outlives its seat, or capacity that quietly grows.
+ * <p>The assertion is deliberately not "nothing failed". Some requests may fail while Redis is down
+ * — that is a degradation, and an honest one. What must never happen is a seat sold twice, a hold
+ * that outlives its seat, or capacity that quietly grows.
  */
 class RedisOutageInvariantIntegrationTest extends IntegrationTestBase {
 
-  private static final Logger log = LoggerFactory.getLogger(RedisOutageInvariantIntegrationTest.class);
+  private static final Logger log =
+      LoggerFactory.getLogger(RedisOutageInvariantIntegrationTest.class);
 
   @Autowired ReservationService reservations;
   @Autowired CheckoutService checkout;
@@ -111,7 +112,9 @@ class RedisOutageInvariantIntegrationTest extends IntegrationTestBase {
 
     log.info(
         "redis outage run: confirmed={} refused={} unexpected={}",
-        confirmed.get(), refused.get(), unexpected.get());
+        confirmed.get(),
+        refused.get(),
+        unexpected.get());
 
     assertThat(unexpected.get())
         .as("a Redis outage must not surface as an unexpected failure in the reservation path")
@@ -120,7 +123,8 @@ class RedisOutageInvariantIntegrationTest extends IntegrationTestBase {
 
     assertInvariantsHold(jdbc);
 
-    Long soldSeats = jdbc.queryForObject("select count(*) from seats where status = 'SOLD'", Long.class);
+    Long soldSeats =
+        jdbc.queryForObject("select count(*) from seats where status = 'SOLD'", Long.class);
     Long orderLines = jdbc.queryForObject("select count(*) from order_lines", Long.class);
     assertThat(soldSeats).isEqualTo(orderLines);
     assertThat(soldSeats).isEqualTo(Long.valueOf(confirmed.get()));
@@ -133,7 +137,8 @@ class RedisOutageInvariantIntegrationTest extends IntegrationTestBase {
     try {
       // Reservations keep working, which is the whole point of the distinction.
       HoldGroup group =
-          reservations.acquire(event.id(), "buyer-degraded", AllocationRequest.bestAvailable(event.id(), 1));
+          reservations.acquire(
+              event.id(), "buyer-degraded", AllocationRequest.bestAvailable(event.id(), 1));
       assertThat(group.seatIds()).hasSize(1);
       assertInvariantsHold(jdbc);
     } finally {
@@ -145,8 +150,7 @@ class RedisOutageInvariantIntegrationTest extends IntegrationTestBase {
   private void waitForRedis() throws InterruptedException {
     for (int attempt = 0; attempt < 120; attempt++) {
       try {
-        if ("PONG".equalsIgnoreCase(
-            redis.getConnectionFactory().getConnection().ping())) {
+        if ("PONG".equalsIgnoreCase(redis.getConnectionFactory().getConnection().ping())) {
           return;
         }
       } catch (RuntimeException e) {

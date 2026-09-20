@@ -46,6 +46,9 @@ public class DomainEvents {
                         toJson(
                             new SeatDelta(
                                 seatIds.get(i), status, versions.length > i ? versions[i] : 0L)),
+                        null,
+                        // The database stamps created_at on insert; nothing useful can be said
+                        // here, because the transaction has not committed yet.
                         null))
             .toList();
     outbox.appendAll(entries);

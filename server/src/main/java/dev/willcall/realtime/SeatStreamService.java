@@ -75,7 +75,9 @@ public class SeatStreamService {
     if (!"seat.changed".equals(entry.type())) return;
     try {
       SeatDeltaMessage.SeatChange change =
-          objectMapper.readValue(entry.payload(), SeatChangePayload.class).toChange();
+          objectMapper
+              .readValue(entry.payload(), SeatChangePayload.class)
+              .toChange(entry.committedAt());
       // The allocation index reads the same stream as the browsers, so there is one source of
       // seat changes rather than two that can disagree.
       contiguousIndex.apply(entry.eventId(), change.id(), change.status());
@@ -87,8 +89,8 @@ public class SeatStreamService {
 
   /** The outbox payload shape written by {@code DomainEvents}. */
   private record SeatChangePayload(UUID seatId, SeatStatus status, long version) {
-    SeatDeltaMessage.SeatChange toChange() {
-      return new SeatDeltaMessage.SeatChange(seatId, status, version);
+    SeatDeltaMessage.SeatChange toChange(java.time.Instant committedAt) {
+      return new SeatDeltaMessage.SeatChange(seatId, status, version, committedAt);
     }
   }
 
@@ -101,11 +103,16 @@ public class SeatStreamService {
    * "this replica has never heard of you" both mean.
    */
   public SseEmitter open(UUID eventId, Long lastEventId) {
+    return open(eventId, lastEventId, null);
+  }
+
+  /** As above, remembering the buyer so the waiting room can push them their own position. */
+  public SseEmitter open(UUID eventId, Long lastEventId, String userRef) {
     Event event =
         events.find(eventId).orElseThrow(() -> new ApiException(ErrorCode.EVENT_NOT_FOUND));
 
     String connectionId = UUID.randomUUID().toString();
-    SseEmitter emitter = hub.open(eventId, connectionId);
+    SseEmitter emitter = hub.open(eventId, connectionId, userRef);
 
     List<SeatDeltaMessage> catchUp =
         lastEventId == null ? List.of() : catchUpFrom(event, lastEventId);
@@ -156,7 +163,9 @@ public class SeatStreamService {
       expected++;
       try {
         SeatDeltaMessage.SeatChange change =
-            objectMapper.readValue(entry.payload(), SeatChangePayload.class).toChange();
+            objectMapper
+                .readValue(entry.payload(), SeatChangePayload.class)
+                .toChange(entry.createdAt());
         deltas.add(new SeatDeltaMessage(sequence, sequence, List.of(change), null));
       } catch (Exception e) {
         return List.of();

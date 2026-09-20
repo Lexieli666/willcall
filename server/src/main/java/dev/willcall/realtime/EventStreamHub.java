@@ -121,10 +121,18 @@ public class EventStreamHub {
 
   /** Registers a new stream and returns the emitter the controller hands back to Spring. */
   public SseEmitter open(UUID eventId, String connectionId) {
+    return open(eventId, connectionId, null);
+  }
+
+  /** As {@link #open(UUID, String)}, remembering which buyer the stream belongs to. */
+  public SseEmitter open(UUID eventId, String connectionId, String userRef) {
     // No timeout by default: a stream is meant to live as long as the tab does, and Spring's
     // default of 30 s would make every client reconnect twice a minute.
     return openWith(
-        eventId, connectionId, new SseEmitter(streamTimeoutMs <= 0 ? Long.MAX_VALUE : streamTimeoutMs));
+        eventId,
+        connectionId,
+        userRef,
+        new SseEmitter(streamTimeoutMs <= 0 ? Long.MAX_VALUE : streamTimeoutMs));
   }
 
   /**
@@ -134,8 +142,13 @@ public class EventStreamHub {
    * real registration, coalescing and backpressure paths rather than around them.
    */
   public SseEmitter openWith(UUID eventId, String connectionId, SseEmitter emitter) {
+    return openWith(eventId, connectionId, null, emitter);
+  }
+
+  public SseEmitter openWith(
+      UUID eventId, String connectionId, String userRef, SseEmitter emitter) {
     StreamConnection connection =
-        new StreamConnection(connectionId, eventId, emitter, queueCapacity);
+        new StreamConnection(connectionId, eventId, userRef, emitter, queueCapacity);
 
     connectionsByEvent
         .computeIfAbsent(eventId, id -> ConcurrentHashMap.newKeySet())
@@ -301,6 +314,46 @@ public class EventStreamHub {
     }
     connectionsByEvent.clear();
     openConnections.set(0);
+  }
+
+  /**
+   * Sends a personal frame to whichever connections belong to a buyer.
+   *
+   * <p>Queue position is per person, so it cannot ride the coalescer, which exists to send one
+   * identical frame to everybody. A buyer with two tabs open gets it on both.
+   *
+   * @return how many connections received it
+   */
+  public int sendToUser(UUID eventId, String userRef, String eventName, String json) {
+    Set<StreamConnection> listeners = connectionsByEvent.get(eventId);
+    if (listeners == null || userRef == null) return 0;
+    int sent = 0;
+    for (StreamConnection connection : listeners) {
+      if (!userRef.equals(connection.userRef())) continue;
+      if (connection.isClosed()) {
+        remove(connection);
+        continue;
+      }
+      // No sequence id: queue frames are outside the seat-delta sequence entirely, so giving them
+      // one would corrupt the client's cursor. See docs/realtime-protocol.md section 3.5.
+      if (connection.offer(new StreamMessage(eventName, null, json))) {
+        sent++;
+        framesSent.increment();
+      }
+    }
+    return sent;
+  }
+
+  /** The buyers with at least one open stream for an event, for the queue broadcaster. */
+  public Set<String> connectedUsers(UUID eventId) {
+    Set<StreamConnection> listeners = connectionsByEvent.get(eventId);
+    if (listeners == null) return Set.of();
+    Set<String> users = ConcurrentHashMap.newKeySet();
+    for (StreamConnection connection : listeners) {
+      String userRef = connection.userRef();
+      if (userRef != null && !connection.isClosed()) users.add(userRef);
+    }
+    return users;
   }
 
   /** Per-connection queue depths, for the load report's memory and backpressure sections. */

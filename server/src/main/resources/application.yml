@@ -90,7 +90,11 @@ willcall:
 
   outbox:
     enabled: ${WILLCALL_OUTBOX_ENABLED:true}
-    interval-ms: ${WILLCALL_OUTBOX_INTERVAL_MS:100}
+    # The relay tick is part of propagation latency, not separate from it: a change waits here
+    # before the coalescer even sees it. At 100 ms the measured p50 was 145 ms, of which about
+    # half was this. 25 ms costs four times as many empty polls on an idle event - each one a
+    # cheap indexed query - and buys 75 ms off the median.
+    interval-ms: ${WILLCALL_OUTBOX_INTERVAL_MS:25}
     batch-size: ${WILLCALL_OUTBOX_BATCH:500}
     retain: ${WILLCALL_OUTBOX_RETAIN:PT1H}
 
@@ -105,6 +109,25 @@ willcall:
     # 0 means no timeout: a stream should live as long as the tab does, and Spring's default of
     # 30 s would make every client reconnect twice a minute.
     stream-timeout-ms: ${WILLCALL_SSE_TIMEOUT_MS:0}
+
+  waitingroom:
+    # Off unless an event turns it on. A queue in front of an event that never fills is friction
+    # with no benefit.
+    admitter-enabled: ${WILLCALL_ADMITTER_ENABLED:true}
+    admitter-interval-ms: ${WILLCALL_ADMITTER_INTERVAL_MS:250}
+    broadcast-enabled: ${WILLCALL_QUEUE_BROADCAST_ENABLED:true}
+    broadcast-interval-ms: ${WILLCALL_QUEUE_BROADCAST_MS:2000}
+    # The fallback admission rate for an event that has not had one measured. The measured value
+    # per event lives in events.admission_rate_per_second, because it is a measurement of what
+    # that event's reservation path survives rather than a preference.
+    default-rate-per-second: ${WILLCALL_ADMISSION_RATE:200}
+    burst: ${WILLCALL_ADMISSION_BURST:100}
+    max-batch: ${WILLCALL_ADMISSION_MAX_BATCH:500}
+    queue-ttl: ${WILLCALL_QUEUE_TTL:PT6H}
+    token-validity: ${WILLCALL_ADMISSION_TOKEN_VALIDITY:PT10M}
+    # Must be set before deploying; all replicas must share it, or a buyer admitted by one would
+    # be refused by the next. The development default logs a warning at start-up.
+    signing-key: ${WILLCALL_ADMISSION_SIGNING_KEY:}
 
   admin:
     # Off by default. The compose stack and CI turn it on so the end-to-end suite can make a

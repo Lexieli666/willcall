@@ -14,7 +14,9 @@ public record Event(
     int holdTtlSeconds,
     int maxSeatsPerOrder,
     EventStatus status,
-    long lastSequence) {
+    long lastSequence,
+    boolean waitingRoomEnabled,
+    Double admissionRatePerSecond) {
 
   public Duration holdTtl() {
     return Duration.ofSeconds(holdTtlSeconds);

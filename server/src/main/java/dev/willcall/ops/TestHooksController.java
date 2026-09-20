@@ -99,6 +99,36 @@ public class TestHooksController {
     return Map.of("flushed", true, "openConnections", hub.openConnectionCount());
   }
 
+  /**
+   * Runs a garbage collection and reports the heap actually retained.
+   *
+   * <p>Exists because the obvious way to measure memory per connection is wrong. Sampling resident
+   * set before and during a load run attributes everything that grew to the connections, including
+   * the garbage produced by delivering fifteen million messages — the first 5,000-connection run
+   * reported 212 KiB per connection on that basis, most of which was throughput, not connections.
+   *
+   * <p>Collecting and then reading the heap with the connections open, and again after they close,
+   * isolates what a connection actually costs. {@code System.gc()} is a request rather than a
+   * command, so the reading is taken after a short settle and is still an estimate — but an
+   * estimate of the right quantity.
+   */
+  @PostMapping("/gc")
+  public Map<String, Object> collectGarbage() {
+    Runtime runtime = Runtime.getRuntime();
+    System.gc();
+    try {
+      Thread.sleep(300);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+    System.gc();
+    long used = runtime.totalMemory() - runtime.freeMemory();
+    return Map.of(
+        "heapUsedBytes", used,
+        "heapTotalBytes", runtime.totalMemory(),
+        "heapMaxBytes", runtime.maxMemory());
+  }
+
   /** Expires every active hold now, so a test need not wait out a TTL. */
   @PostMapping("/expire-holds")
   public Map<String, Object> expireHolds() {

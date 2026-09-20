@@ -57,8 +57,17 @@ public class OutboxRelay {
   }
 
   /** An outbox entry with the sequence number it was given. */
+  /**
+   * @param committedAt when the originating transaction committed, carried through so propagation
+   *     latency is measured from the commit and not from whenever the relay happened to run
+   */
   public record PublishedEntry(
-      UUID eventId, long sequenceNo, String type, UUID aggregateId, String payload) {}
+      UUID eventId,
+      long sequenceNo,
+      String type,
+      UUID aggregateId,
+      String payload,
+      java.time.Instant committedAt) {}
 
   /**
    * Registers the fan-out. Set by the real-time module at start-up; until then the relay still
@@ -96,7 +105,12 @@ public class OutboxRelay {
       try {
         subscriber.accept(
             new PublishedEntry(
-                eventId, sequence, entry.type(), entry.aggregateId(), entry.payload()));
+                eventId,
+                sequence,
+                entry.type(),
+                entry.aggregateId(),
+                entry.payload(),
+                entry.createdAt()));
       } catch (RuntimeException e) {
         // Fan-out is best effort by design: a client that misses a delta detects the gap and
         // resyncs. Failing the transaction here would stall the sequence for everyone.

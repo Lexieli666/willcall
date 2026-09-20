@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -50,7 +51,9 @@ public class EventController {
       @Min(1) @Max(50) Integer maxSeatsPerOrder,
       String status,
       @NotEmpty List<@Valid PriceTierRequest> priceTiers,
-      @NotEmpty List<@Valid SectionRequest> sections) {}
+      @NotEmpty List<@Valid SectionRequest> sections,
+      Boolean waitingRoomEnabled,
+      Double admissionRatePerSecond) {}
 
   public record EventSummary(
       UUID id,
@@ -61,7 +64,9 @@ public class EventController {
       int holdTtlSeconds,
       int maxSeatsPerOrder,
       String status,
-      long lastSequence) {
+      long lastSequence,
+      boolean waitingRoomEnabled,
+      Double admissionRatePerSecond) {
 
     static EventSummary of(Event event) {
       return new EventSummary(
@@ -73,7 +78,9 @@ public class EventController {
           event.holdTtlSeconds(),
           event.maxSeatsPerOrder(),
           event.status().name(),
-          event.lastSequence());
+          event.lastSequence(),
+          event.waitingRoomEnabled(),
+          event.admissionRatePerSecond());
     }
   }
 
@@ -115,7 +122,9 @@ public class EventController {
                     s ->
                         new CatalogService.SectionSpec(
                             s.name(), s.rowCount(), s.seatsPerRow(), s.priceTierName()))
-                .toList());
+                .toList(),
+            Boolean.TRUE.equals(request.waitingRoomEnabled()),
+            request.admissionRatePerSecond());
 
     Event event = catalog.createEvent(spec);
     return ResponseEntity.status(201).body(EventSummary.of(event));
@@ -147,6 +156,22 @@ public class EventController {
   @GetMapping("/{eventId}/seats")
   public SeatMapResponse seatMap(@PathVariable UUID eventId) {
     return SeatMapAssembler.assemble(catalog.detail(eventId), catalog.seatMap(eventId));
+  }
+
+  /**
+   * Turns the waiting room on or off for an event.
+   *
+   * <p>The rate is the measured admissions per second this event's reservation path survives.
+   * Omitting it leaves the service-wide default in force, which is a starting point rather than a
+   * measurement, and `docs/capacity-model.md` says so.
+   */
+  @PostMapping("/{eventId}/waiting-room")
+  public ResponseEntity<Void> setWaitingRoom(
+      @PathVariable UUID eventId,
+      @RequestParam(defaultValue = "true") boolean enabled,
+      @RequestParam(required = false) Double ratePerSecond) {
+    catalog.setWaitingRoom(eventId, enabled, ratePerSecond);
+    return ResponseEntity.noContent().build();
   }
 
   /** Test and demo helper: move an event between DRAFT, ON_SALE, PAUSED and CLOSED. */

@@ -22,8 +22,8 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 /**
  * Coalescing and backpressure, without a network.
  *
- * <p>The two properties being pinned are the ones a load test cannot easily prove: that a batch
- * of changes becomes one frame carrying the whole sequence range, and that a client which stops
+ * <p>The two properties being pinned are the ones a load test cannot easily prove: that a batch of
+ * changes becomes one frame carrying the whole sequence range, and that a client which stops
  * reading is told to resync rather than blocking everybody else.
  */
 class EventStreamHubTest {
@@ -106,7 +106,9 @@ class EventStreamHubTest {
     hub.enqueue(eventId, 2, new SeatDeltaMessage.SeatChange(seatId, SeatStatus.SOLD, 2), null);
     hub.flushNow();
 
-    await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> assertThat(framesOf(connectionId)).isNotEmpty());
+    await()
+        .atMost(Duration.ofSeconds(5))
+        .untilAsserted(() -> assertThat(framesOf(connectionId)).isNotEmpty());
 
     String frame = framesOf(connectionId).get(0);
     assertThat(frame).contains("SOLD").doesNotContain("HELD");
@@ -182,7 +184,8 @@ class EventStreamHubTest {
 
   // The hub creates its own emitter, so the recording one is injected by replacing what open()
   // returns; this keeps the hub's own registration logic under test rather than bypassing it.
-  private final java.util.Map<String, RecordingEmitter> recorded = new java.util.concurrent.ConcurrentHashMap<>();
+  private final java.util.Map<String, RecordingEmitter> recorded =
+      new java.util.concurrent.ConcurrentHashMap<>();
 
   private SseEmitter openRecording(String connectionId) {
     RecordingEmitter emitter = new RecordingEmitter();

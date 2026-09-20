@@ -38,7 +38,13 @@ public class EventRepository {
               rs.getInt("hold_ttl_seconds"),
               rs.getInt("max_seats_per_order"),
               EventStatus.valueOf(rs.getString("status")),
-              rs.getLong("last_sequence"));
+              rs.getLong("last_sequence"),
+              rs.getBoolean("waiting_room_enabled"),
+              // numeric comes back as BigDecimal, not Double; casting the Object straight to
+              // Double threw ClassCastException on every read of an event with a rate set.
+              rs.getObject("admission_rate_per_second") == null
+                  ? null
+                  : rs.getBigDecimal("admission_rate_per_second").doubleValue());
 
   public UUID insertVenue(String name, String timezone) {
     UUID id = UUID.randomUUID();
@@ -98,7 +104,8 @@ public class EventRepository {
         .query(
             """
             select id, venue_id, name, starts_at, sales_open_at, capacity, hold_ttl_seconds,
-                   max_seats_per_order, status, last_sequence
+                   max_seats_per_order, status, last_sequence, waiting_room_enabled,
+                   admission_rate_per_second
             from events where id = :id
             """,
             Map.of("id", id),
@@ -111,7 +118,8 @@ public class EventRepository {
     return jdbc.query(
         """
         select id, venue_id, name, starts_at, sales_open_at, capacity, hold_ttl_seconds,
-               max_seats_per_order, status, last_sequence
+               max_seats_per_order, status, last_sequence, waiting_room_enabled,
+               admission_rate_per_second
         from events where status = 'ON_SALE' order by starts_at
         """,
         EVENT);
@@ -121,6 +129,25 @@ public class EventRepository {
     jdbc.update(
         "update events set status = :status where id = :id",
         Map.of("status", status.name(), "id", eventId));
+  }
+
+  /**
+   * Turns the waiting room on or off and records the measured admission rate.
+   *
+   * <p>The rate is a measurement of what this event's reservation path survives, not a
+   * configuration preference, which is why it lives on the event rather than in a properties file.
+   */
+  public void updateWaitingRoom(UUID eventId, boolean enabled, Double ratePerSecond) {
+    jdbc.update(
+        """
+        update events
+        set waiting_room_enabled = :enabled, admission_rate_per_second = :rate
+        where id = :id
+        """,
+        new MapSqlParameterSource()
+            .addValue("enabled", enabled)
+            .addValue("rate", ratePerSecond)
+            .addValue("id", eventId));
   }
 
   public void updateCapacity(UUID eventId, int capacity) {

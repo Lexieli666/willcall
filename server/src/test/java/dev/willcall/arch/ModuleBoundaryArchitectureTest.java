@@ -42,7 +42,11 @@ class ModuleBoundaryArchitectureTest {
           "payment", Set.of("payment", "platform"),
           "reservation", Set.of("reservation", "platform", "catalog", "allocation", "payment"),
           "realtime", Set.of("realtime", "platform", "catalog", "reservation", "allocation"),
-          "waitingroom", Set.of("waitingroom", "platform", "catalog", "reservation"),
+          // The waiting room pushes queue position over the same stream the seat map uses, so it
+          // depends on realtime. The reverse must never hold, or reservation -> waitingroom ->
+          // realtime -> reservation becomes a cycle - which is exactly what this test caught when
+          // the admission check was a direct call from the hold controller.
+          "waitingroom", Set.of("waitingroom", "platform", "catalog", "reservation", "realtime"),
           // Operational and diagnostic endpoints sit at the top of the stack and may reach into
           // anything. Nothing may reach into them.
           "ops",

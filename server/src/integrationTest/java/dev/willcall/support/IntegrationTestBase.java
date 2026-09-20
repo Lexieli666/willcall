@@ -58,11 +58,11 @@ public abstract class IntegrationTestBase {
    * Redis on a fixed host port.
    *
    * <p>Testcontainers normally maps an ephemeral host port, which is right for isolation and wrong
-   * here: {@code RedisOutageInvariantIntegrationTest} stops and restarts this container, and
-   * Docker assigns a <em>new</em> host port on restart. The application kept dialling the old one
-   * and Redis appeared never to come back, which cost a test run to diagnose. A fixed binding
-   * makes a restart transparent to the application, which is also what a restart looks like in
-   * production, where the address does not move.
+   * here: {@code RedisOutageInvariantIntegrationTest} stops and restarts this container, and Docker
+   * assigns a <em>new</em> host port on restart. The application kept dialling the old one and
+   * Redis appeared never to come back, which cost a test run to diagnose. A fixed binding makes a
+   * restart transparent to the application, which is also what a restart looks like in production,
+   * where the address does not move.
    *
    * <p>16380 is one above the compose stack's 16379, so a local stack and a test run cannot
    * collide.

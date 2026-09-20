@@ -26,8 +26,20 @@ public record SeatDeltaMessage(
    *
    * @param version the seat's row version; a client applies a change only when this exceeds the
    *     version it already holds, which is what makes duplicate and out-of-order delivery harmless
+   * @param committedAt when the transaction that made this change committed. Present so that
+   *     propagation latency can be measured from the commit to the browser, which is what the
+   *     protocol's budget is about. Measuring from when the fan-out picked the row up would quietly
+   *     exclude the relay's own queueing — part of what a buyer actually waits for — and would make
+   *     the published percentile smaller than the truth. Null on a snapshot, where there is no
+   *     single commit to point at.
    */
-  public record SeatChange(UUID id, SeatStatus status, long version) {}
+  public record SeatChange(
+      UUID id, SeatStatus status, long version, java.time.Instant committedAt) {
+
+    public SeatChange(UUID id, SeatStatus status, long version) {
+      this(id, status, version, null);
+    }
+  }
 
   /** Carried on every delta so the "seats left" figure can never drift from the map. */
   public record SeatCounts(int available, int held, int sold) {}

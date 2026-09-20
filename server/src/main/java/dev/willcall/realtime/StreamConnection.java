@@ -35,6 +35,7 @@ final class StreamConnection {
 
   private final String id;
   private final java.util.UUID eventId;
+  private final String userRef;
   private final SseEmitter emitter;
   private final ArrayBlockingQueue<StreamMessage> outbound;
   private final AtomicBoolean closed = new AtomicBoolean(false);
@@ -43,9 +44,11 @@ final class StreamConnection {
   private final AtomicLong sent = new AtomicLong();
   private volatile Thread writer;
 
-  StreamConnection(String id, java.util.UUID eventId, SseEmitter emitter, int queueCapacity) {
+  StreamConnection(
+      String id, java.util.UUID eventId, String userRef, SseEmitter emitter, int queueCapacity) {
     this.id = id;
     this.eventId = eventId;
+    this.userRef = userRef;
     this.emitter = emitter;
     this.outbound = new ArrayBlockingQueue<>(queueCapacity);
   }
@@ -146,6 +149,11 @@ final class StreamConnection {
 
   java.util.UUID eventId() {
     return eventId;
+  }
+
+  /** The buyer this stream belongs to, or null for an anonymous viewer. Queue frames need it. */
+  String userRef() {
+    return userRef;
   }
 
   SseEmitter emitter() {

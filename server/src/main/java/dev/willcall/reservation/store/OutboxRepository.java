@@ -26,6 +26,12 @@ public class OutboxRepository {
     this.jdbc = jdbc;
   }
 
+  /**
+   * @param createdAt when the transaction that produced this change committed. Carried all the way
+   *     to the browser so propagation latency is measured from the commit rather than from whenever
+   *     the fan-out happened to pick the row up — the latter would quietly exclude the relay's own
+   *     queueing, which is part of what a buyer waits for.
+   */
   public record Entry(
       long id,
       UUID eventId,
@@ -33,7 +39,8 @@ public class OutboxRepository {
       UUID aggregateId,
       String type,
       String payload,
-      Long sequenceNo) {}
+      Long sequenceNo,
+      java.time.Instant createdAt) {}
 
   public void append(
       UUID eventId, String aggregateType, UUID aggregateId, String type, String payloadJson) {
@@ -102,7 +109,8 @@ public class OutboxRepository {
   public List<Entry> pendingForEvent(UUID eventId, int limit) {
     return jdbc.query(
         """
-        select id, event_id, aggregate_type, aggregate_id, type, payload::text as payload, sequence_no
+        select id, event_id, aggregate_type, aggregate_id, type, payload::text as payload,
+               sequence_no, created_at
         from outbox
         where event_id = :eventId and published_at is null
         order by id
@@ -117,7 +125,8 @@ public class OutboxRepository {
                 rs.getObject("aggregate_id", UUID.class),
                 rs.getString("type"),
                 rs.getString("payload"),
-                rs.getObject("sequence_no", Long.class)));
+                rs.getObject("sequence_no", Long.class),
+                rs.getTimestamp("created_at").toInstant()));
   }
 
   /**
@@ -130,7 +139,8 @@ public class OutboxRepository {
   public List<Entry> publishedSince(UUID eventId, long afterSequence, int limit) {
     return jdbc.query(
         """
-        select id, event_id, aggregate_type, aggregate_id, type, payload::text as payload, sequence_no
+        select id, event_id, aggregate_type, aggregate_id, type, payload::text as payload,
+               sequence_no, created_at
         from outbox
         where event_id = :eventId and sequence_no > :after and published_at is not null
         order by sequence_no
@@ -148,7 +158,8 @@ public class OutboxRepository {
                 rs.getObject("aggregate_id", UUID.class),
                 rs.getString("type"),
                 rs.getString("payload"),
-                rs.getObject("sequence_no", Long.class)));
+                rs.getObject("sequence_no", Long.class),
+                rs.getTimestamp("created_at").toInstant()));
   }
 
   /** Advances the event's sequence counter by {@code count} and returns the first value used. */

@@ -44,7 +44,15 @@ class ContiguousSeatIndexTest {
     for (int i = 1; i <= 10; i++) {
       rowSeats.add(
           new Seat(
-              UUID.randomUUID(), eventId, rowId, null, i, "A-" + i, SeatStatus.AVAILABLE, 0, Instant.now()));
+              UUID.randomUUID(),
+              eventId,
+              rowId,
+              null,
+              i,
+              "A-" + i,
+              SeatStatus.AVAILABLE,
+              0,
+              Instant.now()));
     }
   }
 
@@ -93,7 +101,8 @@ class ContiguousSeatIndexTest {
   }
 
   @Test
-  @DisplayName("a rejected proposal marks those seats taken, so the next attempt does not repeat it")
+  @DisplayName(
+      "a rejected proposal marks those seats taken, so the next attempt does not repeat it")
   void staleProposalIsPessimised() {
     when(seats.findByEvent(eventId)).thenReturn(rowSeats);
     index.load(eventId);
@@ -120,7 +129,8 @@ class ContiguousSeatIndexTest {
   @Test
   @DisplayName("disabled, it never proposes anything and never touches the database")
   void disabledIndexIsInert() {
-    ContiguousSeatIndex disabled = new ContiguousSeatIndex(seats, new SimpleMeterRegistry(), false, 200_000);
+    ContiguousSeatIndex disabled =
+        new ContiguousSeatIndex(seats, new SimpleMeterRegistry(), false, 200_000);
 
     disabled.load(eventId);
 

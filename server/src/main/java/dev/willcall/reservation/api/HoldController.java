@@ -93,6 +93,10 @@ public class HoldController {
       @RequestHeader(value = IDEMPOTENCY_HEADER, required = false) String idempotencyKey,
       HttpServletRequest request) {
 
+    // Admission is enforced by an interceptor rather than checked here. This controller knows
+    // nothing about the waiting room on purpose: reservation -> waitingroom -> realtime ->
+    // reservation is a cycle, and the architecture test refused it. The interceptor lets the
+    // dependency run one way only.
     String userRef = BuyerIdentity.require(request);
     AllocationRequest allocation = body.toAllocation(eventId);
 

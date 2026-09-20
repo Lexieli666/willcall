@@ -55,7 +55,35 @@ public class CatalogService {
       int maxSeatsPerOrder,
       EventStatus status,
       List<PriceTierSpec> priceTiers,
-      List<SectionSpec> sections) {}
+      List<SectionSpec> sections,
+      boolean waitingRoomEnabled,
+      Double admissionRatePerSecond) {
+
+    /** Most events need no queue; this keeps every existing caller saying so by omission. */
+    public CreateEventSpec(
+        String venueName,
+        String eventName,
+        Instant startsAt,
+        Instant salesOpenAt,
+        int holdTtlSeconds,
+        int maxSeatsPerOrder,
+        EventStatus status,
+        List<PriceTierSpec> priceTiers,
+        List<SectionSpec> sections) {
+      this(
+          venueName,
+          eventName,
+          startsAt,
+          salesOpenAt,
+          holdTtlSeconds,
+          maxSeatsPerOrder,
+          status,
+          priceTiers,
+          sections,
+          false,
+          null);
+    }
+  }
 
   public record EventDetail(
       Event event,
@@ -114,7 +142,15 @@ public class CatalogService {
       }
     }
 
-    log.info("created event {} with capacity {}", eventId, capacity);
+    if (spec.waitingRoomEnabled() || spec.admissionRatePerSecond() != null) {
+      events.updateWaitingRoom(eventId, spec.waitingRoomEnabled(), spec.admissionRatePerSecond());
+    }
+
+    log.info(
+        "created event {} with capacity {}, waiting room {}",
+        eventId,
+        capacity,
+        spec.waitingRoomEnabled() ? "on" : "off");
     return events
         .find(eventId)
         .orElseThrow(() -> new IllegalStateException("event vanished after insert"));
@@ -152,6 +188,19 @@ public class CatalogService {
   @Transactional(readOnly = true)
   public List<Event> onSale() {
     return new ArrayList<>(events.findAllOnSale());
+  }
+
+  /**
+   * Turns the waiting room on or off and records the measured admission rate.
+   *
+   * <p>The rate is a measurement, not a preference: it is what this event's reservation path was
+   * observed to survive. Setting it from a guess is how a queue ends up admitting faster than the
+   * thing behind it can serve.
+   */
+  @Transactional
+  public void setWaitingRoom(UUID eventId, boolean enabled, Double ratePerSecond) {
+    if (events.find(eventId).isEmpty()) throw new ApiException(ErrorCode.EVENT_NOT_FOUND);
+    events.updateWaitingRoom(eventId, enabled, ratePerSecond);
   }
 
   @Transactional

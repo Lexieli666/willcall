@@ -24,8 +24,8 @@ import org.springframework.http.ResponseEntity;
 /**
  * The stream over real HTTP, read with a real client.
  *
- * <p>Using {@code java.net.http} rather than a mock: an SSE bug is usually in framing, buffering
- * or connection lifecycle, and none of those exist in a test double. What is asserted is the wire
+ * <p>Using {@code java.net.http} rather than a mock: an SSE bug is usually in framing, buffering or
+ * connection lifecycle, and none of those exist in a test double. What is asserted is the wire
  * format — event names, {@code id:} lines, the sequence range on a coalesced frame — because that
  * is the contract the browser depends on.
  */
@@ -126,7 +126,9 @@ class SeatStreamIntegrationTest extends HttpIntegrationTestBase {
 
   private void holdSeats(List<String> seatIds, String buyer) {
     String body =
-        "{\"seatIds\":[" + String.join(",", seatIds.stream().map(id -> "\"" + id + "\"").toList()) + "]}";
+        "{\"seatIds\":["
+            + String.join(",", seatIds.stream().map(id -> "\"" + id + "\"").toList())
+            + "]}";
     ResponseEntity<String> response =
         post("/api/events/" + eventId + "/holds", body, buyer, "k-" + buyer);
     assertThat(response.getStatusCode().value()).as(response.getBody()).isEqualTo(201);
