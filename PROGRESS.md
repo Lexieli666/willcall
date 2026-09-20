@@ -17,7 +17,7 @@ repository.
 | OS | Linux 6.6.114.1-microsoft-standard-WSL2 | Ubuntu userland under WSL2 |
 | Host CPU | 32 logical cores | shared between the service and the load generator |
 | Host RAM | 31 GiB | |
-| Java | OpenJDK 21.0.12 (`/usr/lib/jvm/java-21-openjdk-amd64`) | system default is 25; the build pins 21 via a Gradle toolchain |
+| Java | OpenJDK 21.0.12 (`/usr/lib/jvm/java-21-openjdk-amd64`) | system default is 25, which Gradle 8.14 refuses to run on; `scripts/java-home.sh` resolves a supported one for every `make` target |
 | Gradle | 8.14.3 | installed to `~/.local/opt`, wrapper committed |
 | Node | 20.20.2 | installed to `~/.local/opt/node20`, no sudo |
 | npm | 10.8.2 | |
