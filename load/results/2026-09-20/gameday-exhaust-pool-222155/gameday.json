@@ -8,16 +8,20 @@
     "201": 11940,
     "503": 5402
   },
-  "counterResetsByReplica": {
-    "app1": 65,
-    "app2": 67,
-    "app3": 69
+  "counterSeriesResetByReplica": {},
+  "peakPoolPending": {
+    "value": 167.0,
+    "replica": "app1",
+    "atEpochSeconds": 1789942993
   },
   "load": {
     "holdP99Ms": 8312.05411239,
     "holdMaxMs": 9534.396691,
+    "holdMedianMs": 14.4642975,
     "holdsGranted": 12237,
     "holdsRefused": null,
-    "errorRate": null
+    "errorRate": 0.31552746392213893,
+    "requests": 17878,
+    "droppedIterations": 123
   }
 }

@@ -76,56 +76,7 @@ printf 'collecting query plans\n'
   printf -- '- Buffer counts are included (`EXPLAIN (ANALYZE, BUFFERS)`) because "fast" on a warm cache and "fast" on a cold one are different claims.\n'
 } > "$OUT_DIR/run-context.md"
 
-# Turn the readable plan output into one machine-readable file, so the results summary reads the
-# measurement rather than a human retyping it. plans.txt stays: the plan shape is what a reader
-# needs, and no JSON summary substitutes for it.
-python3 - "$OUT_DIR" <<'PLANJSON'
-import json, os, re, sys
-
-out_dir = sys.argv[1]
-text = open(os.path.join(out_dir, 'plans.txt'), errors='replace').read()
-
-# Sections start at a numbered heading line; everything up to the next heading is that plan.
-heading = re.compile(r'^(\d+)\. (.+?)\s+\[(hot path|analytical)\]\s*$', re.MULTILINE)
-marks = list(heading.finditer(text))
-plans = []
-for i, m in enumerate(marks):
-    body = text[m.end():marks[i + 1].start() if i + 1 < len(marks) else len(text)]
-    exec_ms = re.search(r'Execution Time: ([0-9.]+) ms', body)
-    plans.append({
-        'number': int(m.group(1)),
-        'name': m.group(2).strip(),
-        'classification': m.group(3),
-        'hotPath': m.group(3) == 'hot path',
-        'executionMs': float(exec_ms.group(1)) if exec_ms else None,
-        'seqScan': bool(re.search(r'Seq Scan on', body)),
-        'indexScan': bool(re.search(r'Index (Only )?Scan', body)),
-    })
-
-# Row counts from the table-sizes output, keyed by the names the summary reports on.
-counts = {}
-for line in open(os.path.join(out_dir, 'table-sizes.txt'), errors='replace'):
-    parts = [p.strip() for p in line.split('|')]
-    if len(parts) >= 2 and re.fullmatch(r'[0-9,]+', parts[1] or ''):
-        counts[parts[0]] = int(parts[1].replace(',', ''))
-
-report = {
-    'label': 'local Docker Compose, not AWS',
-    'rowCounts': {
-        'users': counts.get('seed_users', 0),
-        'events': counts.get('events', 0),
-        'orders': counts.get('seed_orders', 0),
-    },
-    'tableRowCounts': counts,
-    'plans': plans,
-}
-json.dump(report, open(os.path.join(out_dir, 'seed.json'), 'w'), indent=2)
-
-hot_seq = [p['name'] for p in plans if p['hotPath'] and p['seqScan']]
-print('')
-print(f"plans captured        : {len(plans)}")
-print('rows                  : ' + ', '.join(f'{k} {v:,}' for k, v in report['rowCounts'].items()))
-print(f"hot paths seq-scanning: {', '.join(hot_seq) if hot_seq else 'none'}")
-PLANJSON
+# One summariser, shared with anyone re-collecting plans without re-seeding a million rows.
+./scripts/summarise_query_plans.py "$OUT_DIR"
 
 printf '\nplans written to %s\n' "$OUT_DIR"

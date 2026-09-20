@@ -1,0 +1,23 @@
+{
+  "scenario": "exhaust-pool",
+  "faultInjectedAt": "2026-09-20T22:26:31Z",
+  "k6ExitCode": 99,
+  "invariantsHeld": true,
+  "responsesByStatus": {
+    "200": 258,
+    "201": 11962,
+    "503": 5530
+  },
+  "counterResetsByReplica": {
+    "app1": 66,
+    "app2": 65,
+    "app3": 65
+  },
+  "load": {
+    "holdP99Ms": 9551.506447769998,
+    "holdMaxMs": 9976.128003,
+    "holdsGranted": 12263,
+    "holdsRefused": null,
+    "errorRate": null
+  }
+}

@@ -11,7 +11,7 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
 python3 - <<'PY'
-import glob, json, os, re
+import collections, glob, json, os, re
 
 def latest(pattern):
     """The most recent directory matching a pattern, or None."""
@@ -185,12 +185,25 @@ gameday_dirs = sorted(glob.glob('load/results/*/gameday-*'))
 gameday = [(d, load(f'{d}/gameday.json')) for d in gameday_dirs]
 gameday = [(d, g) for d, g in gameday if g]
 if gameday:
-    held = sum(1 for _, g in gameday if g.get('invariantsHeld'))
-    names = ', '.join(sorted({g['scenario'] for _, g in gameday}))
+    # One row per scenario, reporting its most recent run. Counting directories would report
+    # seven scenarios when there are four: the pool-exhaustion scenario was re-run to verify its
+    # fixes, and a re-run is evidence about a scenario, not another scenario.
+    latest_run = {}
+    reruns = collections.Counter()
+    for directory, report in gameday:
+        scenario = report['scenario']
+        reruns[scenario] += 1
+        latest_run[scenario] = (directory, report)
+    held = sum(1 for _, r in latest_run.values() if r.get('invariantsHeld'))
+    errors = sum(int(r.get('responsesByStatus', {}).get('500', 0)) for _, r in latest_run.values())
+    extra = sum(n - 1 for n in reruns.values())
     row('Game day: faults injected while traffic flowed',
-        f'{len(gameday)} scenarios ({names}); invariants held after {held}/{len(gameday)}',
+        f"{len(latest_run)} scenarios ({', '.join(sorted(latest_run))}); invariants held after "
+        f"{held}/{len(latest_run)}, {fmt(errors)} server errors"
+        + (f'; {extra} re-run to verify a fix' if extra else ''),
         'every scenario survives with invariants intact and a written postmortem',
-        '`docs/incidents/`', 'met' if held == len(gameday) else 'MISSED')
+        '`docs/incidents/`',
+        'met' if held == len(latest_run) and errors == 0 else 'MISSED')
 
 # ---------------------------------------------------------------- seeded dataset
 

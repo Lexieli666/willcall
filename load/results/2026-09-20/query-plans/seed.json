@@ -1,5 +1,7 @@
 {
   "label": "local Docker Compose, not AWS",
+  "eventUnderTest": "7c9202e4-8512-4298-b8d3-a46b543473f6",
+  "availableSeatsInThatEvent": 40000,
   "rowCounts": {
     "users": 1000000,
     "events": 50008,
@@ -25,74 +27,111 @@
   },
   "plans": [
     {
-      "number": 1,
+      "number": "1",
       "name": "Claim any available seat  (the hot path of a flash sale)",
       "classification": "hot path",
       "hotPath": true,
-      "executionMs": 0.107,
-      "seqScan": true,
+      "executionMs": 0.076,
+      "executionMsAll": [
+        0.076
+      ],
+      "seqScan": false,
       "indexScan": true
     },
     {
-      "number": 2,
+      "number": "2",
       "name": "Find N contiguous free seats  (the SQL fallback for the segment tree)",
       "classification": "hot path",
       "hotPath": true,
-      "executionMs": 20.702,
-      "seqScan": true,
+      "executionMs": 26.816,
+      "executionMsAll": [
+        26.816
+      ],
+      "seqScan": false,
       "indexScan": true
     },
     {
-      "number": 3,
+      "number": "3",
       "name": "The sweeper claiming expired holds",
       "classification": "hot path",
       "hotPath": true,
-      "executionMs": 0.096,
+      "executionMs": 0.026,
+      "executionMsAll": [
+        0.026
+      ],
       "seqScan": false,
       "indexScan": true
     },
     {
-      "number": 4,
+      "number": "3b",
+      "name": "The sweeper under an adverse ratio",
+      "classification": "hot path",
+      "hotPath": true,
+      "executionMs": 11.756,
+      "executionMsAll": [
+        11.756,
+        0.236
+      ],
+      "seqScan": false,
+      "indexScan": true
+    },
+    {
+      "number": "4",
       "name": "Idempotency lookup",
       "classification": "hot path",
       "hotPath": true,
-      "executionMs": 0.031,
+      "executionMs": 0.034,
+      "executionMsAll": [
+        0.034
+      ],
       "seqScan": false,
       "indexScan": true
     },
     {
-      "number": 5,
+      "number": "5",
       "name": "A buyer's order history  (the skewed join)",
       "classification": "hot path",
       "hotPath": true,
-      "executionMs": 0.05,
+      "executionMs": 0.045,
+      "executionMsAll": [
+        0.045
+      ],
       "seqScan": false,
       "indexScan": true
     },
     {
-      "number": 6,
+      "number": "6",
       "name": "Orders for a popular event  (the other side of the skew)",
       "classification": "analytical",
       "hotPath": false,
-      "executionMs": 71.363,
-      "seqScan": true,
-      "indexScan": false
-    },
-    {
-      "number": 7,
-      "name": "Outbox relay: unpublished entries for an event",
-      "classification": "hot path",
-      "hotPath": true,
-      "executionMs": 0.028,
+      "executionMs": 68.48,
+      "executionMsAll": [
+        68.48
+      ],
       "seqScan": true,
       "indexScan": true
     },
     {
-      "number": 8,
+      "number": "7",
+      "name": "Outbox relay: unpublished entries for an event",
+      "classification": "hot path",
+      "hotPath": true,
+      "executionMs": 0.016,
+      "executionMsAll": [
+        0.016
+      ],
+      "seqScan": false,
+      "indexScan": true
+    },
+    {
+      "number": "8",
       "name": "The capacity invariant check",
       "classification": "analytical",
       "hotPath": false,
-      "executionMs": 144.836,
+      "executionMs": 101.313,
+      "executionMsAll": [
+        101.313
+      ],
       "seqScan": true,
       "indexScan": true
     }

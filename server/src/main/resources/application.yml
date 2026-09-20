@@ -24,10 +24,16 @@ spring:
       # pool connections until nginx gave up and ejected every replica.
       #
       # lock_timeout, not statement_timeout: the reservation path waits on row locks by design and
-      # a statement timeout would also cut short an honest query that is merely large. Five
-      # seconds is above the measured hold p99 under an unpaced burst (2.4 s) and well below the
-      # proxy's 10 s patience, so the application gives up first and says 503 with Retry-After.
-      connection-init-sql: ${WILLCALL_DB_INIT_SQL:set lock_timeout = '5s'}
+      # a statement timeout would also cut short an honest query that is merely large.
+      #
+      # Two seconds, matching connection-timeout above, and the two were measured together. At five
+      # seconds the game day shed correctly but the 503s took 8.3 s at p99 to come back, because a
+      # request can wait out the pool timeout and then the lock timeout and then whatever queued
+      # behind it - and a load-shedding response that arrives after eight seconds has shed nothing
+      # a buyer still cares about. The contended path in a flash sale is SELECT ... FOR UPDATE SKIP
+      # LOCKED, which never waits on a lock at all, so this bounds the exact-seat path and the
+      # sweeper and leaves the hot path untouched.
+      connection-init-sql: ${WILLCALL_DB_INIT_SQL:set lock_timeout = '2s'}
   data:
     redis:
       url: ${WILLCALL_REDIS_URL:redis://localhost:6379}

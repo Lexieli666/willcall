@@ -106,6 +106,25 @@ share something they should not.
 Then write `docs/incidents/<date>-<name>.md` from `docs/incidents/TEMPLATE.md`, one per scenario,
 including the predictions that were wrong.
 
+## What the four runs found
+
+Run on 2026-09-20 against the three-replica Compose stack with 150 hold requests/s flowing
+throughout. Every scenario's postmortem is in `docs/incidents/`.
+
+| Scenario | Outcome | The finding |
+|---|---|---|
+| [1. Kill a replica](incidents/2026-09-20-replica-kill.md) | 8 failures in 18,001 (0.04%) | The kill cost nothing. The **restart** cost the eight, because nginx sends traffic to a container that has an address before the JVM is listening. |
+| [2. Exhaust the pool](incidents/2026-09-20-connection-pool-exhaustion.md) | 4,427 shed as 503, **1,227 answered 502 by the edge** | The application shed perfectly and the proxy ejected all three replicas anyway. Passive health checks assume independent failure; the database is what they share. |
+| [3. Restart Redis](incidents/2026-09-20-redis-restart.md) | 0 failures | Nothing broke, which is the claim ADR 0001 rests on. Also: this scenario does not exercise the waiting room, so half its hypothesis went untested. |
+| [4. 200 ms of latency](incidents/2026-09-20-database-pause.md) | Could not be injected | `tc` needs `NET_ADMIN`. A database pause was substituted and recorded as a different fault; the gradual-degradation claim is still unmeasured. |
+
+Two of the four found something the hypothesis did not contain, and in both cases the thing it did
+not contain was outside the application. The hypotheses were written by someone thinking about the
+service; the failures were in what sits in front of it and what starts it.
+
+Scenario 2's fixes were verified by re-running it — the falsifier is that the edge logs
+`no live upstreams` even once, and after the fix it logs none.
+
 ## Status
 
 > **Run against the local Docker Compose stack.** Scenarios 1 to 4 are reproducible locally and
