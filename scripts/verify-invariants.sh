@@ -37,7 +37,11 @@ if [ -n "$PSQL_BIN" ]; then
   PSQL=("$PSQL_BIN" -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -v ON_ERROR_STOP=1 -At)
   printf 'using local psql: %s\n' "$PSQL_BIN"
 elif command -v docker >/dev/null 2>&1; then
-  PSQL=(docker run --rm --network host -e "PGPASSWORD=$PGPASSWORD" postgres:16-alpine
+  # -i matters: without it docker does not attach stdin, psql reads EOF, the query never runs, the
+  # report comes back empty and every check "passes". That is the second time this script has
+  # silently reported success while checking nothing, which is why the query below now carries a
+  # sentinel row that must come back.
+  PSQL=(docker run --rm -i --network host -e "PGPASSWORD=$PGPASSWORD" postgres:16-alpine
         psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -v ON_ERROR_STOP=1 -At)
   printf 'using psql from the postgres:16-alpine image\n'
 else
@@ -63,99 +67,120 @@ if [ -n "$missing" ]; then
   exit 2
 fi
 
-failures=0
-checks_run=0
+# All seven checks in one session.
+#
+# They used to be seven separate invocations, which on a host without a local psql meant seven
+# container starts — roughly ten seconds of process creation per invocation, paid fifty times over
+# in the flash-sale suite and on every CI job. One session runs them as one query and prints a row
+# per violation.
+#
+# The SQL below is the authority. InvariantController carries the same checks so the deployed
+# service can verify itself when the database is in a private subnet, and
+# ChaosIntegrationTest asserts the two lists have not drifted apart.
+REPORT="$(
+  "${PSQL[@]}" <<'SQL'
+\set ON_ERROR_STOP on
 
-run_check() {
-  local name="$1" sql="$2"
-  local rows status
-  set +e
-  rows="$("${PSQL[@]}" -c "$sql" 2>&1)"
-  status=$?
-  set -e
+with violations as (
 
-  if [ "$status" -ne 0 ]; then
-    printf 'ERROR running check "%s":\n%s\n' "$name" "$rows" >&2
-    failures=$((failures + 1))
-    return
-  fi
+  -- A sentinel that is always present. If the report comes back without it, the query did not
+  -- run - a closed stdin, a connection dropped mid-statement, a typo in the invocation - and the
+  -- script fails loudly instead of reporting seven passes over nothing. This exists because the
+  -- failure mode it guards against has happened twice.
+  select '__checks_ran__' as check_name, 'sentinel' as detail
 
-  checks_run=$((checks_run + 1))
-  if [ -n "$rows" ]; then
-    printf 'INVARIANT VIOLATED: %s\n%s\n' "$name" "$rows" >&2
-    failures=$((failures + 1))
-    return
-  fi
-  printf 'ok: %s\n' "$name"
-}
+  union all
 
-run_check 'confirmed + unexpired holds <= capacity' "
-  select e.id || ' ' || e.name || ' capacity=' || e.capacity
-         || ' confirmed=' || counts.confirmed || ' held=' || counts.held
+  select 'confirmed + unexpired holds <= capacity' as check_name,
+         e.id || ' ' || e.name || ' capacity=' || e.capacity
+           || ' confirmed=' || counts.confirmed || ' held=' || counts.held as detail
   from events e
   join lateral (
-    select
-      count(*) filter (where s.status = 'SOLD') as confirmed,
-      count(*) filter (where s.status = 'HELD') as held
+    select count(*) filter (where s.status = 'SOLD') as confirmed,
+           count(*) filter (where s.status = 'HELD') as held
     from seats s where s.event_id = e.id
   ) counts on true
-  where counts.confirmed + counts.held > e.capacity;
-"
+  where counts.confirmed + counts.held > e.capacity
 
-run_check 'no seat has more than one active allocation' "
-  select seat_id || ' has ' || count(*) || ' active holds'
-  from holds
-  where status = 'ACTIVE'
-  group by seat_id
-  having count(*) > 1;
-"
+  union all
+  select 'no seat has more than one active allocation',
+         seat_id || ' has ' || count(*) || ' active holds'
+  from holds where status = 'ACTIVE'
+  group by seat_id having count(*) > 1
 
-run_check 'no seat is both sold and actively held' "
-  select s.id::text
+  union all
+  select 'no seat is both sold and actively held', s.id::text
   from seats s
   join holds h on h.seat_id = s.id and h.status = 'ACTIVE'
-  where s.status = 'SOLD';
-"
+  where s.status = 'SOLD'
 
-run_check 'every sold seat has exactly one confirmed order line' "
-  select s.id || ' has ' || count(o.id) || ' confirmed order lines'
+  union all
+  select 'every sold seat has exactly one confirmed order line',
+         s.id || ' has ' || count(o.id) || ' confirmed order lines'
   from seats s
   left join order_lines ol on ol.seat_id = s.id
   left join orders o on o.id = ol.order_id and o.status = 'CONFIRMED'
   where s.status = 'SOLD'
-  group by s.id
-  having count(o.id) <> 1;
-"
+  group by s.id having count(o.id) <> 1
 
-run_check 'no held seat lacks a matching active hold row' "
-  select s.id::text
+  union all
+  select 'no held seat lacks a matching active hold row', s.id::text
   from seats s
   where s.status = 'HELD'
-    and not exists (select 1 from holds h where h.seat_id = s.id and h.status = 'ACTIVE');
-"
+    and not exists (select 1 from holds h where h.seat_id = s.id and h.status = 'ACTIVE')
 
-run_check 'no active hold points at a seat that is not held' "
-  select h.id || ' -> seat ' || s.id || ' is ' || s.status
+  union all
+  select 'no active hold points at a seat that is not held',
+         h.id || ' -> seat ' || s.id || ' is ' || s.status
   from holds h join seats s on s.id = h.seat_id
-  where h.status = 'ACTIVE' and s.status <> 'HELD';
-"
+  where h.status = 'ACTIVE' and s.status <> 'HELD'
 
-run_check 'capacity matches the number of sellable seats' "
-  select e.id || ' capacity=' || e.capacity || ' sellable='
-         || (select count(*) from seats s where s.event_id = e.id and s.status <> 'BLOCKED')
+  union all
+  select 'capacity matches the number of sellable seats',
+         e.id || ' capacity=' || e.capacity || ' sellable='
+           || (select count(*) from seats s where s.event_id = e.id and s.status <> 'BLOCKED')
   from events e
-  where e.capacity <> (select count(*) from seats s where s.event_id = e.id and s.status <> 'BLOCKED');
-"
+  where e.capacity <> (select count(*) from seats s where s.event_id = e.id and s.status <> 'BLOCKED')
 
-printf '\n%s checks run\n' "$checks_run"
+)
+select check_name || ' | ' || detail from violations limit 200;
+SQL
+)" || {
+  printf 'FAILED: the invariant query could not run\n%s\n' "$REPORT" >&2
+  exit 2
+}
+
+if ! printf '%s\n' "$REPORT" | grep -qF '__checks_ran__ | sentinel'; then
+  printf 'FAILED: the invariant query returned no sentinel row, so it did not run.\n' >&2
+  printf 'Output was:\n%s\n' "$REPORT" >&2
+  exit 2
+fi
+
+CHECKS=(
+  'confirmed + unexpired holds <= capacity'
+  'no seat has more than one active allocation'
+  'no seat is both sold and actively held'
+  'every sold seat has exactly one confirmed order line'
+  'no held seat lacks a matching active hold row'
+  'no active hold points at a seat that is not held'
+  'capacity matches the number of sellable seats'
+)
+
+failures=0
+for check in "${CHECKS[@]}"; do
+  matches="$(printf '%s\n' "$REPORT" | grep -F "$check | " || true)"
+  if [ -n "$matches" ]; then
+    printf 'INVARIANT VIOLATED: %s\n%s\n' "$check" "$matches" >&2
+    failures=$((failures + 1))
+  else
+    printf 'ok: %s\n' "$check"
+  fi
+done
+
+printf '\n%s checks run\n' "${#CHECKS[@]}"
 
 if [ "$failures" -gt 0 ]; then
   printf '%s invariant check(s) failed\n' "$failures" >&2
-  exit 1
-fi
-
-if [ "$checks_run" -lt 7 ]; then
-  printf 'FAILED: only %s of 7 checks actually ran\n' "$checks_run" >&2
   exit 1
 fi
 

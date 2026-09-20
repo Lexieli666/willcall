@@ -22,8 +22,26 @@ PASSED=0
 FAILED=0
 OVERSOLD=0
 
+# Each run starts from an empty catalogue.
+#
+# Without this the database grows by five thousand seats and several thousand holds per run, and
+# by run fifty the sell-out time is dominated by table size rather than by contention — the first
+# attempt at this suite drifted from eleven seconds to thirty-one across eight runs. Fifty runs
+# that are not comparable measure the accumulation, not the flash sale.
+#
+# Database growth under a long-lived catalogue is a real concern; it is measured by the seeded
+# million-row dataset and its query plans, which is the right instrument for it.
+reset_database() {
+  if [ "${WILLCALL_FLASH_KEEP_DATA:-0}" = "1" ]; then return; fi
+  docker exec willcall-postgres-1 psql -U willcall -d willcall -q -c "
+    truncate table outbox, idempotency_records, order_lines, orders, holds, hold_groups,
+                   admissions, seats, seat_rows, sections, price_tiers, events, venues
+    restart identity cascade;" >/dev/null 2>&1 || true
+}
+
 for run in $(seq 1 "$RUNS"); do
   printf '=== run %s/%s ===\n' "$run" "$RUNS"
+  reset_database
   RUN_DIR="$SUITE_DIR/run-$(printf '%03d' "$run")"
   mkdir -p "$RUN_DIR"
 
@@ -165,7 +183,8 @@ PY
   printf '| Host logical cores | %s |\n' "$(nproc)"
   printf '| k6 | %s, same host as the service |\n' "$(k6 version 2>/dev/null | head -1 | awk '{print $2}')"
   printf '\n## Caveats\n\n'
-  printf -- '- Each run creates a fresh event, so runs do not contend with one another for seats. They do contend for CPU with the generator, which shares the host.\n'
+  printf -- '- The catalogue is truncated before each run, so the fifty runs are comparable. Without it the database grows by five thousand seats a run and the sell-out time drifts with table size rather than with contention - measured at eleven seconds on run one and thirty-one by run eight. Growth under a long-lived catalogue is measured separately, by the seeded million-row dataset and its query plans.\n'
+  printf -- '- Runs contend for CPU with the generator, which shares the host.\n'
   printf -- '- The invariant is checked against the database after every run, not inferred from response codes. A run whose invariant check fails is counted as an oversell and is kept, not retried.\n'
   printf -- '- A 409 is a correct answer under a sell-out and is not counted as an error. Only 5xx and transport failures are.\n'
 } > "$SUITE_DIR/run-context.md"
