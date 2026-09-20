@@ -9,6 +9,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -110,16 +112,33 @@ public abstract class IntegrationTestBase {
 
   @Autowired protected JdbcTemplate jdbc;
   @Autowired protected CatalogService catalog;
+  @Autowired protected RedisConnectionFactory redis;
 
   @BeforeEach
-  protected void truncateEverything() {
+  protected void resetEverything() {
     jdbc.execute(
         """
         truncate table outbox, idempotency_records, order_lines, orders,
-                       holds, hold_groups, seats, seat_rows, sections,
+                       admissions, holds, hold_groups, seats, seat_rows, sections,
                        price_tiers, events, venues
         restart identity cascade
         """);
+
+    // Redis too, and it was not being reset for most of this project's life.
+    //
+    // The container is shared across test classes, like PostgreSQL, but only the tables were being
+    // cleared. Rate-limit buckets survive with a ten-minute TTL, waiting-room sorted sets survive
+    // indefinitely, and both are keyed by identifiers the tests reuse. The symptom was five
+    // failures that appeared only in long mode and only after enough tests had run: a hold
+    // answered 429 because an earlier test had spent that buyer's bucket, and an admission test
+    // reading buyer-00000026 first because a previous test's queue was still there.
+    //
+    // Those tests were not passing because the code was right. They were passing because the suite
+    // was short enough, which is the same kind of accident as a check that reports a pass over no
+    // data.
+    try (RedisConnection connection = redis.getConnection()) {
+      connection.serverCommands().flushAll();
+    }
   }
 
   /** Creates a single-section event with {@code rows x seatsPerRow} seats, on sale now. */

@@ -1,16 +1,16 @@
 {
-  "commit": "b830a4c81b003abdc24587c6782209962760dcea",
+  "commit": "2075ff1339e68a47ae5027fdb4f0f0ee50318016",
   "lighthouse": {
-    "runs": 3,
+    "runs": 6,
     "preset": "desktop",
     "accessibility": 1,
     "performance": 1,
     "bestPractices": 1,
     "seo": 0.91,
-    "medianLargestContentfulPaintMs": 443.1252,
+    "medianLargestContentfulPaintMs": 443.118,
     "medianCumulativeLayoutShift": 0.0085,
-    "medianTotalBlockingTimeMs": 0,
-    "medianFirstContentfulPaintMs": 402.0465,
+    "medianTotalBlockingTimeMs": 0.0,
+    "medianFirstContentfulPaintMs": 402.1618,
     "perRun": [
       {
         "url": "http://127.0.0.1:8080/",
@@ -53,12 +53,54 @@
         "totalBlockingTimeMs": 0,
         "firstContentfulPaintMs": 402.0465,
         "speedIndexMs": 402.0465
+      },
+      {
+        "url": "http://127.0.0.1:8080/",
+        "categories": {
+          "performance": 1,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 0.91
+        },
+        "largestContentfulPaintMs": 442.98935,
+        "cumulativeLayoutShift": 0.00851063829787234,
+        "totalBlockingTimeMs": 0,
+        "firstContentfulPaintMs": 401.9929,
+        "speedIndexMs": 401.9929
+      },
+      {
+        "url": "http://127.0.0.1:8080/",
+        "categories": {
+          "performance": 1,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 0.91
+        },
+        "largestContentfulPaintMs": 443.1107,
+        "cumulativeLayoutShift": 0.00851063829787234,
+        "totalBlockingTimeMs": 0,
+        "firstContentfulPaintMs": 404.0738,
+        "speedIndexMs": 404.0738
+      },
+      {
+        "url": "http://127.0.0.1:8080/",
+        "categories": {
+          "performance": 1,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 0.91
+        },
+        "largestContentfulPaintMs": 447.65765,
+        "cumulativeLayoutShift": 0.00851063829787234,
+        "totalBlockingTimeMs": 0,
+        "firstContentfulPaintMs": 405.1051,
+        "speedIndexMs": 405.1051
       }
     ]
   },
   "seatMapRender": {
     "seats": 5000,
-    "renderMs": 131.59999999403954,
+    "renderMs": 328.6000000089407,
     "budgetMs": 120
   },
   "playwright": {

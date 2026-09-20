@@ -101,7 +101,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 440,
+                      "duration": 570,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat B-3/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-B-3, $45.00, available\"\u001b[39m",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat B-3/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-B-3, $45.00, available\"\u001b[39m\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:41:26",
@@ -125,7 +125,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:21:54.977Z",
+                      "startTime": "2026-09-20T23:47:57.490Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -154,7 +154,7 @@
                       "workerIndex": 2,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 336,
+                      "duration": 338,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat B-3/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-B-3, $45.00, available\"\u001b[39m",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat B-3/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-B-3, $45.00, available\"\u001b[39m\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:41:26",
@@ -178,7 +178,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2026-09-20T23:21:55.909Z",
+                      "startTime": "2026-09-20T23:47:58.765Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -230,12 +230,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 355,
+                      "duration": 449,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:21:54.977Z",
+                      "startTime": "2026-09-20T23:47:57.503Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -266,7 +266,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 281,
+                      "duration": 288,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat A-6/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-A-6, $45.00, available\"\u001b[39m",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat A-6/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-A-6, $45.00, available\"\u001b[39m\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:110:91",
@@ -290,7 +290,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:21:55.392Z",
+                      "startTime": "2026-09-20T23:47:58.146Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -319,7 +319,7 @@
                       "workerIndex": 3,
                       "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 275,
+                      "duration": 287,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat A-6/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-A-6, $45.00, available\"\u001b[39m",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat A-6/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-A-6, $45.00, available\"\u001b[39m\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:110:91",
@@ -343,7 +343,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2026-09-20T23:21:56.077Z",
+                      "startTime": "2026-09-20T23:47:58.863Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -393,14 +393,14 @@
                   "results": [
                     {
                       "workerIndex": 4,
-                      "parallelIndex": 0,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 382,
+                      "duration": 428,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:21:56.696Z",
+                      "startTime": "2026-09-20T23:47:59.689Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -430,14 +430,14 @@
                   "results": [
                     {
                       "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1143,
+                      "duration": 1095,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:21:56.831Z",
+                      "startTime": "2026-09-20T23:47:59.760Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -494,14 +494,14 @@
                   "results": [
                     {
                       "workerIndex": 4,
-                      "parallelIndex": 0,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 607,
+                      "duration": 577,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:21:57.144Z",
+                      "startTime": "2026-09-20T23:48:00.181Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -530,14 +530,14 @@
                   "results": [
                     {
                       "workerIndex": 4,
-                      "parallelIndex": 0,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 221,
+                      "duration": 220,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:21:57.760Z",
+                      "startTime": "2026-09-20T23:48:00.764Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -563,13 +563,13 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 4,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 328,
+                      "duration": 272,
                       "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43",
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    - locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m    - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    - locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m    - unexpected value \"\"\u001b[22m\n\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43",
                         "location": {
                           "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
                           "column": 43,
@@ -584,13 +584,13 @@
                             "column": 43,
                             "line": 55
                           },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n\n  53 |     // The buyer is told which seat went, and it leaves the selection. What must not happen is a\n  54 |     // different seat quietly appearing in its place.\n> 55 |     await expect(page.getByRole('alert')).toContainText(/Someone else took/, { timeout: 10_000 })\n     |                                           ^\n  56 |     await expect(page.getByText('No seats selected')).toBeVisible()\n  57 |   })\n  58 |\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43"
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    - locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m    - unexpected value \"\"\u001b[22m\n\n\n  53 |     // The buyer is told which seat went, and it leaves the selection. What must not happen is a\n  54 |     // different seat quietly appearing in its place.\n> 55 |     await expect(page.getByRole('alert')).toContainText(/Someone else took/, { timeout: 10_000 })\n     |                                           ^\n  56 |     await expect(page.getByText('No seats selected')).toBeVisible()\n  57 |   })\n  58 |\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:21:57.988Z",
+                      "startTime": "2026-09-20T23:48:00.913Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -619,10 +619,10 @@
                       "workerIndex": 6,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 362,
+                      "duration": 368,
                       "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43",
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    - locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m    - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    - locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m    - unexpected value \"\"\u001b[22m\n\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43",
                         "location": {
                           "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
                           "column": 43,
@@ -637,13 +637,13 @@
                             "column": 43,
                             "line": 55
                           },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n\n  53 |     // The buyer is told which seat went, and it leaves the selection. What must not happen is a\n  54 |     // different seat quietly appearing in its place.\n> 55 |     await expect(page.getByRole('alert')).toContainText(/Someone else took/, { timeout: 10_000 })\n     |                                           ^\n  56 |     await expect(page.getByText('No seats selected')).toBeVisible()\n  57 |   })\n  58 |\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43"
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    - locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m    - unexpected value \"\"\u001b[22m\n\n\n  53 |     // The buyer is told which seat went, and it leaves the selection. What must not happen is a\n  54 |     // different seat quietly appearing in its place.\n> 55 |     await expect(page.getByRole('alert')).toContainText(/Someone else took/, { timeout: 10_000 })\n     |                                           ^\n  56 |     await expect(page.getByText('No seats selected')).toBeVisible()\n  57 |   })\n  58 |\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2026-09-20T23:21:58.707Z",
+                      "startTime": "2026-09-20T23:48:01.563Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -692,10 +692,10 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
+                      "workerIndex": 4,
                       "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 15615,
+                      "duration": 15618,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/expired/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Your hold expired and the seats went back on sale…</p> aka locator('p').filter({ hasText: 'Your hold expired and the' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    34 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"1 seat held. You have 14 seconds to complete your purchase.\"\u001b[22m\n",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/expired/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Your hold expired and the seats went back on sale…</p> aka locator('p').filter({ hasText: 'Your hold expired and the' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    34 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"1 seat held. You have 14 seconds to complete your purchase.\"\u001b[22m\n\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:69:43",
@@ -719,7 +719,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:21:58.077Z",
+                      "startTime": "2026-09-20T23:48:00.990Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -748,7 +748,7 @@
                       "workerIndex": 10,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 15680,
+                      "duration": 15677,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/expired/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Your hold expired and the seats went back on sale…</p> aka locator('p').filter({ hasText: 'Your hold expired and the' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    34 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"1 seat held. You have 14 seconds to complete your purchase.\"\u001b[22m\n",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/expired/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Your hold expired and the seats went back on sale…</p> aka locator('p').filter({ hasText: 'Your hold expired and the' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    34 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"1 seat held. You have 14 seconds to complete your purchase.\"\u001b[22m\n\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:69:43",
@@ -772,7 +772,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2026-09-20T23:22:14.102Z",
+                      "startTime": "2026-09-20T23:48:17.016Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -824,12 +824,12 @@
                       "workerIndex": 7,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 701,
+                      "duration": 679,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:21:59.501Z",
+                      "startTime": "2026-09-20T23:48:02.361Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -866,12 +866,12 @@
                       "workerIndex": 7,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3303,
+                      "duration": 3614,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:00.256Z",
+                      "startTime": "2026-09-20T23:48:03.091Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -955,12 +955,12 @@
                       "workerIndex": 7,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 241,
+                      "duration": 233,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:03.570Z",
+                      "startTime": "2026-09-20T23:48:06.715Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -991,12 +991,12 @@
                       "workerIndex": 7,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 276,
+                      "duration": 330,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:03.819Z",
+                      "startTime": "2026-09-20T23:48:06.956Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1027,12 +1027,12 @@
                       "workerIndex": 7,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 231,
+                      "duration": 289,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:04.101Z",
+                      "startTime": "2026-09-20T23:48:07.294Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1080,12 +1080,12 @@
                       "workerIndex": 7,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2183,
+                      "duration": 2178,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:04.345Z",
+                      "startTime": "2026-09-20T23:48:07.595Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1116,12 +1116,12 @@
                       "workerIndex": 7,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 298,
+                      "duration": 288,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:06.533Z",
+                      "startTime": "2026-09-20T23:48:09.778Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1152,12 +1152,12 @@
                       "workerIndex": 7,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 257,
+                      "duration": 245,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:06.838Z",
+                      "startTime": "2026-09-20T23:48:10.071Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1205,10 +1205,10 @@
                       "workerIndex": 7,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 1166,
+                      "duration": 1173,
                       "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m336.1000000089407\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m336.1000000089407\u001b[39m\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26",
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m337\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m337\u001b[39m\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26",
                         "location": {
                           "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
                           "column": 26,
@@ -1223,23 +1223,23 @@
                             "column": 26,
                             "line": 45
                           },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m336.1000000089407\u001b[39m\n\n  43 |     console.log(`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`)\n  44 |\n> 45 |     expect(milliseconds).toBeLessThan(120)\n     |                          ^\n  46 |\n  47 |     // Every seat is a real element, which is the point of paying the render cost at all.\n  48 |     await expect(page.locator('.wc-seat')).toHaveCount(5000)\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26"
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m337\u001b[39m\n\n  43 |     console.log(`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`)\n  44 |\n> 45 |     expect(milliseconds).toBeLessThan(120)\n     |                          ^\n  46 |\n  47 |     // Every seat is a real element, which is the point of paying the render cost at all.\n  48 |     await expect(page.locator('.wc-seat')).toHaveCount(5000)\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26"
                         }
                       ],
                       "stdout": [
                         {
-                          "text": "5,000-seat map rendered in 336.1 ms (budget 120 ms)\n"
+                          "text": "5,000-seat map rendered in 337.0 ms (budget 120 ms)\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:07.106Z",
+                      "startTime": "2026-09-20T23:48:10.326Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "seatmap-render-ms.json",
                           "contentType": "application/json",
-                          "body": "ewogICJzZWF0cyI6IDUwMDAsCiAgInJlbmRlck1zIjogMzM2LjEwMDAwMDAwODk0MDcsCiAgImJ1ZGdldE1zIjogMTIwCn0="
+                          "body": "ewogICJzZWF0cyI6IDUwMDAsCiAgInJlbmRlck1zIjogMzM3LAogICJidWRnZXRNcyI6IDEyMAp9"
                         },
                         {
                           "name": "screenshot",
@@ -1267,10 +1267,10 @@
                       "workerIndex": 8,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 963,
+                      "duration": 1204,
                       "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m131.59999999403954\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m131.59999999403954\u001b[39m\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26",
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m328.6000000089407\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m328.6000000089407\u001b[39m\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26",
                         "location": {
                           "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
                           "column": 26,
@@ -1285,23 +1285,23 @@
                             "column": 26,
                             "line": 45
                           },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m131.59999999403954\u001b[39m\n\n  43 |     console.log(`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`)\n  44 |\n> 45 |     expect(milliseconds).toBeLessThan(120)\n     |                          ^\n  46 |\n  47 |     // Every seat is a real element, which is the point of paying the render cost at all.\n  48 |     await expect(page.locator('.wc-seat')).toHaveCount(5000)\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26"
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m328.6000000089407\u001b[39m\n\n  43 |     console.log(`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`)\n  44 |\n> 45 |     expect(milliseconds).toBeLessThan(120)\n     |                          ^\n  46 |\n  47 |     // Every seat is a real element, which is the point of paying the render cost at all.\n  48 |     await expect(page.locator('.wc-seat')).toHaveCount(5000)\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26"
                         }
                       ],
                       "stdout": [
                         {
-                          "text": "5,000-seat map rendered in 131.6 ms (budget 120 ms)\n"
+                          "text": "5,000-seat map rendered in 328.6 ms (budget 120 ms)\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2026-09-20T23:22:08.606Z",
+                      "startTime": "2026-09-20T23:48:11.840Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "seatmap-render-ms.json",
                           "contentType": "application/json",
-                          "body": "ewogICJzZWF0cyI6IDUwMDAsCiAgInJlbmRlck1zIjogMTMxLjU5OTk5OTk5NDAzOTU0LAogICJidWRnZXRNcyI6IDEyMAp9"
+                          "body": "ewogICJzZWF0cyI6IDUwMDAsCiAgInJlbmRlck1zIjogMzI4LjYwMDAwMDAwODk0MDcsCiAgImJ1ZGdldE1zIjogMTIwCn0="
                         },
                         {
                           "name": "screenshot",
@@ -1352,12 +1352,12 @@
                       "workerIndex": 9,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 417,
+                      "duration": 390,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:09.956Z",
+                      "startTime": "2026-09-20T23:48:13.430Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1405,12 +1405,12 @@
                       "workerIndex": 9,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 161,
+                      "duration": 151,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:10.501Z",
+                      "startTime": "2026-09-20T23:48:13.947Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1441,12 +1441,12 @@
                       "workerIndex": 9,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1308,
+                      "duration": 1627,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:10.670Z",
+                      "startTime": "2026-09-20T23:48:14.104Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1483,12 +1483,12 @@
                       "workerIndex": 9,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 154,
+                      "duration": 162,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:11.988Z",
+                      "startTime": "2026-09-20T23:48:15.737Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1519,12 +1519,12 @@
                       "workerIndex": 9,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 105,
+                      "duration": 92,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-20T23:22:12.154Z",
+                      "startTime": "2026-09-20T23:48:15.904Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1544,8 +1544,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-20T23:21:54.530Z",
-    "duration": 35390.157,
+    "startTime": "2026-09-20T23:47:57.030Z",
+    "duration": 35801.706,
     "expected": 18,
     "skipped": 0,
     "unexpected": 5,

@@ -70,7 +70,7 @@ class ConcurrentHoldIntegrationTest extends IntegrationTestBase {
     List<String> summaries = new ArrayList<>(runs);
 
     for (int run = 1; run <= runs; run++) {
-      truncateEverything();
+      resetEverything();
       Event event = createEvent(10, SEATS / 10, 600);
 
       AtomicInteger granted = new AtomicInteger();

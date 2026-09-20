@@ -1,6 +1,6 @@
 {
   "mode": "long",
-  "commit": "b830a4c81b003abdc24587c6782209962760dcea",
+  "commit": "2075ff1339e68a47ae5027fdb4f0f0ee50318016",
   "suites": {
     "test": {
       "total": 54,
@@ -11,146 +11,210 @@
           "name": "dev.willcall.WillcallApplicationTest",
           "tests": 1,
           "failures": 0,
-          "timeSeconds": 0.015
+          "timeSeconds": 0.009
         },
         {
           "name": "dev.willcall.allocation.ContiguousSeatIndexTest",
           "tests": 9,
           "failures": 0,
-          "timeSeconds": 0.959
+          "timeSeconds": 0.929
         },
         {
           "name": "dev.willcall.allocation.RowAvailabilityTreeTest",
           "tests": 16,
           "failures": 0,
-          "timeSeconds": 1.9
+          "timeSeconds": 1.92
         },
         {
           "name": "dev.willcall.arch.ModuleBoundaryArchitectureTest",
           "tests": 3,
           "failures": 0,
-          "timeSeconds": 0.037
+          "timeSeconds": 0.058
         },
         {
           "name": "dev.willcall.catalog.RowLabelTest",
           "tests": 3,
           "failures": 0,
-          "timeSeconds": 1.255
+          "timeSeconds": 1.223
         },
         {
           "name": "dev.willcall.payment.FakePaymentGatewayTest",
           "tests": 5,
           "failures": 0,
-          "timeSeconds": 0.046
+          "timeSeconds": 0.051
         },
         {
           "name": "dev.willcall.platform.SeatOrderingTest",
           "tests": 2,
           "failures": 0,
-          "timeSeconds": 1.238
+          "timeSeconds": 1.225
         },
         {
           "name": "dev.willcall.realtime.EventStreamHubTest",
           "tests": 7,
           "failures": 0,
-          "timeSeconds": 0.702
+          "timeSeconds": 0.727
         },
         {
           "name": "dev.willcall.waitingroom.AdmissionTokenServiceTest",
           "tests": 8,
           "failures": 0,
-          "timeSeconds": 0.087
+          "timeSeconds": 0.081
         }
       ]
     },
     "integrationTest": {
       "total": 97,
-      "failed": 67,
+      "failed": 5,
       "skipped": 0,
       "classes": [
         {
           "name": "dev.willcall.api.ReservationApiIntegrationTest",
           "tests": 22,
-          "failures": 22,
-          "timeSeconds": 0.03
+          "failures": 3,
+          "timeSeconds": 1.362
         },
         {
           "name": "dev.willcall.model.ReservationModelPropertyTest",
           "tests": 1,
-          "failures": 1,
-          "timeSeconds": 4.079
+          "failures": 0,
+          "timeSeconds": 31.086
         },
         {
           "name": "dev.willcall.ops.InvariantMonitorIntegrationTest",
           "tests": 3,
-          "failures": 3,
-          "timeSeconds": 0.005
+          "failures": 0,
+          "timeSeconds": 0.067
         },
         {
           "name": "dev.willcall.realtime.OutboxRelayIntegrationTest",
           "tests": 6,
-          "failures": 6,
-          "timeSeconds": 0.005
+          "failures": 0,
+          "timeSeconds": 0.292
         },
         {
           "name": "dev.willcall.realtime.RedisOutageInvariantIntegrationTest",
           "tests": 2,
-          "failures": 2,
-          "timeSeconds": 0.001
+          "failures": 0,
+          "timeSeconds": 1.275
         },
         {
           "name": "dev.willcall.realtime.SeatStreamIntegrationTest",
           "tests": 7,
           "failures": 0,
-          "timeSeconds": 2.113
+          "timeSeconds": 0.899
         },
         {
           "name": "dev.willcall.reservation.ChaosIntegrationTest",
           "tests": 3,
-          "failures": 3,
-          "timeSeconds": 0.002
+          "failures": 0,
+          "timeSeconds": 0.439
         },
         {
           "name": "dev.willcall.reservation.ConcurrentHoldIntegrationTest",
           "tests": 2,
-          "failures": 2,
-          "timeSeconds": 0.002
+          "failures": 0,
+          "timeSeconds": 3.257
         },
         {
           "name": "dev.willcall.reservation.IdempotencyIntegrationTest",
           "tests": 8,
-          "failures": 8,
-          "timeSeconds": 0.005
+          "failures": 0,
+          "timeSeconds": 0.309
         },
         {
           "name": "dev.willcall.reservation.ReservationCoreIntegrationTest",
           "tests": 19,
-          "failures": 19,
-          "timeSeconds": 0.015
+          "failures": 0,
+          "timeSeconds": 0.589
         },
         {
           "name": "dev.willcall.waitingroom.RateLimitIntegrationTest",
           "tests": 4,
           "failures": 0,
-          "timeSeconds": 2.247
+          "timeSeconds": 2.012
         },
         {
           "name": "dev.willcall.waitingroom.WaitingRoomApiIntegrationTest",
           "tests": 10,
-          "failures": 1,
-          "timeSeconds": 0.663
+          "failures": 0,
+          "timeSeconds": 0.538
         },
         {
           "name": "dev.willcall.waitingroom.WaitingRoomIntegrationTest",
           "tests": 10,
-          "failures": 0,
-          "timeSeconds": 0.836
+          "failures": 2,
+          "timeSeconds": 0.682
         }
       ]
     }
   },
   "backendTotal": 151,
-  "backendFailed": 67,
+  "backendFailed": 5,
+  "concurrency": {
+    "runs": 5,
+    "seats": 500,
+    "attempts": 10000,
+    "allGrantedExactly500": true,
+    "allRejectedExactly9500": true,
+    "totalUnexpectedFailures": 0,
+    "oversells": 0,
+    "elapsedMsMin": 475,
+    "elapsedMsMedian": 496,
+    "elapsedMsMax": 783,
+    "perRun": [
+      {
+        "run": 1,
+        "of": 5,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 783
+      },
+      {
+        "run": 2,
+        "of": 5,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 607
+      },
+      {
+        "run": 3,
+        "of": 5,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 496
+      },
+      {
+        "run": 4,
+        "of": 5,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 491
+      },
+      {
+        "run": 5,
+        "of": 5,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 475
+      }
+    ]
+  },
   "coverage": {
     "instruction": {
       "covered": 8686,

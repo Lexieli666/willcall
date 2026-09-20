@@ -6,8 +6,8 @@
 |---|---|
 | Suite | backend `./gradlew test integrationTest` |
 | Mode | long |
-| Recorded (UTC) | 2026-09-20 23:21:45Z |
-| Git commit | `b830a4c81b003abdc24587c6782209962760dcea` |
+| Recorded (UTC) | 2026-09-20 23:47:46Z |
+| Git commit | `2075ff1339e68a47ae5027fdb4f0f0ee50318016` |
 | Host kernel | Linux 6.6.114.1-microsoft-standard-WSL2 |
 | Host logical cores | 32 |
 | Host memory | 31Gi |
