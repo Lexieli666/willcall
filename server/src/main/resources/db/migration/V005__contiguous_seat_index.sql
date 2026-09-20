@@ -1,10 +1,3 @@
--- flyway:executeInTransaction=false
---
--- The directive is the first line because Flyway reads script configuration before it parses the
--- SQL. With it further down, Flyway decided the migration was transactional, then met CREATE INDEX
--- CONCURRENTLY and refused the whole thing with "Detected both transactional and non-transactional
--- statements within the same migration", and all three replicas crash-looped on start-up.
---
 -- An index for the contiguous-seat query, added because the plan at scale said so.
 --
 -- The SQL fallback for "N seats together" runs a window function partitioned by row_id and ordered
@@ -20,15 +13,41 @@
 -- load/results/*/query-plans/.
 --
 -- The cost is one more index to maintain on every seat status change. It is a partial index over
--- AVAILABLE seats, so it shrinks as an event sells - it is largest exactly when the contiguous
--- search is most useful, and smallest when the sale is nearly over.
+-- AVAILABLE seats, so it shrinks as an event sells - largest exactly when the contiguous search is
+-- most useful, and smallest when the sale is nearly over.
 --
--- CONCURRENTLY, and therefore outside a transaction. A plain CREATE INDEX takes ACCESS EXCLUSIVE
--- on seats for the length of the build, which is precisely the fault injected in the game day on
--- 2026-09-20: it blocked every reservation transaction, filled the connection pool, and the edge
--- ejected all three replicas. A migration that causes that outage on the way to fixing a query is
--- not a fix.
-create index concurrently if not exists seats_available_by_row
+--
+-- Why this is not CREATE INDEX CONCURRENTLY, having tried
+-- ------------------------------------------------------
+-- The first version was concurrent, on the reasoning that a plain build holds a lock and the game
+-- day on 2026-09-20 was caused by exactly that. The reasoning was half right and the change did
+-- not work, in three escalating ways:
+--
+-- 1. CONCURRENTLY cannot run in a transaction, and `-- flyway:executeInTransaction=false` has to
+--    be the file's first line or Flyway decides otherwise before it parses the SQL. All three
+--    replicas crash-looped on start-up until it was moved.
+-- 2. The application sets `lock_timeout` to 2 s so a blocked request releases its pool connection.
+--    Flyway borrows from the same pool, so the concurrent build - which waits for every
+--    transaction that can see the table, by design - was cancelled two seconds in. That failed the
+--    migration, the Spring context, and 67 integration tests, on one line of YAML written for the
+--    request path. (`spring.flyway.init-sqls` now sets `lock_timeout = 0`, which is right
+--    regardless: a schema change waits for its lock.)
+-- 3. With the timeout gone it deadlocked outright. `pg_stat_activity` showed Flyway's own
+--    schema-history connection `idle in transaction` and the concurrent build on a second
+--    connection waiting on its virtualxid - waiting for a transaction Flyway would not commit
+--    until the migration it was waiting on had finished. Seventeen minutes and no progress.
+--
+-- So: a plain build. It is also less costly than the original reasoning assumed. CREATE INDEX
+-- takes SHARE, which blocks writes to `seats` but not reads, for the length of the build - a
+-- fraction of a second at this table's size. It is DROP INDEX that takes ACCESS EXCLUSIVE, and
+-- that is the statement below this one.
+--
+-- The size at which this stops being acceptable: a seats table large enough that a SHARE lock for
+-- the build outlasts a buyer's patience, which on this hardware is somewhere past a few million
+-- rows. Past that the index should be built out of band with a concurrent statement issued
+-- directly, and this migration marked as already applied - not run by Flyway, for the reason
+-- above.
+create index if not exists seats_available_by_row
   on seats (event_id, row_id, seat_number)
   where status = 'AVAILABLE';
 
@@ -36,7 +55,4 @@ create index concurrently if not exists seats_available_by_row
 -- same columns, same order, same table. Two identical btrees cost two index writes on every seat
 -- insert and every status change and answer the same questions. Noticed while reading the plans
 -- above, which name seats_row_id_seat_number_key and never the other one.
---
--- CONCURRENTLY here too: a plain DROP INDEX takes the same ACCESS EXCLUSIVE lock, briefly, and
--- "briefly" is what the pool-exhaustion incident was about.
-drop index concurrently if exists seats_by_row_position;
+drop index if exists seats_by_row_position;

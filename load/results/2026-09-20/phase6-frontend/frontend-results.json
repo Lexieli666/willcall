@@ -1,0 +1,82 @@
+{
+  "commit": "b830a4c81b003abdc24587c6782209962760dcea",
+  "lighthouse": {
+    "runs": 3,
+    "preset": "desktop",
+    "accessibility": 1,
+    "performance": 1,
+    "bestPractices": 1,
+    "seo": 0.91,
+    "medianLargestContentfulPaintMs": 443.1252,
+    "medianCumulativeLayoutShift": 0.0085,
+    "medianTotalBlockingTimeMs": 0,
+    "medianFirstContentfulPaintMs": 402.0465,
+    "perRun": [
+      {
+        "url": "http://127.0.0.1:8080/",
+        "categories": {
+          "performance": 1,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 0.91
+        },
+        "largestContentfulPaintMs": 443.41565,
+        "cumulativeLayoutShift": 0.00851063829787234,
+        "totalBlockingTimeMs": 0,
+        "firstContentfulPaintMs": 402.2771,
+        "speedIndexMs": 402.2771
+      },
+      {
+        "url": "http://127.0.0.1:8080/",
+        "categories": {
+          "performance": 1,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 0.91
+        },
+        "largestContentfulPaintMs": 443.12525,
+        "cumulativeLayoutShift": 0.00851063829787234,
+        "totalBlockingTimeMs": 0,
+        "firstContentfulPaintMs": 362.0835,
+        "speedIndexMs": 362.0835
+      },
+      {
+        "url": "http://127.0.0.1:8080/",
+        "categories": {
+          "performance": 1,
+          "accessibility": 1,
+          "best-practices": 1,
+          "seo": 0.91
+        },
+        "largestContentfulPaintMs": 443.06975,
+        "cumulativeLayoutShift": 0.00851063829787234,
+        "totalBlockingTimeMs": 0,
+        "firstContentfulPaintMs": 402.0465,
+        "speedIndexMs": 402.0465
+      }
+    ]
+  },
+  "seatMapRender": {
+    "seats": 5000,
+    "renderMs": 131.59999999403954,
+    "budgetMs": 120
+  },
+  "playwright": {
+    "total": 23,
+    "passed": 18,
+    "failed": 5
+  },
+  "vitest": {
+    "total": 106,
+    "passed": 106,
+    "failed": 0,
+    "suites": 25
+  },
+  "vitestCoverage": {
+    "lines": 47.22,
+    "statements": 47.22,
+    "functions": 80,
+    "branches": 85.71
+  },
+  "bundleBudget": "ok: route index.html -> 100.9 KB gzipped (budget 180 KB)"
+}

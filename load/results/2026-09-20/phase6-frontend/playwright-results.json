@@ -1,0 +1,1554 @@
+{
+  "config": {
+    "argv": [
+      "/home/yzhao/.local/opt/node20/bin/node",
+      "/home/yzhao/willcall/web/node_modules/.bin/playwright",
+      "test"
+    ],
+    "configFile": "/home/yzhao/willcall/web/playwright.config.ts",
+    "rootDir": "/home/yzhao/willcall/web/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": true,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/yzhao/willcall/web/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/yzhao/willcall/web/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "playwright-report/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "keyboard.spec.ts",
+      "file": "keyboard.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "keyboard-only purchase",
+          "file": "keyboard.spec.ts",
+          "line": 13,
+          "column": 6,
+          "specs": [
+            {
+              "title": "a buyer with no mouse can choose a seat, hold it and pay @keyboard",
+              "ok": false,
+              "tags": [
+                "keyboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 440,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat B-3/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-B-3, $45.00, available\"\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat B-3/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-B-3, $45.00, available\"\u001b[39m\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:41:26",
+                        "location": {
+                          "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                          "column": 26,
+                          "line": 41
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 39 |\u001b[39m\n \u001b[90m 40 |\u001b[39m     \u001b[36mconst\u001b[39m focusedLabel \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m document\u001b[33m.\u001b[39mactiveElement\u001b[33m?\u001b[39m\u001b[33m.\u001b[39mgetAttribute(\u001b[32m'aria-label'\u001b[39m))\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 41 |\u001b[39m     expect(focusedLabel)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/Seat B-3/\u001b[39m)\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 42 |\u001b[39m\n \u001b[90m 43 |\u001b[39m     \u001b[90m// Select with Enter.\u001b[39m\n \u001b[90m 44 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m)\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                            "column": 26,
+                            "line": 41
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat B-3/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-B-3, $45.00, available\"\u001b[39m\n\n  39 |\n  40 |     const focusedLabel = await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))\n> 41 |     expect(focusedLabel).toMatch(/Seat B-3/)\n     |                          ^\n  42 |\n  43 |     // Select with Enter.\n  44 |     await page.keyboard.press('Enter')\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:41:26"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:21:54.977Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-6a206-at-hold-it-and-pay-keyboard-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-6a206-at-hold-it-and-pay-keyboard-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-6a206-at-hold-it-and-pay-keyboard-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                        "column": 26,
+                        "line": 41
+                      }
+                    },
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 336,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat B-3/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-B-3, $45.00, available\"\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat B-3/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-B-3, $45.00, available\"\u001b[39m\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:41:26",
+                        "location": {
+                          "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                          "column": 26,
+                          "line": 41
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 39 |\u001b[39m\n \u001b[90m 40 |\u001b[39m     \u001b[36mconst\u001b[39m focusedLabel \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m document\u001b[33m.\u001b[39mactiveElement\u001b[33m?\u001b[39m\u001b[33m.\u001b[39mgetAttribute(\u001b[32m'aria-label'\u001b[39m))\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 41 |\u001b[39m     expect(focusedLabel)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/Seat B-3/\u001b[39m)\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 42 |\u001b[39m\n \u001b[90m 43 |\u001b[39m     \u001b[90m// Select with Enter.\u001b[39m\n \u001b[90m 44 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m)\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                            "column": 26,
+                            "line": 41
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat B-3/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-B-3, $45.00, available\"\u001b[39m\n\n  39 |\n  40 |     const focusedLabel = await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))\n> 41 |     expect(focusedLabel).toMatch(/Seat B-3/)\n     |                          ^\n  42 |\n  43 |     // Select with Enter.\n  44 |     await page.keyboard.press('Enter')\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:41:26"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-09-20T23:21:55.909Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-6a206-at-hold-it-and-pay-keyboard-chromium-retry1/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-6a206-at-hold-it-and-pay-keyboard-chromium-retry1/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-6a206-at-hold-it-and-pay-keyboard-chromium-retry1/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                        "column": 26,
+                        "line": 41
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "866d5cea7c69e902a1e2-1cbcbe22c631285001dc",
+              "file": "keyboard.spec.ts",
+              "line": 14,
+              "column": 3
+            },
+            {
+              "title": "the grid is one tab stop, not one per seat @keyboard",
+              "ok": true,
+              "tags": [
+                "keyboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 355,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:21:54.977Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "866d5cea7c69e902a1e2-1f3a62cee33115136cc8",
+              "file": "keyboard.spec.ts",
+              "line": 90,
+              "column": 3
+            },
+            {
+              "title": "Home, End and Ctrl+Home move as documented @keyboard",
+              "ok": false,
+              "tags": [
+                "keyboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 281,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat A-6/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-A-6, $45.00, available\"\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat A-6/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-A-6, $45.00, available\"\u001b[39m\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:110:91",
+                        "location": {
+                          "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                          "column": 91,
+                          "line": 110
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 108 |\u001b[39m\n \u001b[90m 109 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'End'\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m     expect(\u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m document\u001b[33m.\u001b[39mactiveElement\u001b[33m?\u001b[39m\u001b[33m.\u001b[39mgetAttribute(\u001b[32m'aria-label'\u001b[39m)))\u001b[33m.\u001b[39mtoMatch(\u001b[35m/Seat A-6/\u001b[39m)\n \u001b[90m     |\u001b[39m                                                                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m\n \u001b[90m 112 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Home'\u001b[39m)\n \u001b[90m 113 |\u001b[39m     expect(\u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m document\u001b[33m.\u001b[39mactiveElement\u001b[33m?\u001b[39m\u001b[33m.\u001b[39mgetAttribute(\u001b[32m'aria-label'\u001b[39m)))\u001b[33m.\u001b[39mtoMatch(\u001b[35m/Seat A-1/\u001b[39m)\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                            "column": 91,
+                            "line": 110
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat A-6/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-A-6, $45.00, available\"\u001b[39m\n\n  108 |\n  109 |     await page.keyboard.press('End')\n> 110 |     expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toMatch(/Seat A-6/)\n      |                                                                                           ^\n  111 |\n  112 |     await page.keyboard.press('Home')\n  113 |     expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toMatch(/Seat A-1/)\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:110:91"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:21:55.392Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-61611-move-as-documented-keyboard-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-61611-move-as-documented-keyboard-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-61611-move-as-documented-keyboard-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                        "column": 91,
+                        "line": 110
+                      }
+                    },
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 275,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat A-6/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-A-6, $45.00, available\"\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat A-6/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-A-6, $45.00, available\"\u001b[39m\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:110:91",
+                        "location": {
+                          "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                          "column": 91,
+                          "line": 110
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 108 |\u001b[39m\n \u001b[90m 109 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'End'\u001b[39m)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 110 |\u001b[39m     expect(\u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m document\u001b[33m.\u001b[39mactiveElement\u001b[33m?\u001b[39m\u001b[33m.\u001b[39mgetAttribute(\u001b[32m'aria-label'\u001b[39m)))\u001b[33m.\u001b[39mtoMatch(\u001b[35m/Seat A-6/\u001b[39m)\n \u001b[90m     |\u001b[39m                                                                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 111 |\u001b[39m\n \u001b[90m 112 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Home'\u001b[39m)\n \u001b[90m 113 |\u001b[39m     expect(\u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m document\u001b[33m.\u001b[39mactiveElement\u001b[33m?\u001b[39m\u001b[33m.\u001b[39mgetAttribute(\u001b[32m'aria-label'\u001b[39m)))\u001b[33m.\u001b[39mtoMatch(\u001b[35m/Seat A-1/\u001b[39m)\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                            "column": 91,
+                            "line": 110
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Seat A-6/\u001b[39m\nReceived string:  \u001b[31m\"Seat Floor-A-6, $45.00, available\"\u001b[39m\n\n  108 |\n  109 |     await page.keyboard.press('End')\n> 110 |     expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toMatch(/Seat A-6/)\n      |                                                                                           ^\n  111 |\n  112 |     await page.keyboard.press('Home')\n  113 |     expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toMatch(/Seat A-1/)\n    at /home/yzhao/willcall/web/e2e/keyboard.spec.ts:110:91"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-09-20T23:21:56.077Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-61611-move-as-documented-keyboard-chromium-retry1/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-61611-move-as-documented-keyboard-chromium-retry1/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/yzhao/willcall/web/test-results/keyboard-keyboard-only-pur-61611-move-as-documented-keyboard-chromium-retry1/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/yzhao/willcall/web/e2e/keyboard.spec.ts",
+                        "column": 91,
+                        "line": 110
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "866d5cea7c69e902a1e2-3ceb8186cb4d8f5f7fed",
+              "file": "keyboard.spec.ts",
+              "line": 102,
+              "column": 3
+            },
+            {
+              "title": "losing a seat is announced assertively, not just shown @keyboard",
+              "ok": true,
+              "tags": [
+                "keyboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 382,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:21:56.696Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "866d5cea7c69e902a1e2-fe9c0311e2935a93b801",
+              "file": "keyboard.spec.ts",
+              "line": 119,
+              "column": 3
+            },
+            {
+              "title": "the purchase path has no axe violations at any step @a11y @keyboard",
+              "ok": true,
+              "tags": [
+                "a11y",
+                "keyboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1143,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:21:56.831Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "axe-keyboard-selected.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-keyboard-holding.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "866d5cea7c69e902a1e2-e75e7f32c2c8cbd04fbb",
+              "file": "keyboard.spec.ts",
+              "line": 143,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "purchase.spec.ts",
+      "file": "purchase.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "buying seats",
+          "file": "purchase.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "pick seats, hold them, pay, and land on a confirmation @smoke",
+              "ok": true,
+              "tags": [
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 607,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:21:57.144Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-b7484777af31bd529676",
+              "file": "purchase.spec.ts",
+              "line": 6,
+              "column": 3
+            },
+            {
+              "title": "best available takes seats without touching the map @smoke",
+              "ok": true,
+              "tags": [
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 221,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:21:57.760Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-534f6cc74579cd3afec2",
+              "file": "purchase.spec.ts",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "a seat taken between render and click is refused by name, not silently swapped",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 328,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43",
+                        "location": {
+                          "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                          "column": 43,
+                          "line": 55
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 53 |\u001b[39m     \u001b[90m// The buyer is told which seat went, and it leaves the selection. What must not happen is a\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[90m// different seat quietly appearing in its place.\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 55 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'alert'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[35m/Someone else took/\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10\u001b[39m_000 })\n \u001b[90m    |\u001b[39m                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'No seats selected'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\n \u001b[90m 57 |\u001b[39m   })\n \u001b[90m 58 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                            "column": 43,
+                            "line": 55
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n\n  53 |     // The buyer is told which seat went, and it leaves the selection. What must not happen is a\n  54 |     // different seat quietly appearing in its place.\n> 55 |     await expect(page.getByRole('alert')).toContainText(/Someone else took/, { timeout: 10_000 })\n     |                                           ^\n  56 |     await expect(page.getByText('No seats selected')).toBeVisible()\n  57 |   })\n  58 |\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:21:57.988Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-a-se-e5980-y-name-not-silently-swapped-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-a-se-e5980-y-name-not-silently-swapped-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-a-se-e5980-y-name-not-silently-swapped-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                        "column": 43,
+                        "line": 55
+                      }
+                    },
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 362,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43",
+                        "location": {
+                          "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                          "column": 43,
+                          "line": 55
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 53 |\u001b[39m     \u001b[90m// The buyer is told which seat went, and it leaves the selection. What must not happen is a\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[90m// different seat quietly appearing in its place.\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 55 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'alert'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[35m/Someone else took/\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10\u001b[39m_000 })\n \u001b[90m    |\u001b[39m                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m'No seats selected'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\n \u001b[90m 57 |\u001b[39m   })\n \u001b[90m 58 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                            "column": 43,
+                            "line": 55
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/Someone else took/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Someone else took Floor-A-1. Those seats are no l…</p> aka locator('p').filter({ hasText: 'Someone else took Floor-A-1.' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    2 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\"></div>\u001b[22m\n\u001b[2m      - unexpected value \"\"\u001b[22m\n\n\n  53 |     // The buyer is told which seat went, and it leaves the selection. What must not happen is a\n  54 |     // different seat quietly appearing in its place.\n> 55 |     await expect(page.getByRole('alert')).toContainText(/Someone else took/, { timeout: 10_000 })\n     |                                           ^\n  56 |     await expect(page.getByText('No seats selected')).toBeVisible()\n  57 |   })\n  58 |\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:55:43"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-09-20T23:21:58.707Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-a-se-e5980-y-name-not-silently-swapped-chromium-retry1/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-a-se-e5980-y-name-not-silently-swapped-chromium-retry1/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-a-se-e5980-y-name-not-silently-swapped-chromium-retry1/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                        "column": 43,
+                        "line": 55
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-0669dfe6786b3da29a90",
+              "file": "purchase.spec.ts",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "an expired hold disables checkout and says why @realtime",
+              "ok": false,
+              "tags": [
+                "realtime"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 15615,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/expired/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Your hold expired and the seats went back on sale…</p> aka locator('p').filter({ hasText: 'Your hold expired and the' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    34 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"1 seat held. You have 14 seconds to complete your purchase.\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/expired/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Your hold expired and the seats went back on sale…</p> aka locator('p').filter({ hasText: 'Your hold expired and the' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    34 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"1 seat held. You have 14 seconds to complete your purchase.\"\u001b[22m\n\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:69:43",
+                        "location": {
+                          "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                          "column": 43,
+                          "line": 69
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 67 |\u001b[39m\n \u001b[90m 68 |\u001b[39m     \u001b[90m// The server-side sweeper releases the seats; the client's own countdown reaches zero.\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 69 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'alert'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[35m/expired/\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m30\u001b[39m_000 })\n \u001b[90m    |\u001b[39m                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 70 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByTestId(\u001b[32m'checkout'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m0\u001b[39m)\n \u001b[90m 71 |\u001b[39m   })\n \u001b[90m 72 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                            "column": 43,
+                            "line": 69
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/expired/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Your hold expired and the seats went back on sale…</p> aka locator('p').filter({ hasText: 'Your hold expired and the' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    34 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"1 seat held. You have 14 seconds to complete your purchase.\"\u001b[22m\n\n\n  67 |\n  68 |     // The server-side sweeper releases the seats; the client's own countdown reaches zero.\n> 69 |     await expect(page.getByRole('alert')).toContainText(/expired/, { timeout: 30_000 })\n     |                                           ^\n  70 |     await expect(page.getByTestId('checkout')).toHaveCount(0)\n  71 |   })\n  72 |\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:69:43"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:21:58.077Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-an-e-7d2f6-ckout-and-says-why-realtime-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-an-e-7d2f6-ckout-and-says-why-realtime-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-an-e-7d2f6-ckout-and-says-why-realtime-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                        "column": 43,
+                        "line": 69
+                      }
+                    },
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 15680,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/expired/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Your hold expired and the seats went back on sale…</p> aka locator('p').filter({ hasText: 'Your hold expired and the' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    34 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"1 seat held. You have 14 seconds to complete your purchase.\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/expired/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Your hold expired and the seats went back on sale…</p> aka locator('p').filter({ hasText: 'Your hold expired and the' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    34 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"1 seat held. You have 14 seconds to complete your purchase.\"\u001b[22m\n\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:69:43",
+                        "location": {
+                          "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                          "column": 43,
+                          "line": 69
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 67 |\u001b[39m\n \u001b[90m 68 |\u001b[39m     \u001b[90m// The server-side sweeper releases the seats; the client's own countdown reaches zero.\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 69 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'alert'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[35m/expired/\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m30\u001b[39m_000 })\n \u001b[90m    |\u001b[39m                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 70 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByTestId(\u001b[32m'checkout'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m0\u001b[39m)\n \u001b[90m 71 |\u001b[39m   })\n \u001b[90m 72 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                            "column": 43,
+                            "line": 69
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected pattern: \u001b[32m/expired/\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div> aka getByTestId('announcer-assertive')\n    2) <p role=\"alert\" aria-live=\"assertive\" class=\"wc-message wc-message--error\">Your hold expired and the seats went back on sale…</p> aka locator('p').filter({ hasText: 'Your hold expired and the' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\u001b[2m    34 × locator resolved to <div role=\"alert\" aria-atomic=\"true\" aria-live=\"assertive\" class=\"wc-visually-hidden\" data-testid=\"announcer-assertive\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"1 seat held. You have 14 seconds to complete your purchase.\"\u001b[22m\n\n\n  67 |\n  68 |     // The server-side sweeper releases the seats; the client's own countdown reaches zero.\n> 69 |     await expect(page.getByRole('alert')).toContainText(/expired/, { timeout: 30_000 })\n     |                                           ^\n  70 |     await expect(page.getByTestId('checkout')).toHaveCount(0)\n  71 |   })\n  72 |\n    at /home/yzhao/willcall/web/e2e/purchase.spec.ts:69:43"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-09-20T23:22:14.102Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-an-e-7d2f6-ckout-and-says-why-realtime-chromium-retry1/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-an-e-7d2f6-ckout-and-says-why-realtime-chromium-retry1/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/yzhao/willcall/web/test-results/purchase-buying-seats-an-e-7d2f6-ckout-and-says-why-realtime-chromium-retry1/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/yzhao/willcall/web/e2e/purchase.spec.ts",
+                        "column": 43,
+                        "line": 69
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-6d7c1c6a5d71a0438a9a",
+              "file": "purchase.spec.ts",
+              "line": 59,
+              "column": 3
+            },
+            {
+              "title": "the text list mode offers the same seats as the map @a11y",
+              "ok": true,
+              "tags": [
+                "a11y"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 701,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:21:59.501Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "axe-seat-list-mode.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-24262a61e1e81a29ebbb",
+              "file": "purchase.spec.ts",
+              "line": 73,
+              "column": 3
+            },
+            {
+              "title": "every route and state is free of axe violations @a11y",
+              "ok": true,
+              "tags": [
+                "a11y"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3303,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:00.256Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "axe-events-list.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-event-map-empty-selection.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-event-map-with-selection.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-event-holding.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-confirmation.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-organizer.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "axe-status.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "993c92a1c717c9480450-6792395ec4b7e0526582",
+              "file": "purchase.spec.ts",
+              "line": 86,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "realtime.spec.ts",
+      "file": "realtime.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "live seat updates",
+          "file": "realtime.spec.ts",
+          "line": 11,
+          "column": 6,
+          "specs": [
+            {
+              "title": "a seat taken by somebody else turns up on the map without a reload @realtime",
+              "ok": true,
+              "tags": [
+                "realtime"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 241,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:03.570Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f9e2d0c80f3a45ae9766-48ec1a980ad966d41bed",
+              "file": "realtime.spec.ts",
+              "line": 12,
+              "column": 3
+            },
+            {
+              "title": "a missing sequence number is detected and the client resyncs @realtime",
+              "ok": true,
+              "tags": [
+                "realtime"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 276,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:03.819Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f9e2d0c80f3a45ae9766-0d25f9cf5cdd8127354c",
+              "file": "realtime.spec.ts",
+              "line": 31,
+              "column": 3
+            },
+            {
+              "title": "the organizer dashboard counts the same seats the buyers see @realtime",
+              "ok": true,
+              "tags": [
+                "realtime"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 231,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:04.101Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f9e2d0c80f3a45ae9766-4b9102074796a643a135",
+              "file": "realtime.spec.ts",
+              "line": 63,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "reconnect.spec.ts",
+      "file": "reconnect.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "stream reconnection",
+          "file": "reconnect.spec.ts",
+          "line": 12,
+          "column": 6,
+          "specs": [
+            {
+              "title": "the map is correct again after the connection is cut @realtime",
+              "ok": true,
+              "tags": [
+                "realtime"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2183,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:04.345Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "52d77e2c54626c9984db-fa991b3c10ab2938001e",
+              "file": "reconnect.spec.ts",
+              "line": 13,
+              "column": 3
+            },
+            {
+              "title": "a reload picks the map up where it is now, not where it was @realtime",
+              "ok": true,
+              "tags": [
+                "realtime"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 298,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:06.533Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "52d77e2c54626c9984db-1017be0f210c539bbbe8",
+              "file": "reconnect.spec.ts",
+              "line": 49,
+              "column": 3
+            },
+            {
+              "title": "a hold survives a reload, so refreshing does not orphan seats @realtime",
+              "ok": true,
+              "tags": [
+                "realtime"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 257,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:06.838Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "52d77e2c54626c9984db-9f70426aa53fe5699b84",
+              "file": "reconnect.spec.ts",
+              "line": 71,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "seatmap-performance.spec.ts",
+      "file": "seatmap-performance.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "seat map performance",
+          "file": "seatmap-performance.spec.ts",
+          "line": 16,
+          "column": 6,
+          "specs": [
+            {
+              "title": "a 5,000-seat map renders inside the budget @performance",
+              "ok": false,
+              "tags": [
+                "performance"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1166,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m336.1000000089407\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m336.1000000089407\u001b[39m\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26",
+                        "location": {
+                          "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
+                          "column": 26,
+                          "line": 45
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 43 |\u001b[39m     console\u001b[33m.\u001b[39mlog(\u001b[32m`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`\u001b[39m)\n \u001b[90m 44 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 45 |\u001b[39m     expect(milliseconds)\u001b[33m.\u001b[39mtoBeLessThan(\u001b[35m120\u001b[39m)\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 46 |\u001b[39m\n \u001b[90m 47 |\u001b[39m     \u001b[90m// Every seat is a real element, which is the point of paying the render cost at all.\u001b[39m\n \u001b[90m 48 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.wc-seat'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m5000\u001b[39m)\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
+                            "column": 26,
+                            "line": 45
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m336.1000000089407\u001b[39m\n\n  43 |     console.log(`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`)\n  44 |\n> 45 |     expect(milliseconds).toBeLessThan(120)\n     |                          ^\n  46 |\n  47 |     // Every seat is a real element, which is the point of paying the render cost at all.\n  48 |     await expect(page.locator('.wc-seat')).toHaveCount(5000)\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "5,000-seat map rendered in 336.1 ms (budget 120 ms)\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:07.106Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "seatmap-render-ms.json",
+                          "contentType": "application/json",
+                          "body": "ewogICJzZWF0cyI6IDUwMDAsCiAgInJlbmRlck1zIjogMzM2LjEwMDAwMDAwODk0MDcsCiAgImJ1ZGdldE1zIjogMTIwCn0="
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
+                        "column": 26,
+                        "line": 45
+                      }
+                    },
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 963,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m131.59999999403954\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m131.59999999403954\u001b[39m\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26",
+                        "location": {
+                          "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
+                          "column": 26,
+                          "line": 45
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 43 |\u001b[39m     console\u001b[33m.\u001b[39mlog(\u001b[32m`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`\u001b[39m)\n \u001b[90m 44 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 45 |\u001b[39m     expect(milliseconds)\u001b[33m.\u001b[39mtoBeLessThan(\u001b[35m120\u001b[39m)\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 46 |\u001b[39m\n \u001b[90m 47 |\u001b[39m     \u001b[90m// Every seat is a real element, which is the point of paying the render cost at all.\u001b[39m\n \u001b[90m 48 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.wc-seat'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m5000\u001b[39m)\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
+                            "column": 26,
+                            "line": 45
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m131.59999999403954\u001b[39m\n\n  43 |     console.log(`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`)\n  44 |\n> 45 |     expect(milliseconds).toBeLessThan(120)\n     |                          ^\n  46 |\n  47 |     // Every seat is a real element, which is the point of paying the render cost at all.\n  48 |     await expect(page.locator('.wc-seat')).toHaveCount(5000)\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "5,000-seat map rendered in 131.6 ms (budget 120 ms)\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-09-20T23:22:08.606Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "seatmap-render-ms.json",
+                          "contentType": "application/json",
+                          "body": "ewogICJzZWF0cyI6IDUwMDAsCiAgInJlbmRlck1zIjogMTMxLjU5OTk5OTk5NDAzOTU0LAogICJidWRnZXRNcyI6IDEyMAp9"
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium-retry1/test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium-retry1/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium-retry1/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
+                        "column": 26,
+                        "line": 45
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "b8fac0c830a0f28763d1-ca8d0c4d7762ed507081",
+              "file": "seatmap-performance.spec.ts",
+              "line": 17,
+              "column": 3
+            },
+            {
+              "title": "a delta repaints only the rows it touches @performance",
+              "ok": true,
+              "tags": [
+                "performance"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 417,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:09.956Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b8fac0c830a0f28763d1-c5be5af6b408c858103b",
+              "file": "seatmap-performance.spec.ts",
+              "line": 51,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "smoke.spec.ts",
+      "file": "smoke.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "landing page",
+          "file": "smoke.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "lists what is on sale @smoke",
+              "ok": true,
+              "tags": [
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 161,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:10.501Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4219922fea2e2bd3c691-240b172b6bdaeea9de2b",
+              "file": "smoke.spec.ts",
+              "line": 6,
+              "column": 3
+            },
+            {
+              "title": "has no axe violations @a11y",
+              "ok": true,
+              "tags": [
+                "a11y"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1308,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:10.670Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "axe-landing.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4219922fea2e2bd3c691-db894bdd7d6e956983cb",
+              "file": "smoke.spec.ts",
+              "line": 20,
+              "column": 3
+            },
+            {
+              "title": "the first tab stop is the skip link and it moves focus to main @keyboard",
+              "ok": true,
+              "tags": [
+                "keyboard"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 154,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:11.988Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4219922fea2e2bd3c691-ca8546f9aee8275948bb",
+              "file": "smoke.spec.ts",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "an unknown route says so rather than showing a blank page @smoke",
+              "ok": true,
+              "tags": [
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 105,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-20T23:22:12.154Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4219922fea2e2bd3c691-766d007e3d562815eac3",
+              "file": "smoke.spec.ts",
+              "line": 36,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-20T23:21:54.530Z",
+    "duration": 35390.157,
+    "expected": 18,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "mode": "long",
+  "commit": "b830a4c81b003abdc24587c6782209962760dcea",
+  "suites": {
+    "test": {
+      "total": 54,
+      "failed": 0,
+      "skipped": 0,
+      "classes": [
+        {
+          "name": "dev.willcall.WillcallApplicationTest",
+          "tests": 1,
+          "failures": 0,
+          "timeSeconds": 0.015
+        },
+        {
+          "name": "dev.willcall.allocation.ContiguousSeatIndexTest",
+          "tests": 9,
+          "failures": 0,
+          "timeSeconds": 0.959
+        },
+        {
+          "name": "dev.willcall.allocation.RowAvailabilityTreeTest",
+          "tests": 16,
+          "failures": 0,
+          "timeSeconds": 1.9
+        },
+        {
+          "name": "dev.willcall.arch.ModuleBoundaryArchitectureTest",
+          "tests": 3,
+          "failures": 0,
+          "timeSeconds": 0.037
+        },
+        {
+          "name": "dev.willcall.catalog.RowLabelTest",
+          "tests": 3,
+          "failures": 0,
+          "timeSeconds": 1.255
+        },
+        {
+          "name": "dev.willcall.payment.FakePaymentGatewayTest",
+          "tests": 5,
+          "failures": 0,
+          "timeSeconds": 0.046
+        },
+        {
+          "name": "dev.willcall.platform.SeatOrderingTest",
+          "tests": 2,
+          "failures": 0,
+          "timeSeconds": 1.238
+        },
+        {
+          "name": "dev.willcall.realtime.EventStreamHubTest",
+          "tests": 7,
+          "failures": 0,
+          "timeSeconds": 0.702
+        },
+        {
+          "name": "dev.willcall.waitingroom.AdmissionTokenServiceTest",
+          "tests": 8,
+          "failures": 0,
+          "timeSeconds": 0.087
+        }
+      ]
+    },
+    "integrationTest": {
+      "total": 97,
+      "failed": 67,
+      "skipped": 0,
+      "classes": [
+        {
+          "name": "dev.willcall.api.ReservationApiIntegrationTest",
+          "tests": 22,
+          "failures": 22,
+          "timeSeconds": 0.03
+        },
+        {
+          "name": "dev.willcall.model.ReservationModelPropertyTest",
+          "tests": 1,
+          "failures": 1,
+          "timeSeconds": 4.079
+        },
+        {
+          "name": "dev.willcall.ops.InvariantMonitorIntegrationTest",
+          "tests": 3,
+          "failures": 3,
+          "timeSeconds": 0.005
+        },
+        {
+          "name": "dev.willcall.realtime.OutboxRelayIntegrationTest",
+          "tests": 6,
+          "failures": 6,
+          "timeSeconds": 0.005
+        },
+        {
+          "name": "dev.willcall.realtime.RedisOutageInvariantIntegrationTest",
+          "tests": 2,
+          "failures": 2,
+          "timeSeconds": 0.001
+        },
+        {
+          "name": "dev.willcall.realtime.SeatStreamIntegrationTest",
+          "tests": 7,
+          "failures": 0,
+          "timeSeconds": 2.113
+        },
+        {
+          "name": "dev.willcall.reservation.ChaosIntegrationTest",
+          "tests": 3,
+          "failures": 3,
+          "timeSeconds": 0.002
+        },
+        {
+          "name": "dev.willcall.reservation.ConcurrentHoldIntegrationTest",
+          "tests": 2,
+          "failures": 2,
+          "timeSeconds": 0.002
+        },
+        {
+          "name": "dev.willcall.reservation.IdempotencyIntegrationTest",
+          "tests": 8,
+          "failures": 8,
+          "timeSeconds": 0.005
+        },
+        {
+          "name": "dev.willcall.reservation.ReservationCoreIntegrationTest",
+          "tests": 19,
+          "failures": 19,
+          "timeSeconds": 0.015
+        },
+        {
+          "name": "dev.willcall.waitingroom.RateLimitIntegrationTest",
+          "tests": 4,
+          "failures": 0,
+          "timeSeconds": 2.247
+        },
+        {
+          "name": "dev.willcall.waitingroom.WaitingRoomApiIntegrationTest",
+          "tests": 10,
+          "failures": 1,
+          "timeSeconds": 0.663
+        },
+        {
+          "name": "dev.willcall.waitingroom.WaitingRoomIntegrationTest",
+          "tests": 10,
+          "failures": 0,
+          "timeSeconds": 0.836
+        }
+      ]
+    }
+  },
+  "backendTotal": 151,
+  "backendFailed": 67,
+  "coverage": {
+    "instruction": {
+      "covered": 8686,
+      "missed": 1387,
+      "percent": 86.23
+    },
+    "branch": {
+      "covered": 367,
+      "missed": 179,
+      "percent": 67.22
+    },
+    "line": {
+      "covered": 1796,
+      "missed": 281,
+      "percent": 86.47
+    },
+    "complexity": {
+      "covered": 494,
+      "missed": 207,
+      "percent": 70.47
+    },
+    "method": {
+      "covered": 369,
+      "missed": 55,
+      "percent": 87.03
+    },
+    "class": {
+      "covered": 100,
+      "missed": 3,
+      "percent": 97.09
+    }
+  }
+}
