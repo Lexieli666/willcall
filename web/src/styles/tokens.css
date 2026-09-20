@@ -1,0 +1,120 @@
+/*
+  Colour tokens. Every foreground/background pair used for text is at or above 4.5:1 and is
+  asserted by src/styles/contrast.test.ts, which fails the unit suite if a token is changed
+  to something unreadable. Seat state is never carried by colour alone: each state also has a
+  glyph and a text label (see SeatButton).
+*/
+:root {
+  color-scheme: light dark;
+
+  --wc-bg: #ffffff;
+  --wc-bg-raised: #f4f6f9;
+  --wc-bg-sunken: #e9edf2;
+  --wc-fg: #14181d;
+  --wc-fg-muted: #4a545f;
+  --wc-border: #b9c2cc;
+  --wc-border-strong: #6c7783;
+
+  --wc-accent: #14181d;
+  --wc-accent-fg: #ffffff;
+  --wc-focus: #0b5bd3;
+
+  --wc-available-bg: #ffffff;
+  --wc-available-fg: #14181d;
+  --wc-available-border: #4a545f;
+
+  --wc-selected-bg: #0b5bd3;
+  --wc-selected-fg: #ffffff;
+
+  --wc-held-bg: #f7e6c4;
+  --wc-held-fg: #4a3506;
+  --wc-held-border: #8a6512;
+
+  --wc-sold-bg: #dfe3e8;
+  --wc-sold-fg: #3b444e;
+  --wc-sold-border: #6c757f;
+
+  --wc-blocked-bg: #f1f2f4;
+  --wc-blocked-fg: #4a545f;
+
+  --wc-danger-bg: #fdeceb;
+  --wc-danger-fg: #8a1c14;
+  --wc-success-bg: #e6f4ea;
+  --wc-success-fg: #10512a;
+
+  --wc-radius: 6px;
+  --wc-gap: 0.5rem;
+  --wc-seat-size: 1.75rem;
+  --wc-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --wc-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --wc-motion: 160ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --wc-bg: #10141a;
+    --wc-bg-raised: #1a2029;
+    --wc-bg-sunken: #070a0e;
+    --wc-fg: #eef2f6;
+    --wc-fg-muted: #b3bcc6;
+    --wc-border: #46505b;
+    --wc-border-strong: #8b97a3;
+
+    --wc-accent: #eef2f6;
+    --wc-accent-fg: #10141a;
+    --wc-focus: #7fb2ff;
+
+    --wc-available-bg: #10141a;
+    --wc-available-fg: #eef2f6;
+    --wc-available-border: #b3bcc6;
+
+    --wc-selected-bg: #7fb2ff;
+    --wc-selected-fg: #08121f;
+
+    --wc-held-bg: #4a3a12;
+    --wc-held-fg: #f6e3b6;
+    --wc-held-border: #c79f3f;
+
+    --wc-sold-bg: #262d36;
+    --wc-sold-fg: #aab4bf;
+    --wc-sold-border: #78828e;
+
+    --wc-blocked-bg: #1a1f26;
+    --wc-blocked-fg: #9aa4af;
+
+    --wc-danger-bg: #3a1512;
+    --wc-danger-fg: #ffb8b0;
+    --wc-success-bg: #0e2e1c;
+    --wc-success-fg: #9fe3bb;
+  }
+}
+
+:root[data-theme='dark'] {
+  --wc-bg: #10141a;
+  --wc-bg-raised: #1a2029;
+  --wc-bg-sunken: #070a0e;
+  --wc-fg: #eef2f6;
+  --wc-fg-muted: #b3bcc6;
+  --wc-border: #46505b;
+  --wc-border-strong: #8b97a3;
+  --wc-accent: #eef2f6;
+  --wc-accent-fg: #10141a;
+  --wc-focus: #7fb2ff;
+  --wc-available-bg: #10141a;
+  --wc-available-fg: #eef2f6;
+  --wc-available-border: #b3bcc6;
+  --wc-selected-bg: #7fb2ff;
+  --wc-selected-fg: #08121f;
+  --wc-held-bg: #4a3a12;
+  --wc-held-fg: #f6e3b6;
+  --wc-held-border: #c79f3f;
+  --wc-sold-bg: #262d36;
+  --wc-sold-fg: #aab4bf;
+  --wc-sold-border: #78828e;
+  --wc-blocked-bg: #1a1f26;
+  --wc-blocked-fg: #9aa4af;
+  --wc-danger-bg: #3a1512;
+  --wc-danger-fg: #ffb8b0;
+  --wc-success-bg: #0e2e1c;
+  --wc-success-fg: #9fe3bb;
+}

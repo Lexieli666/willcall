@@ -1,0 +1,181 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--wc-bg);
+  color: var(--wc-fg);
+  font-family: var(--wc-font);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--wc-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Reduced motion is honoured globally rather than per-component so a new animation cannot
+   forget it. Transitions collapse to near-zero instead of 0 so transitionend still fires. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.wc-skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--wc-accent);
+  color: var(--wc-accent-fg);
+  padding: 0.6rem 1rem;
+  z-index: 100;
+  border-radius: 0 0 var(--wc-radius) 0;
+}
+
+.wc-skip-link:focus {
+  left: 0;
+}
+
+.wc-shell {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.wc-header {
+  border-bottom: 1px solid var(--wc-border);
+  background: var(--wc-bg-raised);
+}
+
+.wc-header__inner,
+.wc-main,
+.wc-footer__inner {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1rem 16px;
+}
+
+.wc-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wc-gap);
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.wc-wordmark {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.wc-tagline {
+  color: var(--wc-fg-muted);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.wc-nav {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9375rem;
+}
+
+.wc-nav a {
+  color: var(--wc-fg);
+}
+
+.wc-main {
+  padding-block: 1.5rem 3rem;
+}
+
+.wc-footer {
+  border-top: 1px solid var(--wc-border);
+  background: var(--wc-bg-raised);
+  color: var(--wc-fg-muted);
+  font-size: 0.875rem;
+}
+
+.wc-card {
+  background: var(--wc-bg-raised);
+  border: 1px solid var(--wc-border);
+  border-radius: var(--wc-radius);
+  padding: 1rem;
+}
+
+.wc-grid-2 {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+}
+
+.wc-status-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.wc-status-list code {
+  font-family: var(--wc-mono);
+  font-size: 0.875rem;
+}
+
+.wc-badge {
+  display: inline-block;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 0 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.wc-badge--up {
+  background: var(--wc-success-bg);
+  color: var(--wc-success-fg);
+}
+
+.wc-badge--down {
+  background: var(--wc-danger-bg);
+  color: var(--wc-danger-fg);
+}
+
+.wc-badge--unknown {
+  background: var(--wc-bg-sunken);
+  color: var(--wc-fg-muted);
+}
+
+.wc-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
