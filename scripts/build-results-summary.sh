@@ -147,11 +147,20 @@ if fairness and fairness.get('headline'):
     rate = head['inversionRatePercent']
     # The spec says "<1% expected; publish whatever it is". Publishing it is the obligation; the
     # 1% is an expectation, so a higher number is reported as over the expectation, not hidden.
+    #
+    # The raw counts go next to the rate. Normalised over every pair, five swapped pairs in
+    # eighteen thousand admissions is a number with six leading zeros, and a reader is entitled to
+    # suspect a figure that looks like nobody measured it.
     row('FIFO inversion rate in the waiting room',
-        f"{rate}% ({fmt(head['inversions'])} out-of-order pairs among "
-        f"{fmt(head['admittedCount'])} admitted buyers)",
+        f"{rate:.6f}% — {fmt(head['inversions'])} out-of-order pairs among "
+        f"{fmt(head.get('totalPairs'))} possible, over {fmt(head['admittedCount'])} admitted buyers",
         '< 1% expected; publish whatever it is', src,
         'met' if rate < 1 else 'above the expectation, published')
+    if head.get('maxDisplacement') is not None:
+        row('How far anyone moved in the queue',
+            f"{fmt(head.get('movedAtAll'))} admitted out of arrival rank; displacement p99 "
+            f"{fmt(head.get('p99Displacement'))}, worst {fmt(head.get('maxDisplacement'))} places",
+            'no target; the rate above is the published figure', src)
 
 # ---------------------------------------------------------------- rate limiting
 

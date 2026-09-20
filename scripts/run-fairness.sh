@@ -33,6 +33,11 @@ set -e
 
 # Kendall's tau distance, normalised, computed in the database. Auditable from a psql prompt, which
 # a number computed inside a load script is not.
+#
+# The normalised rate alone is close to useless at this size: five swapped pairs among eighteen
+# thousand admissions is 0.000003%, which rounds to zero and reads like a number nobody measured.
+# Displacement is the figure a buyer would recognise - how many places they moved - so it is
+# reported alongside, and the raw inversion count is reported unrounded.
 docker exec -i willcall-postgres-1 psql -U willcall -d willcall -At -F'|' <<'SQL' > "$OUT_DIR/inversion.txt"
 with ordered as (
   select event_id,
@@ -42,7 +47,9 @@ with ordered as (
   from admissions
 ),
 pairs as (
-  select a.event_id, count(*) as inversions
+  select a.event_id,
+         count(*)                        as inversions,
+         count(distinct a.user_ref)      as buyers_ahead_overtaken
   from ordered a
   join ordered b
     on a.event_id = b.event_id
@@ -50,55 +57,71 @@ pairs as (
    and a.admit_rank   > b.admit_rank
   group by a.event_id
 ),
+displacement as (
+  select event_id,
+         max(abs(admit_rank - arrival_rank))                                       as max_displacement,
+         percentile_disc(0.99) within group (order by abs(admit_rank - arrival_rank))
+                                                                                   as p99_displacement,
+         count(*) filter (where admit_rank <> arrival_rank)                        as moved_at_all
+  from ordered
+  group by event_id
+),
 totals as (
   select event_id, count(*) as n from ordered group by event_id
 )
 select totals.event_id,
-       totals.n                                                as admitted_count,
-       coalesce(pairs.inversions, 0)                            as inversions,
+       totals.n                                                 as admitted_count,
+       coalesce(pairs.inversions, 0)                             as inversions,
        case when totals.n < 2 then 0
             else round(coalesce(pairs.inversions, 0)::numeric
-                       / (totals.n * (totals.n - 1) / 2) * 100, 4)
-       end                                                      as inversion_rate_percent
+                       / (totals.n * (totals.n - 1) / 2) * 100, 8)
+       end                                                       as inversion_rate_percent,
+       coalesce(pairs.buyers_ahead_overtaken, 0)                 as buyers_overtaken,
+       coalesce(displacement.max_displacement, 0)                as max_displacement,
+       coalesce(displacement.p99_displacement, 0)                as p99_displacement,
+       coalesce(displacement.moved_at_all, 0)                    as moved_at_all
 from totals
 left join pairs on pairs.event_id = totals.event_id
+left join displacement on displacement.event_id = totals.event_id
 order by totals.n desc;
 SQL
 
-python3 - "$OUT_DIR" <<'PY'
+python3 - "$OUT_DIR" <<'FAIRJSON'
 import json, os, sys
 
 out_dir = sys.argv[1]
+fields = ['eventId', 'admittedCount', 'inversions', 'inversionRatePercent',
+          'buyersOvertaken', 'maxDisplacement', 'p99Displacement', 'movedAtAll']
 rows = []
 for line in open(os.path.join(out_dir, 'inversion.txt'), errors='replace'):
     parts = line.strip().split('|')
-    if len(parts) != 4:
+    if len(parts) != len(fields):
         continue
-    rows.append({
-        'eventId': parts[0],
-        'admittedCount': int(parts[1]),
-        'inversions': int(parts[2]),
-        'inversionRatePercent': float(parts[3]),
-    })
+    row = dict(zip(fields, parts))
+    row['admittedCount'] = int(row['admittedCount'])
+    row['inversions'] = int(row['inversions'])
+    row['inversionRatePercent'] = float(row['inversionRatePercent'])
+    for key in ('buyersOvertaken', 'maxDisplacement', 'p99Displacement', 'movedAtAll'):
+        row[key] = int(row[key])
+    n = row['admittedCount']
+    row['totalPairs'] = n * (n - 1) // 2
+    rows.append(row)
 
 report = {'events': rows}
 if rows:
-    biggest = max(rows, key=lambda r: r['admittedCount'])
-    report['headline'] = biggest
+    report['headline'] = max(rows, key=lambda r: r['admittedCount'])
 json.dump(report, open(os.path.join(out_dir, 'fairness.json'), 'w'), indent=2)
 
 if rows:
     b = report['headline']
     print('')
     print(f"admitted buyers      : {b['admittedCount']:,}")
-    print(f"out-of-order pairs   : {b['inversions']:,}")
+    print(f"out-of-order pairs   : {b['inversions']:,} of {b['totalPairs']:,} possible")
     print(f"FIFO inversion rate  : {b['inversionRatePercent']}%")
-    print('')
-    print('0% is strict arrival order. Random order tends to 50%. The target is under 2%;')
-    print('whatever this says is what gets published.')
-else:
-    print('no admissions recorded — the waiting room may not have been enabled')
-PY
+    print(f"buyers overtaken     : {b['buyersOvertaken']:,}")
+    print(f"admitted out of rank : {b['movedAtAll']:,}")
+    print(f"displacement p99/max : {b['p99Displacement']:,} / {b['maxDisplacement']:,} places")
+FAIRJSON
 
 {
   printf '# Run context: fairness\n\n'
