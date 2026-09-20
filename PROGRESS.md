@@ -87,7 +87,7 @@ Nothing is deployed right now, so there is nothing to destroy.
 
 ### Phase 0 — skeleton, CI, a reachable page
 
-**Status:** in progress
+**Status:** complete, except the public URL
 
 - [x] Repository scaffolding: `server/ web/ load/ infra/ docs/ docs/adr/ scripts/ .github/workflows/`
 - [x] Backend: Gradle 8.14.3, Java 21 toolchain, Spring Boot 3.5.16, Flyway, JDBC, Lettuce,
@@ -97,13 +97,54 @@ Nothing is deployed right now, so there is nothing to destroy.
       Playwright with `@axe-core/playwright`, Lighthouse CI budgets, responsive layout shell
 - [x] Colour tokens with a unit test that fails the build if any text pair drops below 4.5:1 —
       it caught two failing pairs on first run and both were fixed
-- [ ] Dockerfiles, compose stack up with health checks
-- [ ] CI workflow green
-- [ ] Terraform written and validated
-- [ ] Public URL — **blocked, no AWS credentials**; a local URL stands in
+- [x] Dockerfiles; `docker compose --profile replicas up` brings up PostgreSQL, Redis, three
+      application replicas and the nginx edge proxy, all reporting healthy
+- [x] Terraform written for ALB + ECS Fargate + RDS PostgreSQL 16 + ElastiCache Redis 7;
+      `terraform fmt -check` and `terraform validate` pass. `terraform plan` needs credentials
+      and was not run.
+- [x] CI workflow written: seven jobs covering static checks, unit and property tests,
+      Testcontainers, end-to-end with axe and keyboard passes, Lighthouse budgets, the
+      invariant check, a k6 smoke run, Terraform validation and repository hygiene
+- [ ] Public URL — **blocked, no AWS credentials**. `http://127.0.0.1:8080` stands in.
+
+#### Phase 0 VERIFY results
+
+| Check | Command | Result |
+|---|---|---|
+| Backend static checks | `./gradlew spotlessCheck compileJava` | pass |
+| Backend unit tests | `./gradlew test` | pass, 1 test |
+| Frontend typecheck | `npx tsc -b` | pass |
+| Frontend unit tests | `npm run test` | pass, 38 tests |
+| Frontend lint | `npm run lint` | pass, 0 warnings |
+| Compose config | `docker compose config -q` | pass |
+| Compose up with health checks | `docker compose --profile replicas up -d` | all six containers healthy |
+| Load spread across replicas | 60 concurrent requests through the edge | app1 20, app2 19, app3 21 |
+| Terraform | `terraform fmt -check && terraform validate` | pass |
+| Playwright smoke + axe + keyboard | `npx playwright test` | 3 passed, 0 axe violations |
+| Lighthouse (3 runs, desktop) | `scripts/lighthouse.sh` | accessibility 100, performance 100, LCP 402-404 ms, CLS 0, TBT 0 |
+| k6 smoke, 10 VUs, 60 s | `./scripts/run-load.sh smoke` | 1,200 requests, 0 failures, p99 8.34 ms |
+| Repository hygiene | `scripts/check-no-secrets.sh` | pass |
+
+Raw k6 output: `load/results/2026-09-20/smoke-*/`.
+
+#### Things that went wrong in Phase 0, and what they cost
+
+1. **Lettuce pooling failed at start-up** with `NoClassDefFoundError:
+   GenericObjectPoolConfig`. Spring's pooled Redis factory needs `commons-pool2` on the
+   classpath and the starter does not bring it. Every replica crash-looped until it was added.
+2. **The edge proxy answered 400 on every `/api/` request.** nginx inherits
+   `proxy_set_header` from an enclosing block only when the inner block declares none of its
+   own, so one `proxy_set_header Connection ""` inside the location silently dropped `Host`;
+   nginx then sent the upstream name, which contained an underscore, and Tomcat rejected it as
+   an illegal domain name. Fixed by moving the headers into a shared include and renaming the
+   upstream.
+3. **Lighthouse created three 4 MB Chrome profile directories inside `web/`**, named with a
+   literal Windows path, because `LOCALAPPDATA` is inherited from the Windows environment
+   under WSL. They were caught by the hygiene check before the first push, and
+   `scripts/lighthouse.sh` now points Chrome at a real temporary directory.
 
 ---
 
 ## What is next
 
-Finish Phase 0 verification, then Phase 1 (reservation core).
+Phase 1: the reservation core.

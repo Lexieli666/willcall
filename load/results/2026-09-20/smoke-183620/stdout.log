@@ -1,0 +1,245 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: load/scripts/smoke.ts
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 10 max VUs, 1m30s max duration (incl. graceful stop):
+              * smoke: 10 looping VUs for 1m0s (gracefulStop: 30s)
+
+
+running (0m01.0s), 10/10 VUs, 0 complete and 0 interrupted iterations
+smoke   [   2% ] 10 VUs  0m01.0s/1m0s
+
+running (0m02.0s), 10/10 VUs, 10 complete and 0 interrupted iterations
+smoke   [   3% ] 10 VUs  0m02.0s/1m0s
+
+running (0m03.0s), 10/10 VUs, 20 complete and 0 interrupted iterations
+smoke   [   5% ] 10 VUs  0m03.0s/1m0s
+
+running (0m04.0s), 10/10 VUs, 30 complete and 0 interrupted iterations
+smoke   [   7% ] 10 VUs  0m04.0s/1m0s
+
+running (0m05.0s), 10/10 VUs, 40 complete and 0 interrupted iterations
+smoke   [   8% ] 10 VUs  0m05.0s/1m0s
+
+running (0m06.0s), 10/10 VUs, 50 complete and 0 interrupted iterations
+smoke   [  10% ] 10 VUs  0m06.0s/1m0s
+
+running (0m07.0s), 10/10 VUs, 60 complete and 0 interrupted iterations
+smoke   [  12% ] 10 VUs  0m07.0s/1m0s
+
+running (0m08.0s), 10/10 VUs, 70 complete and 0 interrupted iterations
+smoke   [  13% ] 10 VUs  0m08.0s/1m0s
+
+running (0m09.0s), 10/10 VUs, 80 complete and 0 interrupted iterations
+smoke   [  15% ] 10 VUs  0m09.0s/1m0s
+
+running (0m10.0s), 10/10 VUs, 90 complete and 0 interrupted iterations
+smoke   [  17% ] 10 VUs  0m10.0s/1m0s
+
+running (0m11.0s), 10/10 VUs, 100 complete and 0 interrupted iterations
+smoke   [  18% ] 10 VUs  0m11.0s/1m0s
+
+running (0m12.0s), 10/10 VUs, 110 complete and 0 interrupted iterations
+smoke   [  20% ] 10 VUs  0m12.0s/1m0s
+
+running (0m13.0s), 10/10 VUs, 120 complete and 0 interrupted iterations
+smoke   [  22% ] 10 VUs  0m13.0s/1m0s
+
+running (0m14.0s), 10/10 VUs, 130 complete and 0 interrupted iterations
+smoke   [  23% ] 10 VUs  0m14.0s/1m0s
+
+running (0m15.0s), 10/10 VUs, 140 complete and 0 interrupted iterations
+smoke   [  25% ] 10 VUs  0m15.0s/1m0s
+
+running (0m16.0s), 10/10 VUs, 150 complete and 0 interrupted iterations
+smoke   [  27% ] 10 VUs  0m16.0s/1m0s
+
+running (0m17.0s), 10/10 VUs, 160 complete and 0 interrupted iterations
+smoke   [  28% ] 10 VUs  0m17.0s/1m0s
+
+running (0m18.0s), 10/10 VUs, 170 complete and 0 interrupted iterations
+smoke   [  30% ] 10 VUs  0m18.0s/1m0s
+
+running (0m19.0s), 10/10 VUs, 180 complete and 0 interrupted iterations
+smoke   [  32% ] 10 VUs  0m19.0s/1m0s
+
+running (0m20.0s), 10/10 VUs, 190 complete and 0 interrupted iterations
+smoke   [  33% ] 10 VUs  0m20.0s/1m0s
+
+running (0m21.0s), 10/10 VUs, 200 complete and 0 interrupted iterations
+smoke   [  35% ] 10 VUs  0m21.0s/1m0s
+
+running (0m22.0s), 10/10 VUs, 210 complete and 0 interrupted iterations
+smoke   [  37% ] 10 VUs  0m22.0s/1m0s
+
+running (0m23.0s), 10/10 VUs, 220 complete and 0 interrupted iterations
+smoke   [  38% ] 10 VUs  0m23.0s/1m0s
+
+running (0m24.0s), 10/10 VUs, 230 complete and 0 interrupted iterations
+smoke   [  40% ] 10 VUs  0m24.0s/1m0s
+
+running (0m25.0s), 10/10 VUs, 240 complete and 0 interrupted iterations
+smoke   [  42% ] 10 VUs  0m25.0s/1m0s
+
+running (0m26.0s), 10/10 VUs, 250 complete and 0 interrupted iterations
+smoke   [  43% ] 10 VUs  0m26.0s/1m0s
+
+running (0m27.0s), 10/10 VUs, 260 complete and 0 interrupted iterations
+smoke   [  45% ] 10 VUs  0m27.0s/1m0s
+
+running (0m28.0s), 10/10 VUs, 270 complete and 0 interrupted iterations
+smoke   [  47% ] 10 VUs  0m28.0s/1m0s
+
+running (0m29.0s), 10/10 VUs, 280 complete and 0 interrupted iterations
+smoke   [  48% ] 10 VUs  0m29.0s/1m0s
+
+running (0m30.0s), 10/10 VUs, 290 complete and 0 interrupted iterations
+smoke   [  50% ] 10 VUs  0m30.0s/1m0s
+
+running (0m31.0s), 10/10 VUs, 300 complete and 0 interrupted iterations
+smoke   [  52% ] 10 VUs  0m31.0s/1m0s
+
+running (0m32.0s), 10/10 VUs, 310 complete and 0 interrupted iterations
+smoke   [  53% ] 10 VUs  0m32.0s/1m0s
+
+running (0m33.0s), 10/10 VUs, 320 complete and 0 interrupted iterations
+smoke   [  55% ] 10 VUs  0m33.0s/1m0s
+
+running (0m34.0s), 10/10 VUs, 330 complete and 0 interrupted iterations
+smoke   [  57% ] 10 VUs  0m34.0s/1m0s
+
+running (0m35.0s), 10/10 VUs, 340 complete and 0 interrupted iterations
+smoke   [  58% ] 10 VUs  0m35.0s/1m0s
+
+running (0m36.0s), 10/10 VUs, 350 complete and 0 interrupted iterations
+smoke   [  60% ] 10 VUs  0m36.0s/1m0s
+
+running (0m37.0s), 10/10 VUs, 360 complete and 0 interrupted iterations
+smoke   [  62% ] 10 VUs  0m37.0s/1m0s
+
+running (0m38.0s), 10/10 VUs, 370 complete and 0 interrupted iterations
+smoke   [  63% ] 10 VUs  0m38.0s/1m0s
+
+running (0m39.0s), 10/10 VUs, 380 complete and 0 interrupted iterations
+smoke   [  65% ] 10 VUs  0m39.0s/1m0s
+
+running (0m40.0s), 10/10 VUs, 390 complete and 0 interrupted iterations
+smoke   [  67% ] 10 VUs  0m40.0s/1m0s
+
+running (0m41.0s), 10/10 VUs, 400 complete and 0 interrupted iterations
+smoke   [  68% ] 10 VUs  0m41.0s/1m0s
+
+running (0m42.0s), 10/10 VUs, 410 complete and 0 interrupted iterations
+smoke   [  70% ] 10 VUs  0m42.0s/1m0s
+
+running (0m43.0s), 10/10 VUs, 420 complete and 0 interrupted iterations
+smoke   [  72% ] 10 VUs  0m43.0s/1m0s
+
+running (0m44.0s), 10/10 VUs, 430 complete and 0 interrupted iterations
+smoke   [  73% ] 10 VUs  0m44.0s/1m0s
+
+running (0m45.0s), 10/10 VUs, 440 complete and 0 interrupted iterations
+smoke   [  75% ] 10 VUs  0m45.0s/1m0s
+
+running (0m46.0s), 10/10 VUs, 450 complete and 0 interrupted iterations
+smoke   [  77% ] 10 VUs  0m46.0s/1m0s
+
+running (0m47.0s), 10/10 VUs, 460 complete and 0 interrupted iterations
+smoke   [  78% ] 10 VUs  0m47.0s/1m0s
+
+running (0m48.0s), 10/10 VUs, 470 complete and 0 interrupted iterations
+smoke   [  80% ] 10 VUs  0m48.0s/1m0s
+
+running (0m49.0s), 10/10 VUs, 480 complete and 0 interrupted iterations
+smoke   [  82% ] 10 VUs  0m49.0s/1m0s
+
+running (0m50.0s), 10/10 VUs, 490 complete and 0 interrupted iterations
+smoke   [  83% ] 10 VUs  0m50.0s/1m0s
+
+running (0m51.0s), 10/10 VUs, 500 complete and 0 interrupted iterations
+smoke   [  85% ] 10 VUs  0m51.0s/1m0s
+
+running (0m52.0s), 10/10 VUs, 510 complete and 0 interrupted iterations
+smoke   [  87% ] 10 VUs  0m52.0s/1m0s
+
+running (0m53.0s), 10/10 VUs, 520 complete and 0 interrupted iterations
+smoke   [  88% ] 10 VUs  0m53.0s/1m0s
+
+running (0m54.0s), 10/10 VUs, 530 complete and 0 interrupted iterations
+smoke   [  90% ] 10 VUs  0m54.0s/1m0s
+
+running (0m55.0s), 10/10 VUs, 540 complete and 0 interrupted iterations
+smoke   [  92% ] 10 VUs  0m55.0s/1m0s
+
+running (0m56.0s), 10/10 VUs, 550 complete and 0 interrupted iterations
+smoke   [  93% ] 10 VUs  0m56.0s/1m0s
+
+running (0m57.0s), 10/10 VUs, 560 complete and 0 interrupted iterations
+smoke   [  95% ] 10 VUs  0m57.0s/1m0s
+
+running (0m58.0s), 10/10 VUs, 570 complete and 0 interrupted iterations
+smoke   [  97% ] 10 VUs  0m58.0s/1m0s
+
+running (0m59.0s), 10/10 VUs, 580 complete and 0 interrupted iterations
+smoke   [  98% ] 10 VUs  0m59.0s/1m0s
+
+running (1m00.0s), 10/10 VUs, 590 complete and 0 interrupted iterations
+smoke   [ 100% ] 10 VUs  1m00.0s/1m0s
+
+
+  █ THRESHOLDS 
+
+    http_req_duration
+    ✓ 'p(99)<1000' p(99)=8.34ms
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+
+    willcall_errors
+    ✓ 'rate<0.01' rate=0.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 1800    29.715183/s
+    checks_succeeded...: 100.00% 1800 out of 1800
+    checks_failed......: 0.00%   0 out of 1800
+
+    ✓ status 200
+    ✓ postgres is up
+    ✓ ready 200
+
+    CUSTOM
+    willcall_errors................: 0.00%  0 out of 1200
+
+    HTTP
+    http_req_duration..............: min=1.17ms med=3.99ms avg=4.33ms p(90)=7ms   p(95)=7.68ms p(99)=8.34ms max=9.37ms
+      { expected_response:true }...: min=1.17ms med=3.99ms avg=4.33ms p(90)=7ms   p(95)=7.68ms p(99)=8.34ms max=9.37ms
+    http_req_failed................: 0.00%  0 out of 1200
+    http_reqs......................: 1200   19.810122/s
+
+    EXECUTION
+    iteration_duration.............: min=1s     med=1s     avg=1s     p(90)=1.01s p(95)=1.01s  p(99)=1.01s  max=1.01s 
+    iterations.....................: 600    9.905061/s
+    vus............................: 10     min=10        max=10
+    vus_max........................: 10     min=10        max=10
+
+    NETWORK
+    data_received..................: 300 kB 5.0 kB/s
+    data_sent......................: 97 kB  1.6 kB/s
+
+
+
+
+running (1m00.6s), 00/10 VUs, 600 complete and 0 interrupted iterations
+smoke ✓ [ 100% ] 10 VUs  1m0s
+
+k6 exit code: 0
