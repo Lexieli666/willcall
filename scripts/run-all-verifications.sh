@@ -38,6 +38,7 @@ run_check() {
 }
 
 run_check 'repository hygiene' ./scripts/check-no-secrets.sh
+run_check 'documentation links' ./scripts/check-links.sh
 run_check 'backend static checks' bash -c 'cd server && ./gradlew --quiet spotlessCheck compileJava'
 run_check 'backend unit and property tests' bash -c 'cd server && ./gradlew --quiet test'
 run_check 'backend integration tests' bash -c 'cd server && ./gradlew --quiet integrationTest'

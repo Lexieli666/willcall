@@ -246,5 +246,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Every relative link in the docs points at a committed file
+        run: ./scripts/check-links.sh
       - name: No committed secrets or state
         run: ./scripts/check-no-secrets.sh
