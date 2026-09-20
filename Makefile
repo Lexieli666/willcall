@@ -77,6 +77,14 @@ format: ## Apply formatters
 verify-invariants: ## Assert the capacity invariant against the running database
 	./scripts/verify-invariants.sh
 
+.PHONY: verify
+verify: ## Every check this project claims, with a pass/fail line each (needs `make up` first)
+	./scripts/run-all-verifications.sh
+
+.PHONY: results
+results: ## Regenerate RESULTS_SUMMARY.md and the README table from the raw result files
+	./scripts/build-results-summary.sh
+
 ## ---------------------------------------------------------------- run
 
 .PHONY: dev
@@ -116,7 +124,19 @@ load-flash: ## Flash-sale scenario: 10,000 virtual users arriving in 10 s
 
 .PHONY: load-sse
 load-sse: ## 5,000 long-lived SSE connections
-	./scripts/run-load.sh sse
+	./scripts/run-sse-load.sh 5000
+
+.PHONY: load-fairness
+load-fairness: ## Measure the FIFO inversion rate under a burst
+	./scripts/run-fairness.sh
+
+.PHONY: flash-suite
+flash-suite: ## The flash sale, 50 times, with the invariant checked after each
+	./scripts/run-flash-suite.sh 50
+
+.PHONY: game-day
+game-day: ## One failure rehearsal: make game-day SCENARIO=kill-replica
+	./scripts/run-game-day.sh $(SCENARIO)
 
 .PHONY: seed
 seed: ## Seed the large dataset used for query-plan checks
