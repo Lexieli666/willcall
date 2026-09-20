@@ -63,6 +63,23 @@ jobs:
           name: integration-test-reports
           path: server/build/reports/tests/integrationTest
 
+  load-scripts:
+    name: load scripts (typecheck)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      # The k6 scenarios and the SSE generator are TypeScript and are typechecked here. Without
+      # this, a rename in the API client leaves a load script quietly measuring a 404 and the run
+      # still reports a percentile.
+      - working-directory: load
+        run: npm ci --no-audit --no-fund && npx tsc --noEmit
+      - working-directory: load/sse
+        run: npm ci --no-audit --no-fund && npx tsc --noEmit
+
   frontend:
     name: frontend (typecheck, lint, unit)
     runs-on: ubuntu-latest
@@ -115,14 +132,16 @@ jobs:
         run: npm ci --no-audit --no-fund
       - working-directory: web
         run: npx playwright install --with-deps chromium
-      - name: Playwright (includes @a11y and @keyboard)
+      - name: Playwright (includes @a11y, @keyboard and @realtime)
         working-directory: web
         env:
+          WILLCALL_E2E_BASE_URL: http://127.0.0.1:18081
           WILLCALL_API_ORIGIN: http://127.0.0.1:18081
         run: npx playwright test
       - name: Lighthouse budgets
-        working-directory: web
-        run: ../scripts/lighthouse.sh
+        env:
+          WILLCALL_LHCI_URL: http://127.0.0.1:18081/
+        run: ./scripts/lighthouse.sh
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -152,6 +171,36 @@ jobs:
         run: ./scripts/exercise-api.sh http://127.0.0.1:18081
       - name: Assert the invariant against the database
         run: ./scripts/verify-invariants.sh
+
+  flash-sale:
+    name: flash sale (3 runs, invariant checked after each)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: grafana/setup-k6-action@v1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Start the three-replica stack
+        run: |
+          docker compose --profile replicas up -d --build
+          ./scripts/wait-for-healthy.sh http://127.0.0.1:8080
+      - working-directory: load
+        run: npm ci --no-audit --no-fund
+      # Three runs on a CI runner rather than fifty: a race that needs fifty runs to appear will
+      # not be caught here, and the nightly long-mode job is where that claim is earned. Three is
+      # enough to catch a regression that breaks the invariant outright.
+      - name: Flash sale
+        run: ./scripts/run-flash-suite.sh 3
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: flash-suite
+          path: load/results
+      - name: Stack logs on failure
+        if: failure()
+        run: docker compose --profile replicas logs --no-color | tail -500
 
   load-smoke:
     name: k6 smoke
