@@ -3,6 +3,37 @@
 groups:
   - name: willcall-correctness
     rules:
+      # The one alert with no error budget. It could not fire until willcall_invariant_violations
+      # existed: the invariant was checked by a script after a load run and by an endpoint somebody
+      # had to call, which is a checklist item wearing an alert's name.
+      - alert: WillcallOversellDetected
+        expr: max(willcall_invariant_violations) > 0
+        for: 0m
+        labels:
+          severity: page
+        annotations:
+          summary: 'An invariant check is failing'
+          description: >-
+            {{ $value }} invariant check(s) failing. Nothing automated should try to fix inventory.
+            The failing check's name is in the application log at ERROR. Confirm from outside the
+            application with scripts/verify-invariants.sh, which talks to the database directly and
+            cannot be fooled by an application bug.
+
+      # -1 means no check has completed since start-up, and a rising age means nobody is looking
+      # any more. Both are silence, and silence is what the invariant gauge must never be read as.
+      - alert: WillcallInvariantCheckStale
+        expr: max(willcall_invariant_violations) < 0 or max(willcall_invariant_checked_age_seconds) > 600
+        for: 5m
+        labels:
+          severity: page
+        annotations:
+          summary: 'Nothing has verified the invariant for ten minutes'
+          description: >-
+            The oversell alert is only as good as the check behind it. Either no replica has
+            completed a check since start-up, or the last one was over ten minutes ago - most
+            likely the database is unreachable from the scheduler. Treat this as the oversell
+            alert being switched off.
+
       - alert: WillcallSeatsLostAfterPayment
         expr: increase(willcall_orders_seats_lost_after_payment_total[10m]) > 0
         for: 0m

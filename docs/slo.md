@@ -35,6 +35,11 @@ not an availability objective. The edge access log now records status and timing
 indicator is read from there. See
 [the postmortem](incidents/2026-09-20-connection-pool-exhaustion.md).
 
+**Not yet wired.** The edge records status and timing in its access log; nothing turns that into a
+time series in this stack. On AWS the ALB's `HTTPCode_ELB_5XX_Count` is the same signal and needs
+no pipeline. Until one of those exists, this indicator can be computed after the fact from the log
+and not evaluated continuously — which is stated here rather than left to be discovered.
+
 **2. Hold p99 ≤ 250 ms** rather than the 150 ms the plan targets. The plan's figure is for a
 controlled thousand requests per second; the SLO has to survive a real drop, where the measured p99
 under an unpaced ten-thousand-buyer burst was 3.4 seconds. 250 ms is the promise for *paced*
@@ -88,19 +93,35 @@ to somebody who already paid.
 Alerts fire on **symptoms a person can act on**, not on every threshold. An alert nobody can act on
 teaches people to ignore alerts, which costs more than the thing it was watching.
 
-| Alert | Condition | Severity | Why a person is needed |
-|---|---|---|---|
-| `WillcallOversellDetected` | `verify-invariants` fails, any check | **page** | The invariant is broken. Nothing automated should try to fix inventory. |
-| `WillcallSeatsLostAfterPayment` | `willcall_orders_seats_lost_after_payment_total` increases | **page** | Somebody paid and has no seat. A refund needs issuing. |
-| `WillcallReservationErrors` | 5xx rate on the hold or order path > 1% for 5 minutes | **page** | The service is failing, not shedding — 503 is excluded deliberately. |
-| `WillcallSheddingSustained` | 503 rate > 10% for 10 minutes | ticket | The admission rate is set too high for the measured capacity. |
-| `WillcallPoolSaturated` | `hikaricp_connections_pending` > 0 for 5 minutes | ticket | The bottleneck is being reached; the capacity model needs revisiting. |
-| `WillcallSweeperStalled` | `willcall_holds_expired_total` flat while `willcall_holds_granted_total` rises, 10 minutes | **page** | Capacity is leaking. Every expired hold that is not released is a seat nobody can buy. |
-| `WillcallOutboxBacklog` | unpublished outbox rows > 10,000 for 5 minutes | ticket | Deltas are not reaching browsers; the seat map is going stale. |
-| `WillcallQueueDegraded` | `willcall_queue_degraded_total` increases | ticket | Redis is unreachable and admission is open. Selling correctly but unpaced. |
-| `WillcallRateLimiterFailedOpen` | `willcall_ratelimit_failed_open_total` increases | ticket | The limiter is not limiting. Not urgent alone; urgent with the one above. |
-| `WillcallEdgeErrors` | edge 5xx rate > 1% for 2 minutes **while application 5xx stays flat** | **page** | The gap between the two is the proxy failing on its own. This is the alert that would have fired during the game day, and nothing else would have. |
-| `WillcallNoLiveUpstreams` | the edge logs `no live upstreams`, any occurrence | **page** | Every replica has been ejected. It happened once, for nine seconds, with all three replicas healthy. |
+Every row says whether it is **wired** — defined in
+[`infra/observability/prometheus/alerts.yml`](../infra/observability/prometheus/alerts.yml) and
+evaluated by Prometheus — or **specified**, meaning the condition is agreed and the signal it needs
+does not exist in this deployment. Writing an alert down is not the same as having one, and the
+difference is exactly the sort of thing that is discovered during an incident.
+
+| Alert | Condition | Severity | Wired | Why a person is needed |
+|---|---|---|---|---|
+| `WillcallOversellDetected` | `max(willcall_invariant_violations) > 0` | **page** | yes | The invariant is broken. Nothing automated should try to fix inventory. |
+| `WillcallInvariantCheckStale` | no check completed in 10 minutes, or none since start-up | **page** | yes | The alert above is only as good as the check behind it. A gauge that nobody is updating reads as "no violations". |
+| `WillcallSeatsLostAfterPayment` | `willcall_orders_seats_lost_after_payment_total` increases | **page** | yes | Somebody paid and has no seat. A refund needs issuing. |
+| `WillcallReservationErrors` | 5xx rate on the hold or order path > 1% for 5 minutes | **page** | yes | The service is failing, not shedding — 503 is excluded deliberately. |
+| `WillcallSheddingSustained` | 503 rate > 10% for 10 minutes | ticket | yes | The admission rate is set too high for the measured capacity. |
+| `WillcallPoolSaturated` | `hikaricp_connections_pending` > 0 for 5 minutes | ticket | yes | The bottleneck is being reached; the capacity model needs revisiting. |
+| `WillcallSweeperStalled` | `willcall_holds_expired_total` flat while `willcall_holds_granted_total` rises, 10 minutes | **page** | yes | Capacity is leaking. Every expired hold that is not released is a seat nobody can buy. |
+| `WillcallOutboxBacklog` | unpublished outbox rows > 10,000 for 5 minutes | ticket | yes | Deltas are not reaching browsers; the seat map is going stale. |
+| `WillcallQueueDegraded` | `willcall_queue_degraded_total` increases | ticket | yes | Redis is unreachable and admission is open. Selling correctly but unpaced. |
+| `WillcallRateLimiterFailedOpen` | `willcall_ratelimit_failed_open_total` increases | ticket | yes | The limiter is not limiting. Not urgent alone; urgent with the one above. |
+| `WillcallEdgeErrors` | edge 5xx rate > 1% for 2 minutes **while application 5xx stays flat** | **page** | **no** | The gap between the two is the proxy failing on its own. This is the alert that would have fired during the game day, and nothing else would have. |
+| `WillcallNoLiveUpstreams` | the edge logs `no live upstreams`, any occurrence | **page** | **no** | Every replica has been ejected. It happened once, for nine seconds, with all three replicas healthy. |
+
+**The two edge alerts are specified and not wired**, and they are the two that would have caught
+the worst incident this project has had. nginx's open-source build exports no per-status counters —
+`stub_status` has connection counts and nothing about response codes — so there is no metric for
+Prometheus to evaluate. The access log now records status and timing, which makes the outage
+*visible after the fact*; turning that into an alert needs a log pipeline this stack does not have.
+On AWS the signal exists and is free: the ALB publishes `HTTPCode_ELB_5XX_Count`, which is precisely
+"the proxy failed on its own", and that is where these two belong. Recorded as a gap rather than
+implemented badly.
 
 **Deliberately not alerted on:** the 409 rate, which is the product working during a sell-out, and
 the gap-and-resync counters, which are the protocol recovering as designed. A gap count that stays
