@@ -1,0 +1,10 @@
+# Copy to dev.tfvars and adjust. dev.tfvars is gitignored: it can carry account-specific
+# values, and a .tfvars file in a public repository is how database passwords escape.
+region                  = "us-west-2"
+environment             = "dev"
+app_replica_count       = 3
+app_cpu                 = 2048
+app_memory              = 4096
+db_instance_class       = "db.t4g.medium"
+redis_node_type         = "cache.t4g.small"
+allowed_ingress_cidrs   = ["0.0.0.0/0"]
