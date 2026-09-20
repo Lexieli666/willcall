@@ -20,6 +20,23 @@ make up                              # three replicas behind the edge proxy
 ./scripts/run-sse-load.sh 5000       # the Server-Sent Events scenario
 ```
 
+| Scenario | What it answers |
+|---|---|
+| `run-load.sh smoke` | Is the stack answering, and at what latency when nothing is contended |
+| `run-load.sh holds` | Hold latency at a fixed arrival rate — one point on the capacity curve |
+| `run-load.sh ratelimit` | Does a single client flooding the API get 429 with `Retry-After`, every time |
+| `run-flash-suite.sh 50` | The headline: 10,000 buyers in 10 s for 5,000 seats, invariant checked after **every** run |
+| `run-capacity-sweep.sh` | Where the ceiling is, by measuring several rates instead of asserting one |
+| `diagnose-ceiling.sh` | What puts it there: pool occupancy, acquire time, connection hold time, `pg_stat_activity` |
+| `run-fairness.sh` | How far admission order drifts from arrival order, computed in SQL from the `admissions` table |
+| `run-sse-load.sh 5000` | Fan-out: propagation from commit to browser, retained heap per connection, sequence gaps |
+| `run-game-day.sh <scenario>` | What a named fault does while traffic is flowing |
+| `seed-large-dataset.sh` | Query plans at a million rows, so a plan regression shows up in a diff |
+
+**Run one at a time.** The generator shares a host with the service; two scenarios at once measure
+each other. The flash suite truncates the catalogue between runs, so anything relying on existing
+data must not run alongside it.
+
 ## Why the SSE scenario is not k6
 
 k6 drives every HTTP scenario here. It cannot drive the SSE one: k6 has no streaming response
