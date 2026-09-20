@@ -129,6 +129,21 @@ willcall:
     # be refused by the next. The development default logs a warning at start-up.
     signing-key: ${WILLCALL_ADMISSION_SIGNING_KEY:}
 
+  ratelimit:
+    enabled: ${WILLCALL_RATELIMIT_ENABLED:true}
+    # Per buyer, not per IP: a household behind one address is several buyers, and a determined
+    # single buyer has many addresses. Neither is perfect; identity is the one the product cares
+    # about.
+    #
+    # The defaults are generous enough that nobody clicking a seat map reaches them and tight
+    # enough that a script does. They are deliberately far above what one person can do by hand
+    # and far below what one process can.
+    holds-per-second: ${WILLCALL_RATELIMIT_HOLDS:5}
+    holds-burst: ${WILLCALL_RATELIMIT_HOLDS_BURST:10}
+    orders-per-second: ${WILLCALL_RATELIMIT_ORDERS:2}
+    orders-burst: ${WILLCALL_RATELIMIT_ORDERS_BURST:5}
+    key-ttl: ${WILLCALL_RATELIMIT_TTL:PT10M}
+
   admin:
     # Off by default. The compose stack and CI turn it on so the end-to-end suite can make a
     # message genuinely go missing; the Terraform never sets it, so a deployed environment has no
