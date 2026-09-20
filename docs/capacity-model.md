@@ -43,15 +43,23 @@ They fail differently, which is why they have separate load scenarios and separa
 
 ## Measured: the fan-out path
 
-From `load/results/2026-09-20/sse-5000-*/`.
+The run of record is the last one, named in the table. Earlier runs are kept because the tuning
+history below refers to them, but a figure quoted anywhere in this repository comes from the run
+of record — the table is generated from that file by `scripts/build-results-summary.sh`, so the
+two cannot disagree.
+
+<!-- FANOUT:BEGIN -->
+Run of record: `load/results/2026-09-20/sse-5000-205019/sse-result.json`.
 
 | Quantity | Measured | Target | Verdict |
 |---|---|---|---|
-| Concurrent SSE connections | **5,000** (1,667 per replica, 0 failures) | ≥ 5,000 | met |
-| Propagation, commit → client, p50 | **129 ms** | — | — |
-| Propagation, commit → client, p99 | **252 ms** | 80–250 ms | **missed by 2 ms** |
-| Sequence gaps detected by clients | **0** over 15,000,000 delivered changes | — | — |
-| Retained heap per connection | **73.9 KiB** | 10–60 KB | **missed** |
+| Concurrent SSE connections | **5,000** (1666 / 1667 / 1667 per replica, 0 failures) | ≥ 5,000 | met |
+| Propagation, commit → client, p50 | **113 ms** | — | — |
+| Propagation, commit → client, p99 | **223 ms** | 80–250 ms | met |
+| Server-side flush, p99 | **2.1 ms** | — | — |
+| Sequence gaps detected by clients | **0** over 15,200,000 delivered changes | — | — |
+| Retained heap per connection | **75.7 KiB** | 10–60 KB | **missed** |
+<!-- FANOUT:END -->
 
 ### Why propagation is where it is
 
@@ -64,8 +72,9 @@ waits that are all time a buyer experiences:
 | Coalescing window | 0–50 ms, mean ~25 ms |
 | Serialise, queue, socket write, client parse | the rest |
 
-The relay tick was 100 ms in the first run and the p99 was 305 ms; reducing it to 25 ms took the
-p99 to 252 ms. Reducing the coalescing window would buy roughly 25 ms more at the cost of
+The relay tick was 100 ms in the first run (`sse-5000-203547`, p99 305 ms); reducing it to 25 ms
+and shrinking Tomcat's per-connection buffers took it through `sse-5000-204654` (252 ms) to the
+run of record. Reducing the coalescing window would buy roughly 25 ms more at the cost of
 multiplying the frame count — the wrong trade at 5,000 connections, where frame count is what the
 CPU is spent on.
 
@@ -78,7 +87,8 @@ the first thing to do if this number ever needs to be defended.
 
 ### Why memory per connection is where it is
 
-73.9 KiB retained per connection, against a target of 10–60 KB. Two rounds of work moved it:
+The retained figure in the table above is against a target of 10–60 KB. Two rounds of work moved
+it, and neither of them was a change to how a connection is held:
 
 1. **The first measurement was wrong**, not the software. Sampling resident set before and during
    the run attributed everything that grew — including the garbage from delivering fifteen million
@@ -87,7 +97,9 @@ the first thing to do if this number ever needs to be defended.
    same code.
 2. **Tomcat's per-connection application buffers** default to 8 KiB each way, sized for large
    request bodies. Every request on a stream is a few hundred bytes. Reducing them to 2 KiB took
-   the figure to 73.9 KiB.
+   the figure to roughly 74–76 KiB, which is where it has stayed across the runs since: the
+   remaining variation between runs is larger than any further tuning has produced, and is
+   reported rather than averaged away.
 
 What remains is Tomcat's per-connection processor state, the async request context Spring holds for
 the duration of the stream, the outbound queue, and a parked virtual thread per connection. Getting
@@ -99,10 +111,15 @@ rather than attempted at the end of a phase.
 
 From `load/results/2026-09-20/phase1-correctness/` and the `holds` and `flash` scenarios.
 
+<!-- RESERVATION:BEGIN -->
+Run of record: `load/results/2026-09-20/phase2-correctness/test-results.json`.
+
 | Quantity | Measured | Target | Verdict |
 |---|---|---|---|
-| 10,000 concurrent holds at 500 seats | exactly 500 granted, 9,500 clean 409s, **0 oversells** across 50 runs | pass/fail | met |
-| Wall clock for 10,000 concurrent attempts | 555 ms min, 593 ms median, 957 ms max | — | — |
+| 10,000 concurrent holds at 500 seats | exactly 500 granted, 9,500 clean 409s, **0 oversells** across 5 runs | pass/fail | met |
+| Wall clock for 10,000 concurrent attempts | 642 ms min, 691 ms median, 994 ms max | — | — |
+| Flash sale, 10,000 buyers in 10 s for 5,000 seats | 23/23 runs with invariants intact, **0 oversells** | 0 oversells over 50 runs | 0 oversells, fewer than 50 runs |
+<!-- RESERVATION:END -->
 
 Figures for sustained hold latency, flash-sale time-to-sell-out and the FIFO inversion rate are in
 `load/RESULTS_SUMMARY.md`, each against its target.
@@ -134,12 +151,14 @@ Three consequences follow, and they are why the system is built the way it is:
 > **Extrapolated, not measured.** Everything in this section is arithmetic on the figures above, and
 > arithmetic is not evidence.
 
-Taking the measured fan-out cost — 5,000 connections on three 2-vCPU replicas at 73.9 KiB of
-retained heap each, with propagation p99 at 252 ms — and assuming it scales linearly:
+Taking the measured fan-out cost from the run of record and assuming it scales linearly:
 
-- **One million concurrent SSE connections is an extrapolated 600 replicas** of the same size
-  (1,000,000 ÷ 5,000 × 3), or about 74 GB of retained heap for connection state alone
-  (extrapolated).
+<!-- EXTRAPOLATION:BEGIN -->
+- **One million concurrent SSE connections is an extrapolated 600 replicas** of the
+  same size (5,000 connections on 3 replicas, scaled linearly), or about
+  78 GB of retained heap for connection state alone (extrapolated from
+  75.7 KiB per connection).
+<!-- EXTRAPOLATION:END -->
 - **The pub/sub fan-out does not scale that way.** Every replica receives every delta, so the
   per-replica delivery cost grows with the number of connections *on that replica* while the
   message-receive cost stays constant — but the Redis publish rate grows with the change rate, not

@@ -331,6 +331,88 @@ headline.append(
 
 replace_between('README.md', '<!-- RESULTS:BEGIN -->', '<!-- RESULTS:END -->', '\n'.join(headline))
 
+# The capacity model quotes the same run of record. Two documents quoting two different SSE runs is
+# exactly the drift these markers exist to stop: before this, the model said 252 ms and the summary
+# said 223 ms, and both were true of some file on disk.
+capacity = []
+if sse:
+    during = sse.get('serverConnectionsDuring', {})
+    spread = ' / '.join(str(v) for _, v in sorted(during.items())) or '—'
+    prop = sse.get('propagationMs', {})
+    counters = sse.get('counters', {})
+    retained = sse.get('retainedHeap', {}).get('perConnectionBytes')
+    flush = sse.get('serverMetrics', {}).get('willcall_sse_flush_duration_seconds{quantile=0.99}')
+    p99 = prop.get('p99')
+    capacity += [
+        f'Run of record: `{sse_dir}/sse-result.json`.',
+        '',
+        '| Quantity | Measured | Target | Verdict |',
+        '|---|---|---|---|',
+        f"| Concurrent SSE connections | **{fmt(sse.get('establishedConnections'))}** "
+        f"({spread} per replica, {fmt(sse.get('failedConnections'))} failures) | ≥ 5,000 | "
+        f"{'met' if sse.get('establishedConnections', 0) >= 5000 else '**missed**'} |",
+        f"| Propagation, commit → client, p50 | **{fmt(prop.get('p50'))} ms** | — | — |",
+        f"| Propagation, commit → client, p99 | **{fmt(p99)} ms** | 80–250 ms | "
+        f"{'met' if p99 is not None and 80 <= p99 <= 250 else '**missed**'} |",
+        f"| Server-side flush, p99 | **{flush * 1000:.1f} ms** | — | — |" if flush else None,
+        f"| Sequence gaps detected by clients | **{fmt(counters.get('gaps'))}** over "
+        f"{fmt(counters.get('changes'))} delivered changes | — | — |",
+        f"| Retained heap per connection | **{retained / 1024:,.1f} KiB** | 10–60 KB | "
+        f"{'met' if retained and retained / 1024 <= 60 else '**missed**'} |" if retained else None,
+    ]
+    # Only the conditional rows are dropped; the empty string after the source line is a real
+    # blank line and markdown needs it to start the table.
+    capacity = [line for line in capacity if line is not None]
+if capacity:
+    replace_between('docs/capacity-model.md', '<!-- FANOUT:BEGIN -->', '<!-- FANOUT:END -->',
+                    '\n'.join(capacity))
+
+    # The extrapolation is arithmetic on the run of record, so it is computed from the same file
+    # rather than retyped. The label stays in the sentence, not only in the heading above it.
+    retained = sse['retainedHeap']['perConnectionBytes']
+    established = sse['establishedConnections']
+    replicas = len(sse.get('serverConnectionsDuring', {})) or 3
+    needed = round(1_000_000 / established * replicas)
+    heap_gb = 1_000_000 * retained / 1e9
+    replace_between(
+        'docs/capacity-model.md', '<!-- EXTRAPOLATION:BEGIN -->', '<!-- EXTRAPOLATION:END -->',
+        f'- **One million concurrent SSE connections is an extrapolated {needed:,} replicas** of the\n'
+        f'  same size ({established:,} connections on {replicas} replicas, scaled linearly), or about\n'
+        f'  {heap_gb:,.0f} GB of retained heap for connection state alone (extrapolated from\n'
+        f'  {retained / 1024:,.1f} KiB per connection).')
+
+reservation = []
+if correctness and correctness.get('concurrency'):
+    c = correctness['concurrency']
+    reservation += [
+        f"Run of record: `{correctness_dir}/test-results.json`.",
+        '',
+        '| Quantity | Measured | Target | Verdict |',
+        '|---|---|---|---|',
+        f"| {fmt(c['attempts'])} concurrent holds at {fmt(c['seats'])} seats | exactly "
+        f"{fmt(c['seats'])} granted, {fmt(c['attempts'] - c['seats'])} clean 409s, "
+        f"**{fmt(c['oversells'])} oversells** across {fmt(c['runs'])} runs | pass/fail | "
+        f"{'met' if c['oversells'] == 0 and c['allGrantedExactly500'] else '**missed**'} |",
+        f"| Wall clock for 10,000 concurrent attempts | {fmt(c['elapsedMsMin'])} ms min, "
+        f"{fmt(c['elapsedMsMedian'])} ms median, {fmt(c['elapsedMsMax'])} ms max | — | — |",
+    ]
+if flash:
+    reservation.append(
+        f"| Flash sale, 10,000 buyers in 10 s for 5,000 seats | "
+        f"{flash['runsWithInvariantsHeld']}/{flash['runs']} runs with invariants intact, "
+        f"**{fmt(flash['oversells'])} oversells** | 0 oversells over 50 runs | "
+        f"{'met' if flash['oversells'] == 0 and flash['runs'] >= 50 else '0 oversells, fewer than 50 runs'} |")
+if holds:
+    p99 = holds.get('metrics', {}).get('willcall_hold_duration', {}).get('p(99)')
+    if p99 is not None:
+        reservation.append(
+            f"| Hold p99 at a controlled ~1,000 requests/s | **{fmt(p99)} ms** | 60–150 ms | "
+            f"{'met' if 60 <= p99 <= 150 else '**missed**'} |")
+if reservation:
+    replace_between('docs/capacity-model.md', '<!-- RESERVATION:BEGIN -->',
+                    '<!-- RESERVATION:END -->', '\n'.join(reservation))
+
+
 print(f'{len(rows)} measurements, {len(missed)} not meeting target')
 for name, measured, target, _, verdict in rows:
     # The verdict is printed verbatim rather than collapsed to ok/miss: "below the range" is a
