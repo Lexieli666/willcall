@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { SeatListMode } from './SeatListMode'
 import { SeatMapStore } from '../lib/seatMapStore'
-import type { SeatMapResponse, SeatStatus } from '../lib/seatTypes'
+import type { SeatMapResponse } from '../lib/seatTypes'
 
 function buildMap(rows: number, seatsPerRow: number, taken: string[] = [], prices: number[] = [4500]): SeatMapResponse {
   let n = 0
@@ -31,7 +31,7 @@ function buildMap(rows: number, seatsPerRow: number, taken: string[] = [], price
               rowId: `row-${rowIndex}`,
               number: seatIndex + 1,
               label: `${String.fromCharCode(65 + rowIndex)}-${seatIndex + 1}`,
-              status: (taken.includes(id) ? 'SOLD' : 'AVAILABLE') as SeatStatus,
+              status: (taken.includes(id) ? 'SOLD' : 'AVAILABLE'),
               version: 0,
               priceCents: price,
             }
