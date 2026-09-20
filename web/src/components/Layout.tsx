@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 
 /**
  * Page shell. The skip link is the first focusable element on every route and the <main>
@@ -18,8 +19,9 @@ export function Layout({ children }: { children: ReactNode }) {
             <p className="wc-tagline">Fixed seats, one crowd, no oversells.</p>
           </div>
           <nav className="wc-nav" aria-label="Main">
-            <a href="/">Events</a>
-            <a href="/organizer">Organizer</a>
+            <Link to="/">Events</Link>
+            <Link to="/organizer">Organizer</Link>
+            <Link to="/status">Status</Link>
           </nav>
         </div>
       </header>

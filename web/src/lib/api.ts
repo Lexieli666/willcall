@@ -73,3 +73,52 @@ export interface SystemStatus {
 export function fetchSystemStatus(): Promise<SystemStatus> {
   return apiFetch<SystemStatus>('/system/status')
 }
+
+// --------------------------------------------------------------------------- buyer identity
+
+const USER_REF_KEY = 'willcall.userRef'
+
+/**
+ * The opaque buyer reference every reservation call is scoped to.
+ *
+ * <p>Generated once per browser and kept in localStorage so a reload does not lose an active
+ * hold. It is not a login and not a secret: from Phase 3 the waiting room issues a signed
+ * admission token and this becomes the fallback for a buyer who has not queued.
+ *
+ * <p>localStorage can throw — private mode, blocked site data — so every access is guarded and
+ * an in-memory reference is used when it does. Losing the reference on reload is worse than
+ * crashing only in the sense that it is silent, so the failure is at least confined here.
+ */
+let inMemoryUserRef: string | null = null
+
+export function userRef(): string {
+  if (inMemoryUserRef) return inMemoryUserRef
+  try {
+    const stored = localStorage.getItem(USER_REF_KEY)
+    if (stored) {
+      inMemoryUserRef = stored
+      return stored
+    }
+  } catch {
+    // Private mode or blocked storage; fall through and generate a per-session reference.
+  }
+
+  const generated = `buyer-${crypto.randomUUID().replace(/-/g, '').slice(0, 24)}`
+  inMemoryUserRef = generated
+  try {
+    localStorage.setItem(USER_REF_KEY, generated)
+  } catch {
+    // Not fatal: the reference lives for this page's lifetime instead.
+  }
+  return generated
+}
+
+export function buyerHeaders(idempotencyKey?: string): Record<string, string> {
+  const headers: Record<string, string> = { 'X-Willcall-User': userRef() }
+  if (idempotencyKey) headers['Idempotency-Key'] = idempotencyKey
+  return headers
+}
+
+export function newIdempotencyKey(): string {
+  return crypto.randomUUID()
+}

@@ -179,3 +179,363 @@ body {
   white-space: nowrap;
   border: 0;
 }
+
+/* ---------------------------------------------------------------- seat map */
+
+.wc-eventbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wc-gap);
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 0.5rem 1rem;
+  border-bottom: 1px solid var(--wc-border);
+  margin-bottom: 1rem;
+}
+
+.wc-eventbar__counts {
+  margin: 0;
+  font-weight: 600;
+}
+
+.wc-streamstatus {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--wc-fg-muted);
+}
+
+.wc-viewtoggle {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.wc-viewtoggle button {
+  font: inherit;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--wc-border-strong);
+  background: var(--wc-bg);
+  color: var(--wc-fg);
+  cursor: pointer;
+  border-radius: var(--wc-radius);
+}
+
+.wc-viewtoggle button[aria-pressed='true'] {
+  background: var(--wc-accent);
+  color: var(--wc-accent-fg);
+  border-color: var(--wc-accent);
+}
+
+.wc-eventlayout {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+@media (min-width: 60rem) {
+  .wc-eventlayout {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+  }
+
+  .wc-eventlayout__panel {
+    position: sticky;
+    top: 1rem;
+  }
+}
+
+.wc-eventlayout__panel {
+  background: var(--wc-bg-raised);
+  border: 1px solid var(--wc-border);
+  border-radius: var(--wc-radius);
+  padding: 1rem;
+}
+
+.wc-seatmap {
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.wc-seatmap__section-name {
+  font-size: 1rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.wc-seatrow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 2px;
+  /*
+    Lets the browser skip layout and paint for rows scrolled out of view, which on a phone is
+    most of them. contain-intrinsic-size gives it a placeholder height so the scrollbar does not
+    jump as rows are realised. The rows stay in the accessibility tree and stay reachable by
+    keyboard: skipping rendering is not the same as removing content.
+  */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 2rem;
+}
+
+.wc-seatrow__label {
+  flex: 0 0 2.5rem;
+  font-size: 0.75rem;
+  color: var(--wc-fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.wc-seat {
+  flex: 0 0 auto;
+  width: var(--wc-seat-size);
+  height: var(--wc-seat-size);
+  padding: 0;
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  cursor: pointer;
+  /*
+    No transition on background: a seat that fades between states during a flash sale is harder
+    to read, not easier, and the delta rate makes it a permanent shimmer.
+  */
+}
+
+.wc-seat--available {
+  background: var(--wc-available-bg);
+  color: var(--wc-available-fg);
+  border: 1px solid var(--wc-available-border);
+}
+
+.wc-seat--held {
+  background: var(--wc-held-bg);
+  color: var(--wc-held-fg);
+  border: 1px solid var(--wc-held-border);
+  cursor: not-allowed;
+}
+
+.wc-seat--sold {
+  background: var(--wc-sold-bg);
+  color: var(--wc-sold-fg);
+  border: 1px solid var(--wc-sold-border);
+  cursor: not-allowed;
+}
+
+.wc-seat--blocked {
+  background: var(--wc-blocked-bg);
+  color: var(--wc-blocked-fg);
+  border: 1px dashed var(--wc-border-strong);
+  cursor: not-allowed;
+}
+
+.wc-seat--selected {
+  background: var(--wc-selected-bg);
+  color: var(--wc-selected-fg);
+  border: 2px solid var(--wc-focus);
+}
+
+/*
+  Windows high-contrast mode replaces every author colour. Without these the entire seat map
+  becomes one undifferentiated block, which is why the glyph inside each seat is not decoration.
+*/
+@media (forced-colors: active) {
+  .wc-seat {
+    border: 1px solid CanvasText;
+  }
+
+  .wc-seat--selected {
+    outline: 3px solid Highlight;
+    outline-offset: -3px;
+  }
+}
+
+.wc-seatmap__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--wc-fg-muted);
+  margin-top: 1rem;
+}
+
+.wc-measure {
+  font-family: var(--wc-mono);
+  font-size: 0.8125rem;
+  color: var(--wc-fg-muted);
+}
+
+/* ---------------------------------------------------------------- list mode */
+
+.wc-seatlist__filters {
+  border: 1px solid var(--wc-border);
+  border-radius: var(--wc-radius);
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.wc-seatlist__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.wc-seatlist__seat {
+  font: inherit;
+  text-align: left;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--wc-border);
+  border-radius: var(--wc-radius);
+  background: var(--wc-bg);
+  color: var(--wc-fg);
+  cursor: pointer;
+}
+
+.wc-seatlist__seat[aria-pressed='true'] {
+  background: var(--wc-selected-bg);
+  color: var(--wc-selected-fg);
+  border-color: var(--wc-focus);
+}
+
+.wc-seatlist__seat[aria-disabled='true'] {
+  background: var(--wc-sold-bg);
+  color: var(--wc-sold-fg);
+  cursor: not-allowed;
+}
+
+/* ---------------------------------------------------------------- hold timer */
+
+.wc-holdtimer {
+  display: grid;
+  gap: 0.125rem;
+  padding: 0.75rem;
+  border: 2px solid var(--wc-border-strong);
+  border-radius: var(--wc-radius);
+  margin-bottom: 1rem;
+}
+
+.wc-holdtimer--urgent {
+  border-color: var(--wc-danger-fg);
+  background: var(--wc-danger-bg);
+  color: var(--wc-danger-fg);
+}
+
+.wc-holdtimer__label {
+  font-size: 0.8125rem;
+  color: inherit;
+}
+
+.wc-holdtimer__value {
+  font-size: 2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* ---------------------------------------------------------------- shared bits */
+
+.wc-button {
+  font: inherit;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--wc-border-strong);
+  border-radius: var(--wc-radius);
+  background: var(--wc-bg);
+  color: var(--wc-fg);
+  cursor: pointer;
+  margin-block: 0.25rem;
+  width: 100%;
+}
+
+.wc-button--primary {
+  background: var(--wc-accent);
+  color: var(--wc-accent-fg);
+  border-color: var(--wc-accent);
+  font-weight: 600;
+}
+
+.wc-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.wc-message {
+  padding: 0.75rem 1rem;
+  border-radius: var(--wc-radius);
+  border: 1px solid currentColor;
+  margin-block: 0.75rem;
+}
+
+.wc-message--error {
+  background: var(--wc-danger-bg);
+  color: var(--wc-danger-fg);
+}
+
+.wc-message--success {
+  background: var(--wc-success-bg);
+  color: var(--wc-success-fg);
+}
+
+.wc-message--info {
+  background: var(--wc-bg-sunken);
+  color: var(--wc-fg);
+}
+
+.wc-keyvalue {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  margin: 0;
+}
+
+.wc-keyvalue dt {
+  color: var(--wc-fg-muted);
+}
+
+.wc-keyvalue dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.wc-eventlist,
+.wc-selectionlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.wc-selectionlist {
+  gap: 0.25rem;
+  font-size: 0.9375rem;
+}
+
+.wc-bestavailable {
+  border: 1px solid var(--wc-border);
+  border-radius: var(--wc-radius);
+  padding: 0.5rem 0.75rem 0.75rem;
+  margin-top: 1rem;
+}
+
+.wc-note {
+  font-size: 0.8125rem;
+  color: var(--wc-fg-muted);
+}
+
+.wc-meter {
+  width: 100%;
+  height: 1rem;
+  margin-top: 0.5rem;
+}
+
+.wc-field {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
