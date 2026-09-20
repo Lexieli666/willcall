@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * The falsifier for the invariant monitor.
@@ -23,6 +24,13 @@ class InvariantMonitorIntegrationTest extends IntegrationTestBase {
 
   @Autowired InvariantMonitor monitor;
   @Autowired MeterRegistry meters;
+  @Autowired TransactionTemplate transactions;
+
+  /** The monitor's check demands an ambient transaction, so the test supplies one. */
+  private void runCheck() {
+    Boolean ran = transactions.execute(status -> monitor.checkIfLockAcquired());
+    assertThat(ran).as("this process should win an uncontended advisory lock").isTrue();
+  }
 
   private double violations() {
     return meters.get("willcall.invariant.violations").gauge().value();
@@ -42,7 +50,7 @@ class InvariantMonitorIntegrationTest extends IntegrationTestBase {
             value -> assertThat(value).isGreaterThanOrEqualTo(0.0));
 
     createEvent(2, 4, 60);
-    monitor.check();
+    runCheck();
 
     assertThat(violations()).as("a clean database").isZero();
   }
@@ -56,7 +64,7 @@ class InvariantMonitorIntegrationTest extends IntegrationTestBase {
             "select id from seats where event_id = ? limit 1", UUID.class, event.id());
     UUID groupId = UUID.randomUUID();
 
-    monitor.check();
+    runCheck();
     assertThat(violations()).as("before planting anything").isZero();
 
     // Straight into the tables, bypassing every service: the point is to prove the monitor reads
@@ -79,7 +87,7 @@ class InvariantMonitorIntegrationTest extends IntegrationTestBase {
         seatId);
     jdbc.update("update seats set status = 'SOLD' where id = ?", seatId);
 
-    monitor.check();
+    runCheck();
 
     assertThat(violations())
         .as("a seat that is SOLD and also actively held")
