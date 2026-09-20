@@ -1,1 +1,3 @@
 time="2026-09-20T15:36:08-07:00" level=info msg="holds scenario using event 44a5f235-c8bb-47ce-bc11-a0c6e933972d with capacity 40000" source=console
+
+thresholds: 

@@ -85,3 +85,33 @@ Listed because a test suite's value is what it caught, not how many assertions i
 | `ReservationApiIntegrationTest` | Any unknown URL returned 500 with an error-level stack trace, because the catch-all handler also caught `NoResourceFoundException`. During a load test that noise would have hidden a real 500. |
 | Running `verify-invariants.sh` by hand | The script defined a shell function called `psql` and then asked `command -v psql` whether a client existed. `command -v` finds functions, so the answer was always yes, the binary was missing, every query failed, every check saw empty output, and the script printed "all invariant checks passed". It now resolves the client with `type -P`, probes connectivity, checks the tables exist, and fails if fewer than seven checks ran. |
 | `docker compose` smoke check | An nginx prefix location ending in a slash makes nginx 301 a request for the same path without it — so every `POST /api/events` was redirected to `/api/events/`, and the redirect dropped the port. The stream location is now a regex. |
+
+## Bugs the load tests and the game day found, which no unit test would have
+
+The table above is what the automated suites caught. These needed the system running under load,
+or a fault injected into it, and they are listed separately because that is the argument for doing
+either.
+
+| Found by | The bug |
+|---|---|
+| The flash-sale suite | `errorForEmptyAllocation` ran a `count(*)` on every refusal — thirteen thousand per run — and exhausted the connection pool. 1,927 responses were 500. Removing the query fixed the cause; mapping pool exhaustion to 503 with `Retry-After` fixed the symptom, and the symptom needed fixing too, because "at capacity" and "broken" should not look the same. |
+| The game day, exhausting the pool | nginx ejected all three healthy replicas within one second and answered `502` to 1,227 buyers while the application shed correctly. Passive health checks assume replicas fail independently; the database is what they share. |
+| Re-running that game day after the fix | `lock_timeout` released the pool connections as intended, and 98 requests became 500 anyway: PostgreSQL's `55P03` arrives as an `UncategorizedSQLException` that Spring has no mapping for. A timeout without a decision about what its expiry means is half a change. |
+| The game day, killing a replica | The kill was free; the **restart** cost eight requests, because a container has an address before the process inside it is listening and nginx does not consult the container's health check. |
+| The million-row query plans | The expiry sweeper's `ORDER BY seat_id` was served from the wrong index: 50,060 buffers read to return 50 rows, four times a second on every replica. Invisible until the plan was taken against a realistic population — after a load run there are no active holds, and a plan over an empty partial index says nothing. |
+| The million-row query plans | The contiguous-seat fallback read 32,241 buffers and discarded 60,000 rows per call. A partial index over available seats, in the order the window function wants, took it to 2,306. |
+| Reading the same plans | `seats_by_row_position` duplicated a unique constraint exactly — same columns, same order — so every seat write maintained two identical btrees. |
+| The second fairness run | The inversion SQL had no event filter and measured whichever event had the most admissions, which was the *previous* run's. The published rate described forty-minute-old code, and looked entirely reasonable. |
+
+## Instruments that passed while measuring nothing
+
+Four times, a check reported success over no data. They are collected here because the pattern is
+more instructive than any one of them, and because the fix is the same every time: **a check needs
+a test that makes it fail.**
+
+| The instrument | What it actually did |
+|---|---|
+| `verify-invariants.sh` | Twice: a shell function shadowed `psql`, then `docker run` without `-i` never received the query. Both times it printed seven checks passing over empty output. It now emits a sentinel row and exits 2 if the sentinel does not come back; it is tested against a planted violation (must exit 1) and an unreachable database (must exit 2). |
+| The pool-exhaustion game day | Opened 130 idle sessions on PostgreSQL to "starve the pool". HikariCP's pool is client side, so they starved nothing. The scenario would have reported the system surviving a fault it never experienced. |
+| The hot-path plan check | Reported three sequential scans that did not exist. Every plan contained a `Seq Scan on events` from a subquery the capture script had added and the application never runs. |
+| The sweeper's plan | Taken against an empty partial index, because a load run leaves no active holds behind. It reported an index scan returning nothing in 0.1 ms, for a query that reads 50,060 buffers when it matters. |
