@@ -72,6 +72,40 @@ management:
 willcall:
   replica-id: ${WILLCALL_REPLICA_ID:local}
 
+  holds:
+    # 0 disables the per-buyer cap. The default of 1 means one active hold group per buyer per
+    # event, which is the fairness lever the waiting room relies on: without it a scripted buyer
+    # holds the whole front row while deciding.
+    max-active-per-user: ${WILLCALL_MAX_ACTIVE_HOLDS:1}
+
+  checkout:
+    # How far a hold is pushed out when checkout starts. Must exceed the payment timeout, or a
+    # slow card loses the buyer their seats between prepare and settle.
+    grace: ${WILLCALL_CHECKOUT_GRACE:PT30S}
+
+  sweeper:
+    enabled: ${WILLCALL_SWEEPER_ENABLED:true}
+    interval-ms: ${WILLCALL_SWEEPER_INTERVAL_MS:250}
+    batch-size: ${WILLCALL_SWEEPER_BATCH:500}
+
+  outbox:
+    enabled: ${WILLCALL_OUTBOX_ENABLED:true}
+    interval-ms: ${WILLCALL_OUTBOX_INTERVAL_MS:100}
+    batch-size: ${WILLCALL_OUTBOX_BATCH:500}
+    retain: ${WILLCALL_OUTBOX_RETAIN:PT1H}
+
+  idempotency:
+    retention: ${WILLCALL_IDEMPOTENCY_RETENTION:PT24H}
+
+  payment:
+    # The checkout percentile budget is stated relative to this number, so it is configuration
+    # rather than a constant: a result that does not say which gateway latency it assumed is not
+    # a result.
+    latency-ms: ${WILLCALL_PAYMENT_LATENCY_MS:50}
+    jitter-ms: ${WILLCALL_PAYMENT_JITTER_MS:10}
+    timeout-ms: ${WILLCALL_PAYMENT_TIMEOUT_MS:2000}
+    default-behavior: ${WILLCALL_PAYMENT_BEHAVIOR:SUCCEED}
+
 logging:
   level:
     root: INFO

@@ -47,6 +47,9 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("net.jqwik:jqwik:1.9.3")
+    // Lets a jqwik @Property run inside a Spring test context, which is what the model-based
+    // reservation test needs: it compares the real service against a reference state machine.
+    testImplementation("net.jqwik:jqwik-spring:0.12.0")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.awaitility:awaitility")
@@ -102,7 +105,11 @@ tasks.withType<Test>().configureEach {
         showStandardStreams = false
     }
     // Long mode raises the repetition counts on the concurrency and model-based suites.
-    systemProperty("willcall.longMode", System.getProperty("willcall.longMode", "false"))
+    val longMode = System.getProperty("willcall.longMode", "false")
+    systemProperty("willcall.longMode", longMode)
+    // jqwik reads its default try count from this property, so the model-based suite scales with
+    // the same switch as everything else rather than needing its own.
+    systemProperty("jqwik.tries.default", if (longMode == "true") "10000" else "1000")
     maxHeapSize = "3g"
     jvmArgs("-XX:+EnableDynamicAgentLoading")
 }
