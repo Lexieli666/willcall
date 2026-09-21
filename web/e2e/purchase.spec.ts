@@ -31,7 +31,7 @@ test.describe('buying seats', () => {
     await page.getByTestId('best-available-1').click()
 
     await expect(page.getByTestId('hold-countdown')).toBeVisible({ timeout: 10_000 })
-    await expect(page.getByRole('status').filter({ hasText: '1 seat(s) held.' })).toBeVisible()
+    await expect(page.getByTestId('event-message')).toContainText('1 seat(s) held.')
   })
 
   test('a seat taken between render and click is refused by name, not silently swapped', async ({

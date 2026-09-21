@@ -43,6 +43,28 @@ export function EventPage() {
   // One announcer for the life of the page: recreating it would reset the ambient rate limit on
   // every render, which is the same as having no throttle at all.
   const announcer = useMemo(() => new Announcer(), [])
+
+  /**
+   * Shows a message and announces it, in one call, because doing them separately went wrong twice.
+   *
+   * First the visible element and the announcer were both live regions and the one message that
+   * used both was read out twice. Removing the roles from the visible element fixed that and broke
+   * the other six messages, which had no announcer call at all - "1 seat(s) held" and "this event
+   * allows at most N seats" simply stopped being announced, and no automated check noticed,
+   * because a paragraph with no live-region role is perfectly valid markup.
+   *
+   * One function, so a message cannot be shown without being announced or announced twice.
+   * Errors interrupt; everything else waits for a pause.
+   */
+  const showMessage = useCallback(
+    (next: { tone: 'error' | 'success' | 'info'; text: string } | null) => {
+      setMessageState(next)
+      if (!next) return
+      if (next.tone === 'error') announcer.critical(next.text)
+      else announcer.polite(next.text)
+    },
+    [announcer],
+  )
   const panelHeadingRef = useRef<HTMLHeadingElement>(null)
 
   const [viewMode, setViewMode] = useState<ViewMode>('map')
@@ -50,7 +72,10 @@ export function EventPage() {
   const [hold, setHold] = useState<HoldResponse | null>(null)
   const [holdKey, setHoldKey] = useState(() => newIdempotencyKey())
   const [confirmKey, setConfirmKey] = useState(() => newIdempotencyKey())
-  const [message, setMessage] = useState<{ tone: 'error' | 'success' | 'info'; text: string } | null>(null)
+  const [message, setMessageState] = useState<{
+    tone: 'error' | 'success' | 'info'
+    text: string
+  } | null>(null)
   const [busy, setBusy] = useState(false)
   const [renderMs, setRenderMs] = useState<number | null>(null)
 
@@ -108,10 +133,11 @@ export function EventPage() {
       .join(', ')
     setSelected((current) => new Set([...current].filter((id) => !lost.includes(id))))
     const text = `Someone else took ${labels}. Those seats are no longer selected.`
-    setMessage({ tone: 'error', text })
-    // Critical: this is the buyer's own selection changing under them, not the room moving.
-    announcer.critical(text)
-  }, [stream.revision, stream.store, selected, hold, announcer])
+    // Critical by tone: this is the buyer's own selection changing under them, not the room
+    // moving. showMessage announces it; it used to be announced here as well, and twice is worse
+    // than not at all because the second reading arrives while the first is still being read.
+    showMessage({ tone: 'error', text })
+  }, [stream.revision, stream.store, selected, hold, showMessage])
 
   // The room, summarised at a pace a person can absorb. Individual seat changes are never
   // announced: during a sell-out there are dozens a second, and reading them all would drown out
@@ -136,18 +162,18 @@ export function EventPage() {
   const toggleSeat = useCallback(
     (seatId: string) => {
       if (hold) return
-      setMessage(null)
+      showMessage(null)
       setSelected((current) => {
         const next = new Set(current)
         if (next.has(seatId)) next.delete(seatId)
         else if (next.size >= maxSeats) {
-          setMessage({ tone: 'error', text: `This event allows at most ${maxSeats} seats in one order.` })
+          showMessage({ tone: 'error', text: `This event allows at most ${maxSeats} seats in one order.` })
           return current
         } else next.add(seatId)
         return next
       })
     },
-    [hold, maxSeats],
+    [hold, maxSeats, showMessage],
   )
 
   /** Announced and focused together, because both hold paths change the same part of the page. */
@@ -187,18 +213,18 @@ export function EventPage() {
   const holdSelected = async () => {
     if (!eventId || selected.size === 0) return
     setBusy(true)
-    setMessage(null)
+    showMessage(null)
     try {
       const response = await createHold(eventId, { seatIds: [...selected] }, holdKey)
       setHold(response)
-      setMessage({
+      showMessage({
         tone: 'success',
         text: `${response.seatIds.length} seat(s) held. Complete checkout before the timer runs out.`,
       })
       announceHeld(response.seatIds.length, response.secondsRemaining)
       void refetchBuyerState()
     } catch (cause) {
-      setMessage({ tone: 'error', text: describeError(cause) })
+      showMessage({ tone: 'error', text: describeError(cause) })
       // A new key for the next attempt: the previous request is settled, and reusing its key
       // would make the retry a replay of a request the buyer has since changed.
       setHoldKey(newIdempotencyKey())
@@ -210,16 +236,16 @@ export function EventPage() {
   const holdBestAvailable = async (quantity: number, together: boolean) => {
     if (!eventId) return
     setBusy(true)
-    setMessage(null)
+    showMessage(null)
     try {
       const response = await createHold(eventId, { quantity, together }, holdKey)
       setHold(response)
       setSelected(new Set(response.seatIds))
-      setMessage({ tone: 'success', text: `${response.seatIds.length} seat(s) held.` })
+      showMessage({ tone: 'success', text: `${response.seatIds.length} seat(s) held.` })
       announceHeld(response.seatIds.length, response.secondsRemaining)
       void refetchBuyerState()
     } catch (cause) {
-      setMessage({ tone: 'error', text: describeError(cause) })
+      showMessage({ tone: 'error', text: describeError(cause) })
       setHoldKey(newIdempotencyKey())
     } finally {
       setBusy(false)
@@ -235,12 +261,12 @@ export function EventPage() {
       setSelected(new Set())
       setHoldKey(newIdempotencyKey())
       const text = 'Your hold was released and the seats are back on sale.'
-      setMessage({ tone: 'info', text })
+      showMessage({ tone: 'info', text })
       announcer.polite(text)
       panelHeadingRef.current?.focus()
       void refetchBuyerState()
     } catch (cause) {
-      setMessage({ tone: 'error', text: describeError(cause) })
+      showMessage({ tone: 'error', text: describeError(cause) })
     } finally {
       setBusy(false)
     }
@@ -249,13 +275,13 @@ export function EventPage() {
   const checkout = async () => {
     if (!hold) return
     setBusy(true)
-    setMessage(null)
+    showMessage(null)
     try {
       const order = await confirmOrder(hold.holdId, confirmKey)
       void navigate(`/orders/${order.orderId}`)
     } catch (cause) {
       const text = describeError(cause)
-      setMessage({ tone: 'error', text })
+      showMessage({ tone: 'error', text })
       announcer.critical(text)
       if (cause instanceof ApiError && cause.code === 'payment_timeout') {
         // Deliberately keep the same key: the charge may have landed, and only a retry carrying
@@ -279,7 +305,7 @@ export function EventPage() {
     setConfirmKey(newIdempotencyKey())
     const text =
       'Your hold expired and the seats went back on sale. Choose again if they are still free.'
-    setMessage({ tone: 'error', text })
+    showMessage({ tone: 'error', text })
     // Assertive: somebody filling in a payment form needs to know the form is now pointless, and
     // needs to know before they finish typing a card number.
     announcer.critical(text)
@@ -287,7 +313,7 @@ export function EventPage() {
     // Refresh the buyer state as well, so the cached copy that still contains this hold cannot
     // be adopted again on the next render.
     void refetchBuyerState()
-  }, [refetchBuyerState, announcer])
+  }, [refetchBuyerState, announcer, showMessage])
 
   if (!eventId) return <p role="alert">No event was requested.</p>
 
@@ -330,7 +356,7 @@ export function EventPage() {
 
       {/*
         No live-region role here, deliberately. Every message shown in this element is also sent to
-        the announcer - `setMessage(...)` and `announcer.critical(...)` are called with the same
+        the announcer - `showMessage(...)` and `announcer.critical(...)` are called with the same
         string - so marking this one up as an alert too made a screen reader read "Someone else
         took Floor-A-1" twice. One live region per page, and this is the visible half of it.
 
