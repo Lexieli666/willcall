@@ -1,16 +1,16 @@
 {
-  "commit": "71baddeb4c8a29edcbf5250a92de1ec4384995ef",
+  "commit": "fafc2bf768922d6fad8a0a068716d7dbc7fa37d1",
   "lighthouse": {
-    "runs": 6,
+    "runs": 3,
     "preset": "desktop",
     "accessibility": 1,
     "performance": 1,
     "bestPractices": 1,
     "seo": 0.91,
-    "medianLargestContentfulPaintMs": 443.954,
+    "medianLargestContentfulPaintMs": 442.9667,
     "medianCumulativeLayoutShift": 0.0085,
-    "medianTotalBlockingTimeMs": 0.0,
-    "medianFirstContentfulPaintMs": 402.5115,
+    "medianTotalBlockingTimeMs": 0,
+    "medianFirstContentfulPaintMs": 401.8151,
     "perRun": [
       {
         "url": "http://127.0.0.1:8080/",
@@ -20,11 +20,11 @@
           "best-practices": 1,
           "seo": 0.91
         },
-        "largestContentfulPaintMs": 443.2382,
+        "largestContentfulPaintMs": 442.72265,
         "cumulativeLayoutShift": 0.00851063829787234,
         "totalBlockingTimeMs": 0,
-        "firstContentfulPaintMs": 402.1588,
-        "speedIndexMs": 402.1588
+        "firstContentfulPaintMs": 401.8151,
+        "speedIndexMs": 401.8151
       },
       {
         "url": "http://127.0.0.1:8080/",
@@ -34,11 +34,11 @@
           "best-practices": 1,
           "seo": 0.91
         },
-        "largestContentfulPaintMs": 444.2963,
+        "largestContentfulPaintMs": 445.1609,
         "cumulativeLayoutShift": 0.00851063829787234,
         "totalBlockingTimeMs": 0,
-        "firstContentfulPaintMs": 402.8642,
-        "speedIndexMs": 402.8642
+        "firstContentfulPaintMs": 363.4406,
+        "speedIndexMs": 363.4406
       },
       {
         "url": "http://127.0.0.1:8080/",
@@ -48,65 +48,18 @@
           "best-practices": 1,
           "seo": 0.91
         },
-        "largestContentfulPaintMs": 445.3127,
+        "largestContentfulPaintMs": 442.9667,
         "cumulativeLayoutShift": 0.00851063829787234,
         "totalBlockingTimeMs": 0,
-        "firstContentfulPaintMs": 405.5418,
-        "speedIndexMs": 405.5418
-      },
-      {
-        "url": "http://127.0.0.1:8080/",
-        "categories": {
-          "performance": 1,
-          "accessibility": 1,
-          "best-practices": 1,
-          "seo": 0.91
-        },
-        "largestContentfulPaintMs": 443.61170000000004,
-        "cumulativeLayoutShift": 0.00851063829787234,
-        "totalBlockingTimeMs": 0,
-        "firstContentfulPaintMs": 404.4078,
-        "speedIndexMs": 404.4078
-      },
-      {
-        "url": "http://127.0.0.1:8080/",
-        "categories": {
-          "performance": 1,
-          "accessibility": 1,
-          "best-practices": 1,
-          "seo": 0.91
-        },
-        "largestContentfulPaintMs": 442.4201,
-        "cumulativeLayoutShift": 0.00851063829787234,
-        "totalBlockingTimeMs": 0,
-        "firstContentfulPaintMs": 361.6134,
-        "speedIndexMs": 361.6134
-      },
-      {
-        "url": "http://127.0.0.1:8080/",
-        "categories": {
-          "performance": 1,
-          "accessibility": 1,
-          "best-practices": 1,
-          "seo": 0.91
-        },
-        "largestContentfulPaintMs": 447.83585,
-        "cumulativeLayoutShift": 0.00851063829787234,
-        "totalBlockingTimeMs": 0,
-        "firstContentfulPaintMs": 367.2239,
-        "speedIndexMs": 367.2239
+        "firstContentfulPaintMs": 401.9778,
+        "speedIndexMs": 401.9778
       }
     ]
   },
-  "seatMapRender": {
-    "seats": 5000,
-    "renderMs": 337.59999999403954,
-    "budgetMs": 120
-  },
   "playwright": {
     "total": 23,
-    "passed": 22,
-    "failed": 1
+    "passed": 23,
+    "failed": 0
   },
   "vitest": {
     "total": 106,

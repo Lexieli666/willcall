@@ -101,12 +101,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 834,
+                      "duration": 441,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:23:52.718Z",
+                      "startTime": "2026-09-21T03:07:57.360Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -137,12 +137,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 354,
+                      "duration": 207,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:23:52.718Z",
+                      "startTime": "2026-09-21T03:07:57.359Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -173,12 +173,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 201,
+                      "duration": 176,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:23:53.129Z",
+                      "startTime": "2026-09-21T03:07:57.627Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -209,12 +209,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 327,
+                      "duration": 211,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:23:53.337Z",
+                      "startTime": "2026-09-21T03:07:57.810Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -246,12 +246,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1028,
+                      "duration": 963,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:23:53.603Z",
+                      "startTime": "2026-09-21T03:07:57.861Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -310,12 +310,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 454,
+                      "duration": 400,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:23:53.675Z",
+                      "startTime": "2026-09-21T03:07:58.033Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -346,12 +346,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 228,
+                      "duration": 214,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:23:54.136Z",
+                      "startTime": "2026-09-21T03:07:58.441Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -380,12 +380,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 295,
+                      "duration": 211,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:23:54.369Z",
+                      "startTime": "2026-09-21T03:07:58.660Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -416,12 +416,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 15569,
+                      "duration": 15573,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:23:54.643Z",
+                      "startTime": "2026-09-21T03:07:58.836Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -452,12 +452,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 661,
+                      "duration": 611,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:23:54.671Z",
+                      "startTime": "2026-09-21T03:07:58.877Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -494,12 +494,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 5306,
+                      "duration": 7009,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:23:55.338Z",
+                      "startTime": "2026-09-21T03:07:59.494Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -583,12 +583,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 196,
+                      "duration": 193,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:00.656Z",
+                      "startTime": "2026-09-21T03:08:06.514Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -619,12 +619,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 288,
+                      "duration": 338,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:00.859Z",
+                      "startTime": "2026-09-21T03:08:06.713Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -655,12 +655,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 278,
+                      "duration": 213,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:01.153Z",
+                      "startTime": "2026-09-21T03:08:07.057Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -708,12 +708,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 2171,
+                      "duration": 2179,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:01.445Z",
+                      "startTime": "2026-09-21T03:08:07.282Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -744,12 +744,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 210,
+                      "duration": 286,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:03.622Z",
+                      "startTime": "2026-09-21T03:08:09.467Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -780,12 +780,12 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 240,
+                      "duration": 244,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:03.838Z",
+                      "startTime": "2026-09-21T03:08:09.758Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -812,12 +812,12 @@
         {
           "title": "seat map performance",
           "file": "seatmap-performance.spec.ts",
-          "line": 16,
+          "line": 20,
           "column": 6,
           "specs": [
             {
-              "title": "a 5,000-seat map renders inside the budget @performance",
-              "ok": false,
+              "title": "a 5,000-seat map is real DOM and publishes its own render measure @performance",
+              "ok": true,
               "tags": [
                 "performance"
               ],
@@ -832,134 +832,23 @@
                     {
                       "workerIndex": 1,
                       "parallelIndex": 1,
-                      "status": "failed",
-                      "duration": 941,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m136\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m136\u001b[39m\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26",
-                        "location": {
-                          "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
-                          "column": 26,
-                          "line": 45
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 43 |\u001b[39m     console\u001b[33m.\u001b[39mlog(\u001b[32m`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`\u001b[39m)\n \u001b[90m 44 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 45 |\u001b[39m     expect(milliseconds)\u001b[33m.\u001b[39mtoBeLessThan(\u001b[35m120\u001b[39m)\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 46 |\u001b[39m\n \u001b[90m 47 |\u001b[39m     \u001b[90m// Every seat is a real element, which is the point of paying the render cost at all.\u001b[39m\n \u001b[90m 48 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.wc-seat'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m5000\u001b[39m)\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
-                            "column": 26,
-                            "line": 45
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m136\u001b[39m\n\n  43 |     console.log(`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`)\n  44 |\n> 45 |     expect(milliseconds).toBeLessThan(120)\n     |                          ^\n  46 |\n  47 |     // Every seat is a real element, which is the point of paying the render cost at all.\n  48 |     await expect(page.locator('.wc-seat')).toHaveCount(5000)\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26"
-                        }
-                      ],
-                      "stdout": [
-                        {
-                          "text": "5,000-seat map rendered in 136.0 ms (budget 120 ms)\n"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 641,
+                      "errors": [],
+                      "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:04.091Z",
+                      "startTime": "2026-09-21T03:08:10.013Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "seatmap-render-ms.json",
-                          "contentType": "application/json",
-                          "body": "ewogICJzZWF0cyI6IDUwMDAsCiAgInJlbmRlck1zIjogMTM2LAogICJidWRnZXRNcyI6IDEyMAp9"
-                        },
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium/error-context.md"
-                        },
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium/trace.zip"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
-                        "column": 26,
-                        "line": 45
-                      }
-                    },
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 1,
-                      "status": "failed",
-                      "duration": 1259,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m337.59999999403954\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m337.59999999403954\u001b[39m\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26",
-                        "location": {
-                          "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
-                          "column": 26,
-                          "line": 45
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 43 |\u001b[39m     console\u001b[33m.\u001b[39mlog(\u001b[32m`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`\u001b[39m)\n \u001b[90m 44 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 45 |\u001b[39m     expect(milliseconds)\u001b[33m.\u001b[39mtoBeLessThan(\u001b[35m120\u001b[39m)\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 46 |\u001b[39m\n \u001b[90m 47 |\u001b[39m     \u001b[90m// Every seat is a real element, which is the point of paying the render cost at all.\u001b[39m\n \u001b[90m 48 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'.wc-seat'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m5000\u001b[39m)\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
-                            "column": 26,
-                            "line": 45
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m120\u001b[39m\nReceived:   \u001b[31m337.59999999403954\u001b[39m\n\n  43 |     console.log(`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`)\n  44 |\n> 45 |     expect(milliseconds).toBeLessThan(120)\n     |                          ^\n  46 |\n  47 |     // Every seat is a real element, which is the point of paying the render cost at all.\n  48 |     await expect(page.locator('.wc-seat')).toHaveCount(5000)\n    at /home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts:45:26"
-                        }
-                      ],
-                      "stdout": [
-                        {
-                          "text": "5,000-seat map rendered in 337.6 ms (budget 120 ms)\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-09-21T00:24:05.379Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "seatmap-render-ms.json",
-                          "contentType": "application/json",
-                          "body": "ewogICJzZWF0cyI6IDUwMDAsCiAgInJlbmRlck1zIjogMzM3LjU5OTk5OTk5NDAzOTU0LAogICJidWRnZXRNcyI6IDEyMAp9"
-                        },
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium-retry1/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium-retry1/error-context.md"
-                        },
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "/home/yzhao/willcall/web/test-results/seatmap-performance-seat-m-02f9c-side-the-budget-performance-chromium-retry1/trace.zip"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/home/yzhao/willcall/web/e2e/seatmap-performance.spec.ts",
-                        "column": 26,
-                        "line": 45
-                      }
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
-              "id": "b8fac0c830a0f28763d1-ca8d0c4d7762ed507081",
+              "id": "b8fac0c830a0f28763d1-321863b918602154dff0",
               "file": "seatmap-performance.spec.ts",
-              "line": 17,
+              "line": 21,
               "column": 3
             },
             {
@@ -977,15 +866,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
+                      "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 434,
+                      "duration": 311,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:07.023Z",
+                      "startTime": "2026-09-21T03:08:10.658Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1030,15 +919,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
+                      "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 189,
+                      "duration": 198,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:07.589Z",
+                      "startTime": "2026-09-21T03:08:10.979Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1066,15 +955,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
+                      "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 3269,
+                      "duration": 4989,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:07.786Z",
+                      "startTime": "2026-09-21T03:08:11.182Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1111,12 +1000,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 187,
+                      "duration": 197,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:10.226Z",
+                      "startTime": "2026-09-21T03:08:14.422Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1147,12 +1036,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 109,
+                      "duration": 108,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-09-21T00:24:10.421Z",
+                      "startTime": "2026-09-21T03:08:14.627Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1172,11 +1061,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-21T00:23:52.292Z",
-    "duration": 18824.203,
-    "expected": 22,
+    "startTime": "2026-09-21T03:07:56.901Z",
+    "duration": 19330.349000000002,
+    "expected": 23,
     "skipped": 0,
-    "unexpected": 1,
+    "unexpected": 0,
     "flaky": 0
   }
 }

@@ -66,7 +66,10 @@ if runs:
         'perRun': runs,
     }
 
-# The seat-map render time, read from the Playwright attachment the test writes.
+# Playwright's test counts. The seat-map render time used to be read from an attachment here;
+# it is measured by web/perf/measure-seatmap-render.mjs now, because the harness that produced
+# the attachment was inflating the figure by an order of magnitude. Reading a stale attachment
+# was worse than reading none - this script reported 337.6 ms for a render measured at 21.2 ms.
 pw_path = f'{out_dir}/playwright-results.json'
 if os.path.exists(pw_path):
     pw = json.load(open(pw_path))
@@ -82,22 +85,6 @@ if os.path.exists(pw_path):
                     tests['passed'] += 1
                 else:
                     tests['failed'] += 1
-                for result in results:
-                    for attachment in result.get('attachments', []):
-                        if attachment.get('name') != 'seatmap-render-ms.json':
-                            continue
-                        # Playwright inlines a body attachment as base64 and writes a path only
-                        # for file attachments, so both shapes have to be handled; reading only
-                        # `path` silently produced no measurement at all.
-                        try:
-                            if attachment.get('body'):
-                                import base64
-                                report['seatMapRender'] = json.loads(
-                                    base64.b64decode(attachment['body']).decode('utf-8'))
-                            elif attachment.get('path'):
-                                report['seatMapRender'] = json.load(open(attachment['path']))
-                        except (OSError, ValueError):
-                            pass
         for child in suite.get('suites', []):
             walk(child)
 
@@ -140,9 +127,7 @@ if 'lighthouse' in report:
     print(f"lighthouse ({lh['runs']} runs): accessibility {lh['accessibility']}, "
           f"performance {lh['performance']}, LCP {lh['medianLargestContentfulPaintMs']:.0f} ms, "
           f"CLS {lh['medianCumulativeLayoutShift']}, TBT {lh['medianTotalBlockingTimeMs']:.0f} ms")
-if 'seatMapRender' in report:
-    r = report['seatMapRender']
-    print(f"seat map: {r['seats']} seats rendered in {r['renderMs']:.1f} ms (budget {r['budgetMs']} ms)")
+print('seat map render: measured separately by `make perf-seatmap`')
 if 'playwright' in report:
     print(f"playwright: {report['playwright']['total']} tests, {report['playwright']['failed']} failed")
 PY
