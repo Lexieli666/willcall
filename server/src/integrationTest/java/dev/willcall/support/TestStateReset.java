@@ -1,5 +1,6 @@
 package dev.willcall.support;
 
+import org.springframework.dao.DeadlockLoserDataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,6 +31,37 @@ public final class TestStateReset {
    * ancestor was written, and nothing would have failed to say so.
    */
   public static void clean(JdbcTemplate jdbc, RedisConnectionFactory redis) {
+    truncateWithOneRetry(jdbc);
+
+    try (RedisConnection connection = redis.getConnection()) {
+      connection.serverCommands().flushAll();
+    }
+  }
+
+  /**
+   * Empties PostgreSQL, retrying once if the truncate deadlocks.
+   *
+   * <p>{@code TRUNCATE} takes {@code ACCESS EXCLUSIVE} on twelve tables at once, and it takes them
+   * in the order written. A transaction still finishing from the previous test can hold one of them
+   * and be waiting for another, and the two deadlock — which is what happened once in a
+   * 10,000-sequence property run, on the setup statement rather than on anything the product does.
+   *
+   * <p>A retry rather than a lock ordering, and the distinction matters: the product's lock order
+   * is an invariant with a test of its own (ADR 0005), and this is a test fixture emptying tables
+   * between runs. Making the fixture look like a participant in that ordering would imply the
+   * product has to care about it, which it does not. One retry, and a failure if the second attempt
+   * deadlocks too, because a reproducible deadlock here would mean something is holding locks long
+   * after its test finished and that is worth failing over.
+   */
+  private static void truncateWithOneRetry(JdbcTemplate jdbc) {
+    try {
+      truncate(jdbc);
+    } catch (DeadlockLoserDataAccessException first) {
+      truncate(jdbc);
+    }
+  }
+
+  private static void truncate(JdbcTemplate jdbc) {
     jdbc.execute(
         """
         truncate table outbox, idempotency_records, order_lines, orders,
@@ -37,9 +69,5 @@ public final class TestStateReset {
                        price_tiers, events, venues
         restart identity cascade
         """);
-
-    try (RedisConnection connection = redis.getConnection()) {
-      connection.serverCommands().flushAll();
-    }
   }
 }

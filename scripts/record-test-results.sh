@@ -37,7 +37,9 @@ def suite(kind):
             'classes': sorted(classes, key=lambda c: c['name'])}
 
 report = {
-    'mode': mode,
+    # Filled in below from what the suite actually did, not from what the caller said it would do.
+    'mode': None,
+    'modeClaimedByCaller': mode,
     'commit': subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip(),
     'suites': {kind: suite(kind) for kind in ('test', 'integrationTest')},
 }
@@ -92,7 +94,28 @@ if os.path.exists(cov_path):
                 'percent': round(100 * covered / total, 2)}
 
 with open(os.path.join(out_dir, 'test-results.json'), 'w') as handle:
-    json.dump(report, handle, indent=2)
+    # The mode the suite actually ran in, read from the concurrency suite's own repetition count.
+#
+# It used to be whatever WILLCALL_TEST_MODE said, and that variable does not reach the tests: long
+# mode is a Gradle system property (-Dwillcall.longMode=true, which `make test-long` passes). So a
+# run invoked with WILLCALL_TEST_MODE=long and no property recorded "mode": "long" over a file
+# whose tests had run five times instead of fifty. Nothing would have caught it - the count in the
+# same file would have said 5 - and "no unmeasured numbers" has to apply to a result's own
+# description of itself.
+observed = report.get('concurrency', {}).get('runs')
+if observed is None:
+    report['mode'] = 'unknown: the concurrency suite did not run'
+elif observed >= 50:
+    report['mode'] = 'long'
+else:
+    report['mode'] = 'ci'
+if mode != report['mode']:
+    report['modeMismatch'] = (
+        f"caller said {mode!r}, the concurrency suite ran {observed} times, so this is "
+        f"{report['mode']!r}")
+    print(f"WARNING: {report['modeMismatch']}")
+
+json.dump(report, handle, indent=2)
 
 print(f"backend tests: {report['backendTotal']} run, {report['backendFailed']} failed")
 if 'concurrency' in report:

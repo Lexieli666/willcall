@@ -96,8 +96,7 @@ public abstract class IntegrationTestBase {
 
     // Background loops are driven explicitly from the tests that care about them, so a test
     // never has to guess whether a sweep has run yet.
-    registry.add("willcall.sweeper.enabled", () -> false);
-    registry.add("willcall.outbox.enabled", () -> false);
+    TestBackgroundJobs.disable(registry);
 
     // Fast gateway by default; the tests that care about latency set their own behaviour.
     registry.add("willcall.payment.latency-ms", () -> 0);

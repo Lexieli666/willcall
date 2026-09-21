@@ -58,8 +58,7 @@ public abstract class HttpIntegrationTestBase {
     registry.add(
         "spring.data.redis.url",
         () -> "redis://" + REDIS.getHost() + ":" + REDIS.getMappedPort(6379));
-    registry.add("willcall.sweeper.enabled", () -> false);
-    registry.add("willcall.outbox.enabled", () -> false);
+    TestBackgroundJobs.disable(registry);
     registry.add("willcall.holds.max-active-per-user", () -> 0);
     // The stream tests need the gap-injection and drain hooks; the deployed stack never sets this.
     registry.add("willcall.admin.test-hooks-enabled", () -> true);
