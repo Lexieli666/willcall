@@ -9,6 +9,11 @@
 #
 # Ignored paths are excluded: mirroring node_modules over a 9p mount would take longer than the
 # build that produced it, and none of it is tracked anyway.
+#
+# The exclusions have to be anchored. A bare `dist/` also matched load/sse/dist, which *is*
+# tracked - the SSE generator ships compiled so it can run without a build step - so every mirror
+# left three deleted files in the Windows checkout's working tree. An exclude list that deletes
+# committed files is worse than no exclude list.
 set -euo pipefail
 
 SOURCE="${WILLCALL_BUILD_DIR:-$HOME/willcall}"
@@ -21,7 +26,7 @@ rsync -a --delete \
   --exclude '.gradle/' \
   --exclude 'build/' \
   --exclude 'node_modules/' \
-  --exclude 'dist/' \
+  --exclude '/web/dist/' \
   --exclude 'coverage/' \
   --exclude '.lighthouseci/' \
   --exclude 'playwright-report/' \
