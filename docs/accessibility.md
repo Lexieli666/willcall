@@ -96,6 +96,35 @@ has not been taken.
 
 ---
 
+## What the automated gates did not catch
+
+Three defects got past axe, Lighthouse and the end-to-end suite. They are listed before the
+outstanding manual passes because together they are the argument for those passes.
+
+**Error messages were announced twice.** The visible message element and the hidden live-region
+announcer were both marked `aria-live="assertive"`, and the page sent the same string to both, so
+"Someone else took Floor-A-1" was read out twice — the second reading arriving while the first was
+still being spoken. Two correctly-formed live regions are two correctly-formed live regions; no
+structural check can tell that they say the same thing. It was found because a Playwright locator
+matched both elements and refused to guess between them, which is luck rather than method.
+
+**Fixing that silenced six other messages.** Removing the live-region roles from the visible
+element left every message with no announcer call unannounced — "1 seat(s) held", "this event
+allows at most N seats in one order", every checkout error. A paragraph without a live-region role
+is perfectly valid markup, so nothing failed. Showing and announcing are now one function, because
+the underlying problem was that they were two calls somebody had to remember to pair.
+
+**Seat names were being asserted against the wrong string.** Three keyboard tests expected
+`Seat B-3` where the accessible name is `Seat Floor-B-3`. The section qualifier is deliberate —
+`B-3` is ambiguous the moment a venue has two sections — so the tests were wrong, and they had
+never run to completion, so nobody knew.
+
+The pattern: **automated accessibility checks verify that markup is well formed, not that the
+resulting experience is usable.** A page can score 100 on Lighthouse accessibility, pass every axe
+rule on every route, complete a purchase by keyboard alone in CI, and still read one message twice
+and six not at all. That gap is what the passes below exist to close, and it is why they cannot be
+waved through.
+
 ## Outstanding: the manual passes
 
 > **None of the following has been done. Nothing in this repository claims otherwise, and the
