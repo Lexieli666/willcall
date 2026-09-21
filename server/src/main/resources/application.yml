@@ -88,6 +88,41 @@ management:
     tags:
       application: willcall
       replica: ${WILLCALL_REPLICA_ID:local}
+    distribution:
+      # Histogram buckets, not client-side quantiles, for anything whose percentile is read across
+      # replicas.
+      #
+      # A summary's quantiles are computed inside each JVM. Three replicas each publishing their
+      # own p99 cannot be combined - averaging three p99s is not the p99, and taking the max is
+      # the worst replica rather than the service. Buckets can be summed and then quantiled, which
+      # is what histogram_quantile(0.99, sum by (le) (rate(..._bucket[1m]))) does and what both
+      # latency panels on the dashboard were written to do.
+      #
+      # They had been reading _bucket series that did not exist, so the D of RED - the latency
+      # panel, the one the hold-latency SLO is defined against - said "No data" from the day it
+      # was written. Grafana renders an empty panel for a query that matches nothing, which looks
+      # identical to a quiet system.
+      # The names are Micrometer's, not Prometheus'. `willcall.sse.flush_duration` has an
+      # underscore in its last segment and `willcall.queue.admission_pass` likewise; Prometheus
+      # renders dots and underscores identically, so `willcall_sse_flush_duration_seconds` in a
+      # scrape looks exactly like a fully dotted name and the mismatched key here failed silently.
+      # The panel stayed empty and nothing said why.
+      percentiles-histogram:
+        http.server.requests: true
+        willcall.sse.flush_duration: true
+        willcall.sweeper.duration: true
+        willcall.queue.admission_pass: true
+        willcall.payment.charge: true
+      # Bounds the bucket count: without a ceiling Micrometer publishes buckets out to 30 s for
+      # every endpoint, and the scrape becomes the expensive thing on the page.
+      maximum-expected-value:
+        http.server.requests: 10s
+        willcall.sse.flush_duration: 1s
+      slo:
+        # The buckets that matter are the ones the objectives are written against, so a query for
+        # "how close are we to 250 ms" lands on a boundary rather than interpolating across one.
+        http.server.requests: 25ms,50ms,100ms,150ms,250ms,500ms,1s,2s,5s
+        willcall.sse.flush_duration: 1ms,5ms,10ms,25ms,50ms,100ms
   tracing:
     sampling:
       probability: ${WILLCALL_TRACE_SAMPLE:0.05}

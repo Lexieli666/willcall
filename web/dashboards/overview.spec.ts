@@ -19,6 +19,21 @@ test('the service overview has data on it', async ({ page }) => {
   // Wait for panels to finish querying rather than for a fixed time: Grafana marks a loading panel
   // with a spinner, and a screenshot taken during one is a picture of a spinner.
   await expect(page.getByText('Requests per second by endpoint (the R of RED)')).toBeVisible()
+
+  // Grafana renders only the panels near the viewport, so a full-page screenshot taken without
+  // scrolling captures the top of the dashboard and blank space where the rest should be. The
+  // first capture showed ten panels of fifteen and the close-up test could not find the eleventh
+  // at all. Scroll to the bottom, let everything load, then go back to the top.
+  await page.evaluate(async () => {
+    const scroller = document.querySelector('.scrollbar-view') ?? document.scrollingElement
+    if (!scroller) return
+    for (let y = 0; y <= scroller.scrollHeight; y += 400) {
+      scroller.scrollTop = y
+      await new Promise((resolve) => setTimeout(resolve, 120))
+    }
+    scroller.scrollTop = 0
+  })
+
   await page.waitForFunction(() => document.querySelectorAll('[aria-label="Panel loading bar"]').length === 0, null, {
     timeout: 120_000,
   })
@@ -47,9 +62,21 @@ test('the RED panels and the pool, close up', async ({ page }) => {
   })
 
   for (const [title, file] of shots) {
+    // Grafana only renders panels near the viewport, so a panel below the fold does not exist in
+    // the DOM until it is scrolled to. Waiting for it to become visible therefore times out on
+    // exactly the panels that are furthest down - "Database pool saturation" was the first one
+    // past the fold and the only one that failed.
+    const heading = page.getByText(title, { exact: false }).first()
+    await heading.scrollIntoViewIfNeeded()
     const panel = page.locator('[data-testid^="data-testid Panel header"]', { hasText: title }).first()
     const container = panel.locator('xpath=ancestor::*[contains(@class, "react-grid-item")]').first()
     await expect(container).toBeVisible()
+    // Scrolling starts a query for a panel that had not loaded yet; let it finish before capturing.
+    await page.waitForFunction(
+      () => document.querySelectorAll('[aria-label="Panel loading bar"]').length === 0,
+      null,
+      { timeout: 60_000 },
+    )
     await container.screenshot({ path: join(imageDir, file) })
   }
 })

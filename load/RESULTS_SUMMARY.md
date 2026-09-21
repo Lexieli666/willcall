@@ -18,13 +18,13 @@ there is no cloud measurement.
 <!-- GENERATED:BEGIN -->
 | Measurement | Measured | Target | Verdict | Raw file |
 |---|---|---|---|---|
-| 10,000 concurrent holds on 500 seats | 5/5 runs: exactly 500 held, 0 errors, 0 oversells | exactly 500 held, 0 oversells, 0 errors | met | `load/results/2026-09-20/phase2-correctness/test-results.json` |
-| Wall clock for 10,000 concurrent attempts | 642 / 691 / 994 ms (min/median/max) | — |  | `load/results/2026-09-20/phase2-correctness/test-results.json` |
-| Backend tests | 110 run, 0 failed | 150–220 | below the range | `load/results/2026-09-20/phase2-correctness/test-results.json` |
-| Backend line coverage | 86.47% | ≥ 80% | met | `load/results/2026-09-20/phase2-correctness/test-results.json` |
-| Flash sale: 10,000 buyers in 10 s for 5,000 seats | 50/50 runs with invariants intact, 0 oversells, 0 server errors | 0 oversells across 50 runs | met | `load/results/2026-09-20/flash-suite-211316/flash-suite.json` |
-| Time to sell out | 7.4 / 8.0 / 10.5 s (min/median/max) | 8–45 s | faster than the range | `load/results/2026-09-20/flash-suite-211316/flash-suite.json` |
-| Hold p99 during an unpaced burst | 2,447 ms median across runs | no target; the paced figure is below |  | `load/results/2026-09-20/flash-suite-211316/flash-suite.json` |
+| 10,000 concurrent holds on 500 seats | 50/50 runs: exactly 500 held, 0 errors, 0 oversells | exactly 500 held, 0 oversells, 0 errors | met | `load/results/2026-09-21/phase6-correctness/test-results.json` |
+| Wall clock for 10,000 concurrent attempts | 458 / 494 / 930 ms (min/median/max) | — |  | `load/results/2026-09-21/phase6-correctness/test-results.json` |
+| Backend tests | 151 run, 0 failed | 150–220 | met | `load/results/2026-09-21/phase6-correctness/test-results.json` |
+| Backend line coverage | 85.14% | ≥ 80% | met | `load/results/2026-09-21/phase6-correctness/test-results.json` |
+| Flash sale: 10,000 buyers in 10 s for 5,000 seats | 50/50 runs with invariants intact, 0 oversells, 0 server errors | 0 oversells across 50 runs | met | `load/results/2026-09-20/flash-suite-223938/flash-suite.json` |
+| Time to sell out | 7.0 / 8.0 / 10.7 s (min/median/max) | 8–45 s | met | `load/results/2026-09-20/flash-suite-223938/flash-suite.json` |
+| Hold p99 during an unpaced burst | 2,484 ms median across runs | no target; the paced figure is below |  | `load/results/2026-09-20/flash-suite-223938/flash-suite.json` |
 | Hold p99 at 1,000 requests/s, the rate the plan assumed | 4,564 ms, with 37,929 of 57,693 requests shed — above this stack's ceiling, see the sweep above | 60–150 ms | **missed** | `load/results/2026-09-20/holds-215141/summary.json` |
 | Sustainable hold rate | 200 requests/s (67 per replica) with nothing shed and p99 under 150 ms | ~1,000 requests/s at 60–150 ms p99 | **missed** | `load/results/2026-09-20/capacity-sweep-223133/capacity-sweep.json` |
 | Peak goodput, and where it collapses | 242 holds/s granted at 600 offered, falling to 162 at 1,000 offered | no target; offering more load and getting less work done is the finding |  | `load/results/2026-09-20/capacity-sweep-223133/capacity-sweep.json` |
@@ -37,25 +37,25 @@ there is no cloud measurement.
 | Game day: faults injected while traffic flowed | 4 scenarios (exhaust-pool, inject-latency, kill-replica, restart-redis); invariants held after 4/4, 0 server errors; 3 re-run to verify a fix | every scenario survives with invariants intact and a written postmortem | met | `docs/incidents/` |
 | Seeded dataset for query-plan checks | 1,000,000 users, 50,008 events, 1,000,000 orders | 1,000,000 users, 50,000 events, 1,000,000 orders | met | `load/results/2026-09-20/query-plans/seed.json` |
 | Query plans on the seeded dataset | 9 plans captured (7 on hot paths), slowest 101.3 ms; no hot path sequentially scans | no sequential scan on a hot path | met | `load/results/2026-09-20/query-plans/seed.json` |
-| Lighthouse accessibility | 100 | 100 | met | `load/results/2026-09-20/phase2-frontend/frontend-results.json` |
-| Lighthouse performance (desktop) | 100 | ≥ 90 | met | `load/results/2026-09-20/phase2-frontend/frontend-results.json` |
-| Largest Contentful Paint | 445 ms | < 1,500 ms | met | `load/results/2026-09-20/phase2-frontend/frontend-results.json` |
-| Cumulative Layout Shift | 0.0085 | < 0.05 | met | `load/results/2026-09-20/phase2-frontend/frontend-results.json` |
-| 5,000-seat map render | 42 ms | 40–120 ms | met | `load/results/2026-09-20/phase2-frontend/frontend-results.json` |
-| End-to-end tests | 15 run, 0 failed | 30–50 | below the range | `load/results/2026-09-20/phase2-frontend/frontend-results.json` |
-| Gzipped JavaScript per route | 100.3 KB | < 180 KB | met | `load/results/2026-09-20/phase2-frontend/frontend-results.json` |
+| Lighthouse accessibility | 100 | 100 | met | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
+| Lighthouse performance (desktop) | 100 | ≥ 90 | met | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
+| Largest Contentful Paint | 444 ms | < 1,500 ms | met | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
+| Cumulative Layout Shift | 0.0085 | < 0.05 | met | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
+| 5,000-seat map render | 337.6 ms | 40–120 ms | **missed** | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
+| End-to-end tests | 23 run, 1 failed | 30–50 | below the range | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
+| Frontend unit tests | 106 run, 0 failed | 60–100 | met | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
+| Gzipped JavaScript per route | 100.9 KB | < 180 KB | met | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
 | Segment tree against linear scan | crossover is an occupancy level, not a row size — see the analysis | linear wins below ~500/row, tree at 2,000+ | the prediction was wrong; the measurement is published | `load/results/2026-09-20/jmh-contiguous-search/crossover.md` |
-| Tests, all suites combined | 125 (110 backend, 0 frontend unit, 15 end to end) | 310 | below the plan figure | `load/results/*/phase*-correctness/` and `phase*-frontend/` |
+| Tests, all suites combined | 280 (151 backend, 106 frontend unit, 23 end to end) | 310 | below the plan figure | `load/results/*/phase*-correctness/` and `phase*-frontend/` |
 
-### Targets not met: 7
+### Targets not met: 6
 
-- **Backend tests** (below the range) — measured 110 run, 0 failed, target 150–220. Raw file: `load/results/2026-09-20/phase2-correctness/test-results.json`
-- **Time to sell out** (faster than the range) — measured 7.4 / 8.0 / 10.5 s (min/median/max), target 8–45 s. Raw file: `load/results/2026-09-20/flash-suite-211316/flash-suite.json`
 - **Hold p99 at 1,000 requests/s, the rate the plan assumed** (MISSED) — measured 4,564 ms, with 37,929 of 57,693 requests shed — above this stack's ceiling, see the sweep above, target 60–150 ms. Raw file: `load/results/2026-09-20/holds-215141/summary.json`
 - **Sustainable hold rate** (MISSED) — measured 200 requests/s (67 per replica) with nothing shed and p99 under 150 ms, target ~1,000 requests/s at 60–150 ms p99. Raw file: `load/results/2026-09-20/capacity-sweep-223133/capacity-sweep.json`
 - **Retained heap per connection** (MISSED) — measured 75.7 KiB, target 10–60 KB. Raw file: `load/results/2026-09-20/sse-5000-205019/sse-result.json`
-- **End-to-end tests** (below the range) — measured 15 run, 0 failed, target 30–50. Raw file: `load/results/2026-09-20/phase2-frontend/frontend-results.json`
-- **Tests, all suites combined** (below the plan figure) — measured 125 (110 backend, 0 frontend unit, 15 end to end), target 310. Raw file: `load/results/*/phase*-correctness/` and `phase*-frontend/`
+- **5,000-seat map render** (MISSED) — measured 337.6 ms, target 40–120 ms. Raw file: `load/results/2026-09-21/phase6-frontend/frontend-results.json`
+- **End-to-end tests** (below the range) — measured 23 run, 1 failed, target 30–50. Raw file: `load/results/2026-09-21/phase6-frontend/frontend-results.json`
+- **Tests, all suites combined** (below the plan figure) — measured 280 (151 backend, 106 frontend unit, 23 end to end), target 310. Raw file: `load/results/*/phase*-correctness/` and `phase*-frontend/`
 
 _Generated by `scripts/build-results-summary.sh` from the files named above._
 <!-- GENERATED:END -->
@@ -99,8 +99,8 @@ supported** marked. A bullet is only usable once nothing in it is marked.
 
 - **Game day:** 4 scenarios (exhaust-pool, inject-latency, kill-replica, restart-redis); invariants held after 4/4, 0 server errors; 3 re-run to verify a fix.
 - **The connection-pool postmortem exists** and is the most substantial of the four: the application shed correctly and the edge proxy turned that into nine seconds of `502`. Its fixes were verified by re-running the scenario.
-- **Coverage:** 86.47%.
-- **Tests:** 125 (110 backend, 0 frontend unit, 15 end to end).
+- **Coverage:** 85.14%.
+- **Tests:** 280 (151 backend, 106 frontend unit, 23 end to end).
 - **Not supported: "shipped to 40 real users in a public demo".** It has not happened. That also leaves [ADR 0012](../docs/adr/0012-hold-ttl.md) at `proposed` and the hold TTL an unvalidated default.
 - **Usable form:** "Ran a game day against the running service and published four postmortems, including a connection-pool outage where the proxy turned graceful load shedding into a total outage; fixes verified by re-running the scenario."
 <!-- BULLETS:END -->

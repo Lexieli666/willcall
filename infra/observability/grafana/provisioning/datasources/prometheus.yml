@@ -2,6 +2,16 @@ apiVersion: 1
 datasources:
   - name: Prometheus
     type: prometheus
+    # An explicit uid, because the dashboard's panels name one.
+    #
+    # Without it Grafana generates a uid of its own (PBFA97CFB590B2093 here) while every panel in
+    # willcall-overview.json asks for the datasource called "prometheus". Grafana does not error
+    # on a datasource it cannot resolve - each panel simply renders "No data", and a dashboard
+    # full of empty axes looks exactly like a quiet system. It had been that way since the
+    # dashboard was written, and was found the first time anything looked at it with traffic
+    # flowing: scripts/capture-dashboards.sh refuses to save a screenshot when more than half the
+    # panels are empty, and reported 10 of 10.
+    uid: prometheus
     access: proxy
     url: http://prometheus:9090
     isDefault: true
