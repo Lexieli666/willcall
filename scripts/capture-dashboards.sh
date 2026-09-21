@@ -26,8 +26,17 @@ done
 curl -fsS "$GRAFANA/api/health" | head -1
 
 printf '\nrunning %ss of load so the panels have something on them\n' "$LOAD_SECONDS"
+# SCENARIO_OUT, because the k6 summary helper and the SSE generator both default their output
+# directory to "." and this script runs from the repository root. Two runs of it left
+# k6-summary.json and sse-result.json tracked at the top level, which the hygiene check refuses -
+# the root allow-list exists precisely because tools drop things there. This load exists to put
+# pixels on a dashboard; its summary is not a result anybody should cite.
+SCRATCH="$(mktemp -d)"
+trap 'rm -rf "$SCRATCH"' EXIT
 WILLCALL_BASE_URL="${WILLCALL_BASE_URL:-http://127.0.0.1:8080}" \
+SCENARIO_OUT="$SCRATCH" \
   k6 run --quiet --no-thresholds \
+    -e "SCENARIO_OUT=$SCRATCH" \
     -e "BASE_URL=${WILLCALL_BASE_URL:-http://127.0.0.1:8080}" \
     -e "HOLD_RATE=${WILLCALL_DASHBOARD_RATE:-150}" \
     -e "HOLD_DURATION=${LOAD_SECONDS}s" \
@@ -37,8 +46,8 @@ K6_PID=$!
 # A second scenario in parallel so the SSE and waiting-room panels are not empty either: a
 # dashboard shot where two thirds of the panels say "No data" documents nothing.
 ( sleep 10
-  node load/sse/dist/main.js --connections "${WILLCALL_DASHBOARD_SSE:-300}" \
-    --hold-seconds "$((LOAD_SECONDS - 30))" >/tmp/dashboard-sse.log 2>&1 || true ) &
+  SCENARIO_OUT="$SCRATCH" node load/sse/dist/main.js --connections "${WILLCALL_DASHBOARD_SSE:-300}" \
+    --hold-seconds "$((LOAD_SECONDS - 30))" --out "$SCRATCH" >/tmp/dashboard-sse.log 2>&1 || true ) &
 SSE_PID=$!
 
 wait "$K6_PID" || true

@@ -35,7 +35,10 @@ export function summaryFile(
     ...extra,
   }
 
-  const out = __ENV.SCENARIO_OUT || '.'
+  // Not '.', which is the repository root when a scenario is run by hand. Two dashboard captures
+  // left k6-summary.json tracked at the top level that way, and the hygiene check refused the
+  // push. A run with no output directory is an ad-hoc run, and its summary belongs in /tmp.
+  const out = __ENV.SCENARIO_OUT || '/tmp/willcall-scenario'
   return {
     [`${out}/k6-summary.json`]: JSON.stringify({ report, metrics: data.metrics }, null, 2),
     stdout: `\nthresholds: ${Object.entries(thresholds)
