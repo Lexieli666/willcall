@@ -100,6 +100,22 @@ measurement was wrong before the software was:
 
 ---
 
+## The dashboard, with traffic on it
+
+![The Willcall service overview dashboard under load: requests per second by endpoint, errors by
+status, hold-path latency percentiles, holds granted and refused, active holds and sweeper
+releases, waiting-room depth, open SSE connections by replica, delta fan-out, outbox backlog,
+database pool saturation, and refund cases.](docs/images/grafana-overview.png)
+
+Captured by `make dashboards`, which runs load first and **refuses to save a screenshot when more
+than half the panels are empty**. That assertion is why the dashboard works at all: every panel
+had been rendering "No data" since it was written, because the panels name a datasource uid the
+provisioning file never set. Grafana draws an empty panel for an unresolvable datasource, which
+looks exactly like a quiet system. Two panels were still empty after that was fixed, for a
+different reason: they query `histogram_quantile` over bucket series, and the application was
+publishing per-JVM summary quantiles, which cannot be combined across three replicas. Both are
+described in [docs/slo.md](docs/slo.md).
+
 ## What the game day found
 
 Four faults injected into the running stack with traffic flowing, each with its prediction written

@@ -1,59 +1,59 @@
 {
   "baseUrl": "http://127.0.0.1:8080",
-  "eventId": "3b03aeda-6228-43e1-be04-afd978146dc4",
+  "eventId": "28bc3c70-9cc1-4e64-b996-592ab1bf86d4",
   "requestedConnections": 5000,
-  "establishedConnections": 5000,
-  "failedConnections": 0,
+  "establishedConnections": 4843,
+  "failedConnections": 157,
   "serverConnectionsBefore": {
     "app1": 0,
     "app2": 0,
     "app3": 0
   },
   "serverConnectionsDuring": {
-    "app1": 1667,
-    "app2": 1667,
-    "app3": 1666
+    "app1": 1619,
+    "app2": 1622,
+    "app3": 1617
   },
-  "seatChangesDriven": 1160,
+  "seatChangesDriven": 1180,
   "holdSeconds": 60,
   "counters": {
-    "connected": 5000,
-    "failed": 0,
-    "snapshots": 5000,
-    "deltas": 519999,
-    "changes": 9100000,
+    "connected": 4843,
+    "failed": 157,
+    "snapshots": 4843,
+    "deltas": 510131,
+    "changes": 8911120,
     "gaps": 0,
     "resyncs": 0,
     "disconnects": 0,
-    "heartbeats": 23867
+    "heartbeats": 25230
   },
   "serverMetrics": {
-    "willcall_bus_published_total": 27781,
-    "willcall_bus_received_total": 83322,
-    "willcall_outbox_published_total": 27781,
-    "willcall_sse_flush_duration_seconds{quantile=0.5}": 0.0013216426666666668,
-    "willcall_sse_flush_duration_seconds{quantile=0.99}": 0.002676053333333333,
-    "willcall_sse_flush_duration_seconds": 308.462900732,
+    "willcall_bus_published_total": 28969,
+    "willcall_bus_received_total": 86908,
+    "willcall_outbox_published_total": 28969,
+    "willcall_sse_flush_duration_seconds": 16055.517521444002,
     "willcall_sse_frames_dropped_total": 0,
-    "willcall_sse_frames_sent_total": 513332,
+    "willcall_sse_frames_sent_total": 506863,
     "willcall_sse_resyncs_sent_total": 0
   },
   "propagationMs": {
-    "count": 9100000,
-    "min": 7,
-    "p50": 137,
-    "p90": 220,
-    "p95": 242,
-    "p99": 283,
-    "max": 347,
-    "mean": 137.91046164835166
+    "count": 8911120,
+    "min": 10,
+    "p50": 155,
+    "p90": 257,
+    "p95": 290,
+    "p99": 540,
+    "max": 706,
+    "mean": 162.10660859689915
   },
-  "errors": {},
+  "errors": {
+    "HTTP 503": 157
+  },
   "retainedHeap": {
-    "beforeBytes": 98168888,
-    "withConnectionsBytes": 609380408,
-    "afterCloseBytes": 150136192,
-    "perConnectionBytes": 91849,
+    "beforeBytes": 121704224,
+    "withConnectionsBytes": 591548072,
+    "afterCloseBytes": 153862560,
+    "perConnectionBytes": 90375,
     "method": "Heap retained after an explicit collection, with the connections open, minus the same figure after they were closed, divided by the number established. This isolates what a connection costs from the garbage produced by delivering the messages. System.gc() is a request rather than a command, so it remains an estimate - but an estimate of the right quantity, unlike a resident-set delta taken during the run."
   }
 }

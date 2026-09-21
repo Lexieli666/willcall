@@ -24,15 +24,7 @@ test('the service overview has data on it', async ({ page }) => {
   // scrolling captures the top of the dashboard and blank space where the rest should be. The
   // first capture showed ten panels of fifteen and the close-up test could not find the eleventh
   // at all. Scroll to the bottom, let everything load, then go back to the top.
-  await page.evaluate(async () => {
-    const scroller = document.querySelector('.scrollbar-view') ?? document.scrollingElement
-    if (!scroller) return
-    for (let y = 0; y <= scroller.scrollHeight; y += 400) {
-      scroller.scrollTop = y
-      await new Promise((resolve) => setTimeout(resolve, 120))
-    }
-    scroller.scrollTop = 0
-  })
+  await scrollWholeDashboard(page)
 
   await page.waitForFunction(() => document.querySelectorAll('[aria-label="Panel loading bar"]').length === 0, null, {
     timeout: 120_000,
@@ -57,6 +49,7 @@ test('the RED panels and the pool, close up', async ({ page }) => {
     ['Open SSE connections by replica', 'grafana-sse-connections.png'],
   ]
   await page.goto(`${dashboard}${params}`)
+  await scrollWholeDashboard(page)
   await page.waitForFunction(() => document.querySelectorAll('[aria-label="Panel loading bar"]').length === 0, null, {
     timeout: 120_000,
   })
@@ -66,9 +59,8 @@ test('the RED panels and the pool, close up', async ({ page }) => {
     // the DOM until it is scrolled to. Waiting for it to become visible therefore times out on
     // exactly the panels that are furthest down - "Database pool saturation" was the first one
     // past the fold and the only one that failed.
-    const heading = page.getByText(title, { exact: false }).first()
-    await heading.scrollIntoViewIfNeeded()
     const panel = page.locator('[data-testid^="data-testid Panel header"]', { hasText: title }).first()
+    await panel.scrollIntoViewIfNeeded()
     const container = panel.locator('xpath=ancestor::*[contains(@class, "react-grid-item")]').first()
     await expect(container).toBeVisible()
     // Scrolling starts a query for a panel that had not loaded yet; let it finish before capturing.
@@ -80,3 +72,22 @@ test('the RED panels and the pool, close up', async ({ page }) => {
     await container.screenshot({ path: join(imageDir, file) })
   }
 })
+
+/**
+ * Puts every panel in the DOM.
+ *
+ * Grafana renders only the panels near the viewport, so a full-page screenshot taken without
+ * scrolling captures the top of the dashboard and blank space where the rest should be - ten
+ * panels of fifteen, the first time this ran.
+ */
+async function scrollWholeDashboard(page: import('@playwright/test').Page): Promise<void> {
+  await page.evaluate(async () => {
+    const scroller = document.querySelector('.scrollbar-view') ?? document.scrollingElement
+    if (!scroller) return
+    for (let y = 0; y <= scroller.scrollHeight; y += 400) {
+      scroller.scrollTop = y
+      await new Promise((resolve) => setTimeout(resolve, 120))
+    }
+    scroller.scrollTop = 0
+  })
+}
