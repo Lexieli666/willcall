@@ -328,12 +328,19 @@ export function EventPage() {
         </div>
       </div>
 
+      {/*
+        No live-region role here, deliberately. Every message shown in this element is also sent to
+        the announcer - `setMessage(...)` and `announcer.critical(...)` are called with the same
+        string - so marking this one up as an alert too made a screen reader read "Someone else
+        took Floor-A-1" twice. One live region per page, and this is the visible half of it.
+
+        axe cannot see this: two correctly-formed live regions are two correctly-formed live
+        regions, and only listening reveals that they say the same thing. It surfaced because a
+        Playwright locator matched both and refused to guess, which is a better outcome than the
+        test having been written against one of them.
+      */}
       {message && (
-        <p
-          className={`wc-message wc-message--${message.tone}`}
-          role={message.tone === 'error' ? 'alert' : 'status'}
-          aria-live={message.tone === 'error' ? 'assertive' : 'polite'}
-        >
+        <p className={`wc-message wc-message--${message.tone}`} data-testid="event-message">
           {message.text}
         </p>
       )}

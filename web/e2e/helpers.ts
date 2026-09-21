@@ -1,5 +1,24 @@
 import { expect, type APIRequestContext, type Page } from '@playwright/test'
 
+/**
+ * The section every fixture event uses, and the accessible name a seat in it will have.
+ *
+ * The server builds a seat's label as `section-row` and the front end announces
+ * `Seat <label>-<number>, ...`, so a seat in row B, position 3 reads "Seat Floor-B-3". Three
+ * keyboard assertions were written against `/Seat B-3/` and had never run to completion, so the
+ * mismatch sat in the suite unnoticed - the section qualifier is deliberate, because "B-3" is
+ * ambiguous the moment a venue has two sections.
+ *
+ * Deriving it here rather than repeating the shape in each spec means a change to seat naming
+ * breaks one line instead of silently un-asserting several.
+ */
+export const SECTION_NAME = 'Floor'
+
+/** The accessible-name fragment for a seat, e.g. seatLabel('B', 3) -> "Seat Floor-B-3". */
+export function seatLabel(row: string, seatNumber: number): string {
+  return `Seat ${SECTION_NAME}-${row}-${seatNumber}`
+}
+
 export const API_ORIGIN = process.env.WILLCALL_API_ORIGIN ?? 'http://127.0.0.1:8080'
 
 export interface CreatedEvent {
@@ -29,7 +48,7 @@ export async function createEvent(
       maxSeatsPerOrder: options.maxSeatsPerOrder ?? 8,
       status: 'ON_SALE',
       priceTiers: [{ name: 'Standard', amountCents: 4500, currency: 'USD' }],
-      sections: [{ name: 'Floor', rowCount, seatsPerRow, priceTierName: 'Standard' }],
+      sections: [{ name: SECTION_NAME, rowCount, seatsPerRow, priceTierName: 'Standard' }],
     },
   })
   expect(response.status(), await response.text()).toBe(201)

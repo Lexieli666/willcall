@@ -52,7 +52,11 @@ test.describe('buying seats', () => {
 
     // The buyer is told which seat went, and it leaves the selection. What must not happen is a
     // different seat quietly appearing in its place.
-    await expect(page.getByRole('alert')).toContainText(/Someone else took/, { timeout: 10_000 })
+    // The visible message and the announcer both carry this text; assert on the one a
+    // sighted buyer reads. The announcer has its own assertions in keyboard.spec.ts.
+    await expect(page.getByTestId('event-message')).toContainText(/Someone else took/, {
+      timeout: 10_000,
+    })
     await expect(page.getByText('No seats selected')).toBeVisible()
   })
 
@@ -66,7 +70,7 @@ test.describe('buying seats', () => {
     await expireAllHolds(request)
 
     // The server-side sweeper releases the seats; the client's own countdown reaches zero.
-    await expect(page.getByRole('alert')).toContainText(/expired/, { timeout: 30_000 })
+    await expect(page.getByTestId('event-message')).toContainText(/expired/, { timeout: 30_000 })
     await expect(page.getByTestId('checkout')).toHaveCount(0)
   })
 

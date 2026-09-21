@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { expectNoAxeViolations } from './axe'
-import { createEvent, holdAsSomeoneElse, seatIdsOf } from './helpers'
+import { createEvent, holdAsSomeoneElse, seatIdsOf, seatLabel } from './helpers'
 
 /**
  * A complete purchase using only the keyboard.
@@ -38,7 +38,7 @@ test.describe('keyboard-only purchase', () => {
     await page.keyboard.press('ArrowRight')
 
     const focusedLabel = await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))
-    expect(focusedLabel).toMatch(/Seat B-3/)
+    expect(focusedLabel).toContain(seatLabel('B', 3))
 
     // Select with Enter.
     await page.keyboard.press('Enter')
@@ -107,13 +107,13 @@ test.describe('keyboard-only purchase', () => {
     await page.locator('[role="gridcell"][tabindex="0"]').focus()
 
     await page.keyboard.press('End')
-    expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toMatch(/Seat A-6/)
+    expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toContain(seatLabel('A', 6))
 
     await page.keyboard.press('Home')
-    expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toMatch(/Seat A-1/)
+    expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toContain(seatLabel('A', 1))
 
     await page.keyboard.press('Control+End')
-    expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toMatch(/Seat C-6/)
+    expect(await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))).toContain(seatLabel('C', 6))
   })
 
   test('losing a seat is announced assertively, not just shown @keyboard', async ({
