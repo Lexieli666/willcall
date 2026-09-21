@@ -93,8 +93,7 @@ if os.path.exists(cov_path):
                 'covered': covered, 'missed': missed,
                 'percent': round(100 * covered / total, 2)}
 
-with open(os.path.join(out_dir, 'test-results.json'), 'w') as handle:
-    # The mode the suite actually ran in, read from the concurrency suite's own repetition count.
+# The mode the suite actually ran in, read from the concurrency suite's own repetition count.
 #
 # It used to be whatever WILLCALL_TEST_MODE said, and that variable does not reach the tests: long
 # mode is a Gradle system property (-Dwillcall.longMode=true, which `make test-long` passes). So a
@@ -115,7 +114,8 @@ if mode != report['mode']:
         f"{report['mode']!r}")
     print(f"WARNING: {report['modeMismatch']}")
 
-json.dump(report, handle, indent=2)
+with open(os.path.join(out_dir, 'test-results.json'), 'w') as handle:
+    json.dump(report, handle, indent=2)
 
 print(f"backend tests: {report['backendTotal']} run, {report['backendFailed']} failed")
 if 'concurrency' in report:

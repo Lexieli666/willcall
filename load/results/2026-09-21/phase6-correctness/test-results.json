@@ -1,0 +1,702 @@
+{
+  "mode": "long",
+  "modeClaimedByCaller": "ci",
+  "commit": "1df4dcc3f2b64b21d63ef5c0a188e8a2be4a8329",
+  "suites": {
+    "test": {
+      "total": 54,
+      "failed": 0,
+      "skipped": 0,
+      "classes": [
+        {
+          "name": "dev.willcall.WillcallApplicationTest",
+          "tests": 1,
+          "failures": 0,
+          "timeSeconds": 0.011
+        },
+        {
+          "name": "dev.willcall.allocation.ContiguousSeatIndexTest",
+          "tests": 9,
+          "failures": 0,
+          "timeSeconds": 0.877
+        },
+        {
+          "name": "dev.willcall.allocation.RowAvailabilityTreeTest",
+          "tests": 16,
+          "failures": 0,
+          "timeSeconds": 1.987
+        },
+        {
+          "name": "dev.willcall.arch.ModuleBoundaryArchitectureTest",
+          "tests": 3,
+          "failures": 0,
+          "timeSeconds": 0.034
+        },
+        {
+          "name": "dev.willcall.catalog.RowLabelTest",
+          "tests": 3,
+          "failures": 0,
+          "timeSeconds": 1.314
+        },
+        {
+          "name": "dev.willcall.payment.FakePaymentGatewayTest",
+          "tests": 5,
+          "failures": 0,
+          "timeSeconds": 0.052
+        },
+        {
+          "name": "dev.willcall.platform.SeatOrderingTest",
+          "tests": 2,
+          "failures": 0,
+          "timeSeconds": 1.27
+        },
+        {
+          "name": "dev.willcall.realtime.EventStreamHubTest",
+          "tests": 7,
+          "failures": 0,
+          "timeSeconds": 0.706
+        },
+        {
+          "name": "dev.willcall.waitingroom.AdmissionTokenServiceTest",
+          "tests": 8,
+          "failures": 0,
+          "timeSeconds": 0.078
+        }
+      ]
+    },
+    "integrationTest": {
+      "total": 97,
+      "failed": 0,
+      "skipped": 0,
+      "classes": [
+        {
+          "name": "dev.willcall.api.ReservationApiIntegrationTest",
+          "tests": 22,
+          "failures": 0,
+          "timeSeconds": 1.863
+        },
+        {
+          "name": "dev.willcall.model.ReservationModelPropertyTest",
+          "tests": 1,
+          "failures": 0,
+          "timeSeconds": 267.046
+        },
+        {
+          "name": "dev.willcall.ops.InvariantMonitorIntegrationTest",
+          "tests": 3,
+          "failures": 0,
+          "timeSeconds": 0.094
+        },
+        {
+          "name": "dev.willcall.realtime.OutboxRelayIntegrationTest",
+          "tests": 6,
+          "failures": 0,
+          "timeSeconds": 0.399
+        },
+        {
+          "name": "dev.willcall.realtime.RedisOutageInvariantIntegrationTest",
+          "tests": 2,
+          "failures": 0,
+          "timeSeconds": 1.119
+        },
+        {
+          "name": "dev.willcall.realtime.SeatStreamIntegrationTest",
+          "tests": 7,
+          "failures": 0,
+          "timeSeconds": 0.978
+        },
+        {
+          "name": "dev.willcall.reservation.ChaosIntegrationTest",
+          "tests": 3,
+          "failures": 0,
+          "timeSeconds": 0.493
+        },
+        {
+          "name": "dev.willcall.reservation.ConcurrentHoldIntegrationTest",
+          "tests": 2,
+          "failures": 0,
+          "timeSeconds": 29.179
+        },
+        {
+          "name": "dev.willcall.reservation.IdempotencyIntegrationTest",
+          "tests": 8,
+          "failures": 0,
+          "timeSeconds": 0.497
+        },
+        {
+          "name": "dev.willcall.reservation.ReservationCoreIntegrationTest",
+          "tests": 19,
+          "failures": 0,
+          "timeSeconds": 0.755
+        },
+        {
+          "name": "dev.willcall.waitingroom.RateLimitIntegrationTest",
+          "tests": 4,
+          "failures": 0,
+          "timeSeconds": 2.259
+        },
+        {
+          "name": "dev.willcall.waitingroom.WaitingRoomApiIntegrationTest",
+          "tests": 10,
+          "failures": 0,
+          "timeSeconds": 0.666
+        },
+        {
+          "name": "dev.willcall.waitingroom.WaitingRoomIntegrationTest",
+          "tests": 10,
+          "failures": 0,
+          "timeSeconds": 0.693
+        }
+      ]
+    }
+  },
+  "backendTotal": 151,
+  "backendFailed": 0,
+  "concurrency": {
+    "runs": 50,
+    "seats": 500,
+    "attempts": 10000,
+    "allGrantedExactly500": true,
+    "allRejectedExactly9500": true,
+    "totalUnexpectedFailures": 0,
+    "oversells": 0,
+    "elapsedMsMin": 458,
+    "elapsedMsMedian": 494.0,
+    "elapsedMsMax": 930,
+    "perRun": [
+      {
+        "run": 1,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 930
+      },
+      {
+        "run": 2,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 665
+      },
+      {
+        "run": 3,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 568
+      },
+      {
+        "run": 4,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 544
+      },
+      {
+        "run": 5,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 550
+      },
+      {
+        "run": 6,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 571
+      },
+      {
+        "run": 7,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 539
+      },
+      {
+        "run": 8,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 572
+      },
+      {
+        "run": 9,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 553
+      },
+      {
+        "run": 10,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 539
+      },
+      {
+        "run": 11,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 541
+      },
+      {
+        "run": 12,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 540
+      },
+      {
+        "run": 13,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 534
+      },
+      {
+        "run": 14,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 542
+      },
+      {
+        "run": 15,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 538
+      },
+      {
+        "run": 16,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 514
+      },
+      {
+        "run": 17,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 519
+      },
+      {
+        "run": 18,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 533
+      },
+      {
+        "run": 19,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 559
+      },
+      {
+        "run": 20,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 515
+      },
+      {
+        "run": 21,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 545
+      },
+      {
+        "run": 22,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 469
+      },
+      {
+        "run": 23,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 474
+      },
+      {
+        "run": 24,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 476
+      },
+      {
+        "run": 25,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 486
+      },
+      {
+        "run": 26,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 458
+      },
+      {
+        "run": 27,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 471
+      },
+      {
+        "run": 28,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 487
+      },
+      {
+        "run": 29,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 472
+      },
+      {
+        "run": 30,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 490
+      },
+      {
+        "run": 31,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 498
+      },
+      {
+        "run": 32,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 500
+      },
+      {
+        "run": 33,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 459
+      },
+      {
+        "run": 34,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 490
+      },
+      {
+        "run": 35,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 477
+      },
+      {
+        "run": 36,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 465
+      },
+      {
+        "run": 37,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 489
+      },
+      {
+        "run": 38,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 492
+      },
+      {
+        "run": 39,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 480
+      },
+      {
+        "run": 40,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 458
+      },
+      {
+        "run": 41,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 479
+      },
+      {
+        "run": 42,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 479
+      },
+      {
+        "run": 43,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 472
+      },
+      {
+        "run": 44,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 464
+      },
+      {
+        "run": 45,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 486
+      },
+      {
+        "run": 46,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 467
+      },
+      {
+        "run": 47,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 476
+      },
+      {
+        "run": 48,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 496
+      },
+      {
+        "run": 49,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 523
+      },
+      {
+        "run": 50,
+        "of": 50,
+        "granted": 500,
+        "rejected": 9500,
+        "unexpected": 0,
+        "heldInDatabase": 500,
+        "availableInDatabase": 0,
+        "elapsedMs": 485
+      }
+    ]
+  },
+  "coverage": {
+    "instruction": {
+      "covered": 10823,
+      "missed": 2015,
+      "percent": 84.3
+    },
+    "branch": {
+      "covered": 481,
+      "missed": 243,
+      "percent": 66.44
+    },
+    "line": {
+      "covered": 2274,
+      "missed": 397,
+      "percent": 85.14
+    },
+    "complexity": {
+      "covered": 627,
+      "missed": 270,
+      "percent": 69.9
+    },
+    "method": {
+      "covered": 463,
+      "missed": 68,
+      "percent": 87.19
+    },
+    "class": {
+      "covered": 122,
+      "missed": 5,
+      "percent": 96.06
+    }
+  },
+  "modeMismatch": "caller said 'ci', the concurrency suite ran 50 times, so this is 'long'"
+}
