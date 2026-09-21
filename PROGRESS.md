@@ -438,7 +438,7 @@ Raw files: `load/results/2026-09-20/flash-suite-211316/`, `fairness-*`, `ratelim
 - [x] `docs/incidents/<date>-<name>.md` per scenario, with timeline, detection, root cause and fix
 - [x] The pool-exhaustion fixes verified by re-running the scenario that found the problem
 - [x] README with every number traceable to a raw file under `load/results/`
-- [ ] Grafana dashboard screenshots — the dashboard is committed; the images are not captured
+- [x] Grafana dashboard screenshots, captured with load on them — `docs/images/`
 - [ ] **Demo drop with ≥ 30 real humans and the traffic graph committed — needs a human**
 - [ ] **The hold-timeout decision that follows from watching those users — needs a human**
 
@@ -451,6 +451,7 @@ Raw files: `load/results/2026-09-20/flash-suite-211316/`, `fairness-*`, `ratelim
 | Restart Redis | **0 failures**, 17,872 holds granted, invariants held |
 | Database pause (substituted for 200 ms latency) | 1,242 shed as 503, 0 × 500, recovery 2 s after the database returned |
 | Re-run of the pool scenario, after fixes | **0 × `no live upstreams`, 0 × 500**, 5,530 shed as 503, invariants held |
+| `make verify` from the running stack | **19 of 19 checks pass** |
 
 #### Things that went wrong in Phase 6
 
