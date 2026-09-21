@@ -41,19 +41,19 @@ there is no cloud measurement.
 | Lighthouse performance (desktop) | 100 | ≥ 90 | met | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
 | Largest Contentful Paint | 444 ms | < 1,500 ms | met | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
 | Cumulative Layout Shift | 0.0085 | < 0.05 | met | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
-| 5,000-seat map render | 337.6 ms | 40–120 ms | **missed** | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
 | End-to-end tests | 23 run, 1 failed | 30–50 | below the range | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
 | Frontend unit tests | 106 run, 0 failed | 60–100 | met | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
 | Gzipped JavaScript per route | 100.9 KB | < 180 KB | met | `load/results/2026-09-21/phase6-frontend/frontend-results.json` |
+| 5,000-seat map render | 21.2 ms median of 15 loads (p95 24.6 ms, worst 24.6 ms) | 40–120 ms | met | `load/results/2026-09-21/seatmap-render/seatmap-render.json` |
+| Seat elements in the DOM | 5,000 — every seat is a real element, which is the point of paying the render cost | 5,000 | met | `load/results/2026-09-21/seatmap-render/seatmap-render.json` |
 | Segment tree against linear scan | crossover is an occupancy level, not a row size — see the analysis | linear wins below ~500/row, tree at 2,000+ | the prediction was wrong; the measurement is published | `load/results/2026-09-20/jmh-contiguous-search/crossover.md` |
 | Tests, all suites combined | 280 (151 backend, 106 frontend unit, 23 end to end) | 310 | below the plan figure | `load/results/*/phase*-correctness/` and `phase*-frontend/` |
 
-### Targets not met: 6
+### Targets not met: 5
 
 - **Hold p99 at 1,000 requests/s, the rate the plan assumed** (MISSED) — measured 4,564 ms, with 37,929 of 57,693 requests shed — above this stack's ceiling, see the sweep above, target 60–150 ms. Raw file: `load/results/2026-09-20/holds-215141/summary.json`
 - **Sustainable hold rate** (MISSED) — measured 200 requests/s (67 per replica) with nothing shed and p99 under 150 ms, target ~1,000 requests/s at 60–150 ms p99. Raw file: `load/results/2026-09-20/capacity-sweep-223133/capacity-sweep.json`
 - **Retained heap per connection** (MISSED) — measured 75.7 KiB, target 10–60 KB. Raw file: `load/results/2026-09-20/sse-5000-205019/sse-result.json`
-- **5,000-seat map render** (MISSED) — measured 337.6 ms, target 40–120 ms. Raw file: `load/results/2026-09-21/phase6-frontend/frontend-results.json`
 - **End-to-end tests** (below the range) — measured 23 run, 1 failed, target 30–50. Raw file: `load/results/2026-09-21/phase6-frontend/frontend-results.json`
 - **Tests, all suites combined** (below the plan figure) — measured 280 (151 backend, 106 frontend unit, 23 end to end), target 310. Raw file: `load/results/*/phase*-correctness/` and `phase*-frontend/`
 

@@ -1,0 +1,30 @@
+{
+  "label": "local Docker Compose, not AWS",
+  "commit": "0acd66f2a24bfa622d6535ba486f84a0e9fd2bcf",
+  "seats": 5000,
+  "seatElementsInDom": 5000,
+  "loads": 15,
+  "budgetMs": 120,
+  "renderMs": 21.2,
+  "p95Ms": 24.6,
+  "bestMs": 6.3,
+  "worstMs": 24.6,
+  "samples": [
+    6.3,
+    7.1,
+    19.2,
+    19.5,
+    19.7,
+    20.4,
+    20.7,
+    21.2,
+    21.7,
+    22.5,
+    23.2,
+    24.1,
+    24.2,
+    24.5,
+    24.6
+  ],
+  "method": "15 page loads in an uninstrumented Chromium, median reported. Measured with the Performance API from the moment the seat map data is available to the frame after the DOM is committed, so it covers building the tree and painting it, not the network. Run inside a Playwright test the same render measures 300-370 ms; the harness costs more than the render, which is why this is a separate program."
+}

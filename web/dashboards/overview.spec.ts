@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 import { mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -80,7 +80,7 @@ test('the RED panels and the pool, close up', async ({ page }) => {
  * scrolling captures the top of the dashboard and blank space where the rest should be - ten
  * panels of fifteen, the first time this ran.
  */
-async function scrollWholeDashboard(page: import('@playwright/test').Page): Promise<void> {
+async function scrollWholeDashboard(page: Page): Promise<void> {
   await page.evaluate(async () => {
     const scroller = document.querySelector('.scrollbar-view') ?? document.scrollingElement
     if (!scroller) return

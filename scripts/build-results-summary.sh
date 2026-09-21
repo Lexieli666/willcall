@@ -312,11 +312,8 @@ if fe:
         cls = lh.get('medianCumulativeLayoutShift')
         row('Cumulative Layout Shift', f'{cls:.4f}' if cls is not None else '—', '< 0.05', src,
             'met' if cls is not None and cls < 0.05 else 'MISSED')
-    render = fe.get('seatMapRender', {})
-    if render:
-        ms = render.get('renderMs')
-        row('5,000-seat map render', f'{fmt(ms, digits=1)} ms', '40–120 ms', src,
-            'met' if ms is not None and ms < 120 else 'MISSED')
+    # The render time is measured by its own script now, not by the end-to-end suite; see below.
+
     pw = fe.get('playwright', {})
     if pw:
         row('End-to-end tests', f"{fmt(pw.get('total'))} run, {fmt(pw.get('failed'))} failed",
@@ -332,6 +329,23 @@ if fe:
         kb = float(size.group(1))
         row('Gzipped JavaScript per route', f'{kb:,.1f} KB', '< 180 KB', src,
             'met' if kb < 180 else 'MISSED')
+
+# ---------------------------------------------------------------- seat map render
+
+render_dir = latest('load/results/*/seatmap-render', 'seatmap-render.json')
+render = load(f'{render_dir}/seatmap-render.json') if render_dir else None
+if render:
+    src = f'`{render_dir}/seatmap-render.json`'
+    median = render.get('renderMs')
+    row('5,000-seat map render',
+        f"{fmt(median, digits=1)} ms median of {fmt(render.get('loads'))} loads "
+        f"(p95 {fmt(render.get('p95Ms'), digits=1)} ms, worst {fmt(render.get('worstMs'), digits=1)} ms)",
+        '40–120 ms', src, 'met' if median is not None and median < 120 else 'MISSED')
+    row('Seat elements in the DOM',
+        f"{fmt(render.get('seatElementsInDom'))} — every seat is a real element, which is the "
+        f"point of paying the render cost",
+        '5,000', src,
+        'met' if render.get('seatElementsInDom') == 5000 else 'MISSED')
 
 # ---------------------------------------------------------------- allocation
 

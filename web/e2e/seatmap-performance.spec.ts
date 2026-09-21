@@ -2,19 +2,26 @@ import { expect, test } from '@playwright/test'
 import { createEvent } from './helpers'
 
 /**
- * The 5,000-seat render budget.
+ * The 5,000-seat map is real DOM, and the application measures its own render.
  *
- * <p>Measured with the Performance API from the moment the seat map data is available to the
- * frame after the DOM is committed — so it covers building the tree and painting it, not the
- * network. The application sets both marks itself; this test reads the measure rather than
- * timing from the outside, because an outside timing would include the fetch and flatter or
- * penalise the render depending on the network.
+ * <p><b>The timing budget is not asserted here.</b> It used to be, and it was measuring the wrong
+ * thing: the same render takes 19-43 ms in a plain Chromium and 300-370 ms inside a Playwright
+ * test, fifteen samples each, on the same machine a minute apart. On a single React commit of
+ * five thousand elements the harness costs an order of magnitude more than the render, so the
+ * budget was failing on the tape measure. A published figure of 42 ms could not be reproduced by
+ * either method, which is what started the investigation.
  *
- * <p>The measured value is printed and attached whether it passes or fails, because a budget
- * that only reports failures tells you nothing about how much headroom is left.
+ * <p>The timing now lives in {@code web/perf/measure-seatmap-render.mjs}, run by
+ * {@code make perf-seatmap}, which drives an uninstrumented browser and writes a distribution to
+ * {@code load/results/}. What stays here is what an end-to-end test is good at: that five
+ * thousand real elements exist, and that the application publishes the measure the other script
+ * reads. If either stops being true the measurement downstream is meaningless, and this fails.
  */
 test.describe('seat map performance', () => {
-  test('a 5,000-seat map renders inside the budget @performance', async ({ page, request }, testInfo) => {
+  test('a 5,000-seat map is real DOM and publishes its own render measure @performance', async ({
+    page,
+    request,
+  }) => {
     // 100 rows of 50 is a realistic shape for a five-thousand-seat room, and it exercises the
     // per-row memoisation rather than one enormous row.
     const event = await createEvent(request, { rowCount: 100, seatsPerRow: 50, name: 'Render budget' })
@@ -31,18 +38,11 @@ test.describe('seat map performance', () => {
       const last = entries[entries.length - 1]
       return last ? last.duration : null
     })
-
-    expect(measure, 'the application must publish a willcall:seatmap:render measure').not.toBeNull()
-
-    const milliseconds = measure as number
-    await testInfo.attach('seatmap-render-ms.json', {
-      body: JSON.stringify({ seats: 5000, renderMs: milliseconds, budgetMs: 120 }, null, 2),
-      contentType: 'application/json',
-    })
-     
-    console.log(`5,000-seat map rendered in ${milliseconds.toFixed(1)} ms (budget 120 ms)`)
-
-    expect(milliseconds).toBeLessThan(120)
+    expect(
+      measure,
+      'the application must publish a willcall:seatmap:render measure for the perf script to read',
+    ).not.toBeNull()
+    expect(measure as number).toBeGreaterThan(0)
 
     // Every seat is a real element, which is the point of paying the render cost at all.
     await expect(page.locator('.wc-seat')).toHaveCount(5000)

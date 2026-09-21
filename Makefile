@@ -152,6 +152,10 @@ diagnose: ## Run the rate that breaks while sampling what the replicas say about
 game-day: ## One failure rehearsal: make game-day SCENARIO=kill-replica
 	./scripts/run-game-day.sh $(SCENARIO)
 
+.PHONY: perf-seatmap
+perf-seatmap: ## The 5,000-seat render budget, measured in an uninstrumented browser
+	./scripts/measure-seatmap.sh
+
 .PHONY: dashboards
 dashboards: ## Capture Grafana screenshots with real data on them, into docs/images/
 	./scripts/capture-dashboards.sh
